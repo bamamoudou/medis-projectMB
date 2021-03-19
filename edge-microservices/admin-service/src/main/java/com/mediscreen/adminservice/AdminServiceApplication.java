@@ -1,17 +1,18 @@
-package com.mediscreen.zuulserver;
+package com.mediscreen.adminservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 
 @SpringBootApplication
+@EnableAdminServer
 @EnableDiscoveryClient
-@EnableZuulProxy
-public class ZuulServerApplication {
+public class AdminServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ZuulServerApplication.class, args);
+		SpringApplication.run(AdminServiceApplication.class, args);
 	}
 
 }

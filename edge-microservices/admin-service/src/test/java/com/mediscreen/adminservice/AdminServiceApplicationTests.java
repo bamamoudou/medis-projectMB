@@ -1,10 +1,10 @@
-package com.mediscreen.mediscreenadmin;
+package com.mediscreen.adminservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MediscreenAdminApplicationTests {
+class AdminServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
