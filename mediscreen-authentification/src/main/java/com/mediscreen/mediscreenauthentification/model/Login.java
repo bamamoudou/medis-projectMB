@@ -1,6 +1,7 @@
 package com.mediscreen.mediscreenauthentification.model;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Login {
 	@NotBlank
@@ -8,10 +9,13 @@ public class Login {
 
 	@NotBlank
 	private String password;
+	@NotNull
+	private boolean rememberUser;
 
-	public Login(String username, String password) {
+	public Login(String username, String password, boolean rememberUser) {
 		this.username = username;
 		this.password = password;
+		this.rememberUser = rememberUser;
 	}
 
 	public Login() {
@@ -33,4 +37,11 @@ public class Login {
 		this.password = password;
 	}
 
+	public boolean isRememberUser() {
+		return rememberUser;
+	}
+
+	public void setRememberUser(boolean rememberUser) {
+		this.rememberUser = rememberUser;
+	}
 }
