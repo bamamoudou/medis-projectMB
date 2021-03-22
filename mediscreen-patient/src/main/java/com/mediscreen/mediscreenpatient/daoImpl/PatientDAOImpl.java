@@ -22,7 +22,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
     }
 
 	/**
-	 * @see PatientDaoInterface {@link #getPatientById(Integer)}
+	 * @see PatientDao {@link #getPatientById(Integer)}
 	 */
 	@Override
 	public Patient getPatientById(Integer id) {
