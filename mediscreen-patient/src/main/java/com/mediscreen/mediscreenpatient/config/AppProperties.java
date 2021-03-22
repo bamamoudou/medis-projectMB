@@ -2,7 +2,7 @@ package com.mediscreen.mediscreenpatient.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("mediscreen-patient-db")
+@ConfigurationProperties("mediscreen-mediscreen-patient-db")
 public class AppProperties {
 	private String host;
 	private Integer port;
