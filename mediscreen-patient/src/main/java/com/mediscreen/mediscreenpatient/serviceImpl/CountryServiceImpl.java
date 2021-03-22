@@ -34,7 +34,7 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	/**
-	 * @see CountryServiceInterface {@link #getNameOfCountry(String)}
+	 * @see CountryService {@link #getNameOfCountry(String)}
 	 */
 	@Override
 	public String getNameOfCountry(String code) throws IOException {
@@ -52,7 +52,7 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	/**
-	 * @see CountryServiceInterface {@link #getAllCountries()}
+	 * @see CountryService {@link #getAllCountries()}
 	 */
 	@Override
 	public Map<String, String> getAllCountries() throws IOException {

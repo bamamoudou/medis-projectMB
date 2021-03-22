@@ -19,11 +19,11 @@ public interface HTTPRequestService {
 	JSONObject getReq(String url, Map<String, String> urlParams) throws IOException, JSONException;
 
 	/**
-	 * Api POST request with a form
+	 * API POST request with a form
 	 * 
 	 * @param url
 	 * @param formParams
-	 * @return JSON api response
+	 * @return JSON API response
 	 * @throws IOException
 	 * @throws JSONException
 	 */

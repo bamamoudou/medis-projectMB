@@ -30,7 +30,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
 	/**
-	 * @see PatientServiceInterface {@link #getPatientById(Integer)}
+	 * @see PatientService {@link #getPatientById(Integer)}
 	 */
 	@Override
 	public Patient getPatientById(Integer id) {
@@ -47,7 +47,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * @see PatientServiceInterface {@link #updatePatient(Patient)}
+	 * @see PatientService {@link #updatePatient(Patient)}
 	 */
 	@Override
 	public Patient updatePatient(Patient patient) {
@@ -58,7 +58,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * @see PatientServiceInterface {@link #createPatient(Patient)}
+	 * @see PatientService {@link #createPatient(Patient)}
 	 */
 	@Override
 	public Patient createPatient(Patient patient) {
@@ -66,7 +66,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * @see PatientServiceInterface {@link #deletePatientById(Integer)}
+	 * @see PatientService {@link #deletePatientById(Integer)}
 	 */
 	@Override
 	public boolean deletePatientById(Integer id) {

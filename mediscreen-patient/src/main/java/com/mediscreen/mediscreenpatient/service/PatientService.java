@@ -6,7 +6,7 @@ import com.mediscreen.mediscreenpatient.model.Patient;
 
 public interface PatientService {
 	/**
-	 * Get patient profile with his id
+	 * GET patient profile with his id
 	 * 
 	 * @param id
 	 * @return
@@ -14,14 +14,14 @@ public interface PatientService {
 	Patient getPatientById(Integer id);
 
 	/**
-	 * Get all patient list
+	 * GET all patient list
 	 * 
 	 * @return
 	 */
 	List<Patient> getAllPatient();
 
 	/**
-	 * Upadte patient profile
+	 * UPDATE patient profile
 	 * 
 	 * @param patient
 	 * @return
@@ -29,7 +29,7 @@ public interface PatientService {
 	Patient updatePatient(Patient patient);
 
 	/**
-	 * Create new patient profile
+	 * CREATE new patient profile
 	 * 
 	 * @param patient
 	 * @return
@@ -37,7 +37,7 @@ public interface PatientService {
 	Patient createPatient(Patient patient);
 
 	/**
-	 * Delete patient with his id
+	 * DELETE patient with his id
 	 * 
 	 * @param id
 	 * @return

@@ -27,7 +27,7 @@ public class HTTPRequestServiceImpl implements HTTPRequestService {
     public HTTPRequestServiceImpl() { }
 
 	/**
-	 * @see HTTPRequestServiceInterface {@link #getReq(String, Map)}
+	 * @see HTTPRequestService {@link #getReq(String, Map)}
 	 */
 	@Override
 	public JSONObject getReq(String url, Map<String, String> urlParams) throws IOException, JSONException {
@@ -46,7 +46,7 @@ public class HTTPRequestServiceImpl implements HTTPRequestService {
 	}
 
 	/**
-	 * @see HTTPRequestServiceInterface {@link #postFormReq(String, Map)} (String,
+	 * @see HTTPRequestService {@link #postFormReq(String, Map)} (String,
 	 *      Map)}
 	 */
 	@Override
