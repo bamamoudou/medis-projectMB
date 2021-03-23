@@ -78,7 +78,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 		PreparedStatement ps = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, firstname, firstname, sexe, birthday, address, email, phone, country");
+		sql.append("SELECT id, firstname, lastname, sexe, birthday, address, email, phone, country");
 		sql.append(" FROM patient");
 		sql.append(" ORDER BY firstname");
 
@@ -195,18 +195,16 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 		search += "%";
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, firstname, lastname, email");
-		sql.append(" FROM user");
-		sql.append(" WHERE (firstname LIKE(?)");
+		sql.append("SELECT id, firstname, lastname, sexe, birthday, address, email, phone, country");
+		sql.append(" FROM patient");
+		sql.append(" WHERE firstname LIKE(?)");
 		sql.append(" OR lastname LIKE (?)");
-		sql.append(" OR email LIKE(?))");
 
 		try {
 			con = databaseConfig.getConnection();
 			ps = con.prepareStatement(sql.toString());
 			ps.setString(1, search);
 			ps.setString(2, search);
-			ps.setString(3, search);
 			rs = ps.executeQuery();
 			result = new ArrayList<>();
 			while (rs.next()) {
@@ -214,7 +212,12 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 				patient.setId(rs.getInt("id"));
 				patient.setFirstname(rs.getString("firstname"));
 				patient.setLastname(rs.getString("lastname"));
+				patient.setSexe(rs.getString("sexe"));
+				patient.setBirthday(rs.getDate("birthday").toLocalDate());
+				patient.setAddress(rs.getString("address"));
 				patient.setEmail(rs.getString("email"));
+				patient.setPhone(rs.getString("phone"));
+				patient.setCountry(rs.getString("country"));
 				result.add(patient);
 			}
 			if (result.size() <= 0) {
