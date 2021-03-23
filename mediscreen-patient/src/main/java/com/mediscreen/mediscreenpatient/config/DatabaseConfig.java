@@ -50,12 +50,13 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	private AppProperties appProperties;
 
 	/**
-     * Constructor
-     * @param appProperties
-     */
-    public DatabaseConfig(AppProperties appProperties) {
-        this.appProperties = appProperties;
-    }
+	 * Constructor
+	 * 
+	 * @param appProperties
+	 */
+	public DatabaseConfig(AppProperties appProperties) {
+		this.appProperties = appProperties;
+	}
 
 	/**
 	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
@@ -73,12 +74,13 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 			logger.error("Error fetching database properties");
 			throw new NullPointerException("Error fetching database properties");
 		}
+
 		return DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database,
 				this.user, this.password);
 	}
 
 	/**
-	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
+	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
 	 *      {@link #closeConnection(Connection)}
 	 */
 	@Override
@@ -93,7 +95,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
+	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
 	 *      {@link #closePreparedStatement(Statement)}
 	 */
 	@Override
@@ -108,7 +110,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
+	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
 	 *      {@link #closeResultSet(ResultSet)}
 	 */
 	@Override
@@ -123,7 +125,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
+	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
 	 *      {@link #closeSQLTransaction(Connection, Statement, ResultSet)}
 	 */
 	@Override

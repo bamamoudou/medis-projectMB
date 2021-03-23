@@ -8,9 +8,11 @@ import com.mediscreen.mediscreenpatient.daoImpl.PatientDAOImpl;
 import com.mediscreen.mediscreenpatient.service.CountryService;
 import com.mediscreen.mediscreenpatient.service.HTTPRequestService;
 import com.mediscreen.mediscreenpatient.service.PatientService;
+import com.mediscreen.mediscreenpatient.service.SecurityService;
 import com.mediscreen.mediscreenpatient.serviceImpl.CountryServiceImpl;
 import com.mediscreen.mediscreenpatient.serviceImpl.HTTPRequestServiceImpl;
 import com.mediscreen.mediscreenpatient.serviceImpl.PatientServiceImpl;
+import com.mediscreen.mediscreenpatient.serviceImpl.SecurityServiceImpl;
 
 @Configuration
 public class AppConfig {
@@ -42,5 +44,10 @@ public class AppConfig {
 	@Bean
 	public PatientService patientService() {
 		return new PatientServiceImpl(patientDao());
+	}
+
+	@Bean
+	public SecurityService securityService() {
+		return new SecurityServiceImpl();
 	}
 }

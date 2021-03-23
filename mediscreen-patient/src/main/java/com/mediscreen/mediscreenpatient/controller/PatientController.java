@@ -13,19 +13,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mediscreen.mediscreenpatient.exception.NotFoundException;
 import com.mediscreen.mediscreenpatient.model.Patient;
 import com.mediscreen.mediscreenpatient.service.PatientService;
+import com.mediscreen.mediscreenpatient.service.SecurityService;
 
 @RestController
 public class PatientController {
 	@Autowired
 	private PatientService patientService;
 
+	@Autowired
+	private SecurityService securityService;
+
 	@GetMapping("/patient/getAll")
-	public List<Patient> getPatient() {
+	public List<Patient> getPatient(@RequestHeader("token") String token) {
+		securityService.authenticationCheck(token);
 		List<Patient> patientList = patientService.getAllPatient();
 		if (patientList == null)
 			throw new NotFoundException("No data found");
@@ -33,7 +39,8 @@ public class PatientController {
 	}
 
 	@GetMapping("/patient/get/{id}")
-	public Patient getPatient(@PathVariable int id) {
+	public Patient getPatient(@RequestHeader("token") String token, @PathVariable int id) {
+		securityService.authenticationCheck(token);
 		Patient patient = patientService.getPatientById(id);
 		if (patient == null)
 			throw new NotFoundException("Unknown patient with id : " + id);
@@ -41,7 +48,9 @@ public class PatientController {
 	}
 
 	@PostMapping("/patient/create")
-	public ResponseEntity<Patient> createPatient(@Valid @RequestBody Patient patient) {
+	public ResponseEntity<Patient> createPatient(@RequestHeader("token") String token,
+			@Valid @RequestBody Patient patient) {
+		securityService.authenticationCheck(token);
 		Patient newPatient = patientService.createPatient(patient);
 		if (newPatient == null)
 			return ResponseEntity.noContent().build();
@@ -49,7 +58,9 @@ public class PatientController {
 	}
 
 	@PutMapping("/patient/update")
-	public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient) {
+	public ResponseEntity<Patient> updatePatient(@RequestHeader("token") String token,
+			@Valid @RequestBody Patient patient) {
+		securityService.authenticationCheck(token);
 		Patient updatedPatient = patientService.updatePatient(patient);
 		if (updatedPatient == null)
 			return ResponseEntity.noContent().build();
@@ -57,7 +68,8 @@ public class PatientController {
 	}
 
 	@DeleteMapping("/patient/delete/{id}")
-	public ResponseEntity<Void> deletePatient(@PathVariable int id) {
+	public ResponseEntity<Void> deletePatient(@RequestHeader("token") String token, @PathVariable int id) {
+		securityService.authenticationCheck(token);
 		if (!patientService.deletePatientById(id))
 			return ResponseEntity.noContent().build();
 		return ResponseEntity.ok().build();
