@@ -9,9 +9,9 @@
                         <use th:href="@{/assets/icons/feather-sprite.svg#chevron-left}"/>
                     </svg>
                 </a>
-                <div class="patient_imgProfile block oflow_hidden shdw_lv2">
-                    <img th:if="${patient.getProfilePictureExt() != null}" th:src="@{'/assets/profilePicture/' + ${patient.getId()} + '_' + ${patient.getFirstname()} + '_' + ${patient.getLastname()} + ${patient.getProfilePictureExt()}}" alt="profile_pct" class="hght_100">
-                    <img th:unless="${patient.getProfilePictureExt() != null}" th:src="@{assets/icons/user.svg}" class="hght_100">
+                <div class="patient_imgProfile flex_center oflow_hidden shdw_lv2">
+                    <img th:if="${patient.getProfilePictureExt() != null}" th:src="@{'/assets/profilePicture/' + ${patient.getId()} + '_' + ${patient.getFirstname()} + '_' + ${patient.getLastname()} + ${patient.getProfilePictureExt()}}" alt="profile_pct" class="wdth_100">
+                    <img th:unless="${patient.getProfilePictureExt() != null}" th:src="@{/assets/icons/user.svg}" class="wdth_100">
                 </div>
                 <div class="patient_name flex flex_row flex_align_center wdth_20 hght_100">
                     <p th:text="${patient.getLastname()}" class="patient_name_lastname txt_upp txt_ltr-sp_2"></p>

@@ -4,7 +4,7 @@ $(() => {
         if ($(this).val() !== '') {
             $.get('http://localhost:8080/patient/search?search=' + $(this).val(), function (data) {
                 $.each(data, function (index, element) {
-                    let patient = '<a href="/patient/' + element.id + '/profile" class="dataset_el flex flex_row flex_align_center pos_relative">';
+                    let patient = '<a href="/patient/' + element.id + '" class="dataset_el flex flex_row flex_align_center pos_relative">';
                     patient += '<div class="dataset_el_icon flex_center oflow_hidden">';
 
                     if(element.profilePictureExt !== null) {

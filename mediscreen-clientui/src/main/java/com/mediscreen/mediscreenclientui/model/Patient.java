@@ -19,7 +19,7 @@ public class Patient {
 	@Length(max = 1, message = "Max length : 1")
 	private String sexe;
 
-	@DateTimeFormat
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthday;
 
 	@Length(max = 255, message = "Max length : 255")

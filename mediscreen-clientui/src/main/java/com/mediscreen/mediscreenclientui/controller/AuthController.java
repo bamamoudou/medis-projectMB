@@ -1,8 +1,5 @@
 package com.mediscreen.mediscreenclientui.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +29,18 @@ public class AuthController {
 		if (securityService.isLog(session))
 			return controllerUtils.rootRedirect();
 
-		Map<String, Object> model = new HashMap<>();
-		model.put("page", "login");
-		model.put("login", new Login());
-		model.put("isLogin", false);
+		ModelMap model = new ModelMap();
+		model.addAttribute("page", "login");
+		model.addAttribute("login", new Login());
+		model.addAttribute("isLogin", false);
 
-		return new ModelAndView("template.html", model);
+		return new ModelAndView("template", model);
 	}
 
 	@PostMapping("/login")
 	public ModelAndView postLogin(HttpSession session, @ModelAttribute Login login) {
 		try {
-			securityService.logUser(login, session);
+			session.setAttribute("token", securityService.logUser(login, session));
 			return controllerUtils.rootRedirect();
 		} catch (EmptyDataException | NotAllowedException e) {
 			ModelMap model = new ModelMap();
@@ -51,7 +48,7 @@ public class AuthController {
 			model.addAttribute("login", new Login());
 			model.addAttribute("isLogin", false);
 			model.addAttribute("error", e.getMessage());
-			return new ModelAndView("template.html", model);
+			return new ModelAndView("template", model);
 		}
 	}
 

@@ -29,23 +29,23 @@ public interface MSZuulProxy {
 	ResponseEntity<Void> msAuthentication_validateToken(@RequestParam("token") String token);
 
 	// ms-patientAdmin
-	@GetMapping("/ms-patientAdmin/patient/getAll")
+	@GetMapping("/ms-patientadmin/patient/getAll")
 	List<Patient> msPatientAdmin_getAllPatients(@RequestHeader("token") String token);
 
-	@GetMapping("/ms-patientAdmin/patient/search")
+	@GetMapping("/ms-patientadmin/patient/search")
 	List<Patient> searchPatients(@RequestHeader("token") String token, @RequestParam(required = true) String search);
 
-	@GetMapping("/ms-patientAdmin/patient/get/{id}")
+	@GetMapping("/ms-patientadmin/patient/get/{id}")
 	Patient msPatientAdmin_getPatient(@RequestHeader("token") String token, @PathVariable int id);
 
-	@PostMapping("/ms-patientAdmin/patient/create")
+	@PostMapping("/ms-patientadmin/patient/create")
 	ResponseEntity<Patient> msPatientAdmin_createPatient(@RequestHeader("token") String token,
 			@Valid @RequestBody Patient patient);
 
-	@PutMapping("/ms-patientAdmin/patient/update")
+	@PutMapping("/ms-patientadmin/patient/update")
 	ResponseEntity<Patient> msPatientAdmin_updatePatient(@RequestHeader("token") String token,
 			@Valid @RequestBody Patient patient);
 
-	@DeleteMapping("/ms-patientAdmin/patient/delete/{id}")
+	@DeleteMapping("/ms-patientadmin/patient/delete/{id}")
 	ResponseEntity<Void> msPatientAdmin_deletePatient(@RequestHeader("token") String token, @PathVariable int id);
 }

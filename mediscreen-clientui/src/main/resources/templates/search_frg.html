@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body th:fragment="search">
     <header th:replace="header_frg :: main_header"></header>
-    <main class="main_content wdth_100 flex flex_justify_center flex_align_center oflow_hidden">
-        <section class="main_section flex flex_column shdw_lv2">
+    <main class="main_content wdth_100 flex flex_justify_center flex_align_center">
+        <section class="main_section pos_relative flex flex_column shdw_lv2">
             <div class="form_ipt_ctn_txt_icon wdth_100">
                 <svg class="feather strk_black">
                     <use th:href="@{/assets/icons/feather-sprite.svg#search}"/>
@@ -22,8 +22,13 @@
                             <use th:href="@{/assets/icons/feather-sprite.svg#chevron-right}"/>
                         </svg>
                     </a>
-                </a>
+                </div>
             </div>
+            <a th:href="@{/patient/create}" class="btn btn_add pos_absolute flex_center bck_black">
+                <svg class="feather strk_white">
+                    <use th:href="@{/assets/icons/feather-sprite.svg#plus}"/>
+                </svg>
+            </a>
         </section>
     </main>
     <footer th:replace="footer_frg :: main_footer"></footer>
