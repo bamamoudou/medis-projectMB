@@ -43,18 +43,18 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 
 	/**
-	 * @see SecurityServiceInterface {@link #logUser(UserLogin)}
+	 * @see SecurityServiceInterface {@link #logUser(Login)}
 	 */
-	public Jwt logUser(Login userLogin) {
+	public Jwt logUser(Login login) {
 		if (appProperties.getUsername() != null && appProperties.getPassword() != null) {
-			if (appProperties.getUsername().equals(userLogin.getUsername())
-					&& passwordEncoder.matches(userLogin.getPassword(), appProperties.getPassword())) {
+			if (appProperties.getUsername().equals(login.getUsername())
+					&& passwordEncoder.matches(login.getPassword(), appProperties.getPassword())) {
 				UUID uuid = UUID.randomUUID();
 				Map<String, Object> claims = new HashMap<>();
 				claims.put("userID", uuid.toString());
-				claims.put("username", userLogin.getPassword());
+				claims.put("username", login.getPassword());
 				Long time = (long) 60 * 60 * 24;
-				if (userLogin.isRememberUser())
+				if (login.isRememberUser())
 					time *= 90;
 				return jwtService.createJWT(uuid, "Login", "Mediscreen", claims, time);
 			} else {

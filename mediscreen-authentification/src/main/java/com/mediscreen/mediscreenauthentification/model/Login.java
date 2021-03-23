@@ -9,6 +9,7 @@ public class Login {
 
 	@NotBlank
 	private String password;
+
 	@NotNull
 	private boolean rememberUser;
 
