@@ -1,7 +1,5 @@
 package com.mediscreen.mediscreenclientui.service;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import com.mediscreen.mediscreenclientui.model.Login;
@@ -13,7 +11,7 @@ public interface SecurityService {
 	 * @param token
 	 * @return
 	 */
-	void authenticationCheck(String token);
+	boolean authenticationCheck(String token);
 
 	/**
 	 * Check if user is log, read token and validate it
@@ -29,5 +27,5 @@ public interface SecurityService {
 	 * @param login
 	 * @return
 	 */
-	Map<String, String> logUser(Login login);
+	void logUser(Login login, HttpSession session);
 }

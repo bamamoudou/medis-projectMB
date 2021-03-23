@@ -1,7 +1,5 @@
 package com.mediscreen.mediscreenclientui.serviceImpl;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.mediscreen.mediscreenclientui.exception.EmptyDataException;
 import com.mediscreen.mediscreenclientui.exception.NotAllowedException;
+import com.mediscreen.mediscreenclientui.model.Jwt;
 import com.mediscreen.mediscreenclientui.model.Login;
 import com.mediscreen.mediscreenclientui.proxy.MSZuulProxy;
 import com.mediscreen.mediscreenclientui.service.SecurityService;
@@ -29,12 +28,13 @@ public class SecurityServiceImpl implements SecurityService {
 	 * @see SecurityService {@link #authenticationCheck(String)}
 	 */
 	@Override
-	public void authenticationCheck(String token) {
+	public boolean authenticationCheck(String token) {
 		if (StringUtils.isBlank(token))
 			throw new EmptyDataException("The authentication token is required");
 		ResponseEntity<Void> validation = msZuulProxy.msAuthentication_validateToken(token);
 		if (!validation.getStatusCode().equals(HttpStatus.OK))
 			throw new NotAllowedException("Permission denied");
+		return true;
 	}
 
 	/**
@@ -42,14 +42,29 @@ public class SecurityServiceImpl implements SecurityService {
 	 */
 	@Override
 	public boolean isLog(HttpSession session) {
-		return true;
+		String token = (String) session.getAttribute("token");
+		if (token != null && !StringUtils.isBlank(token))
+			return authenticationCheck(token);
+		return false;
 	}
 
 	/**
-	 * @see SecurityServiceInterface {@link #logUser(Login)}
+	 * @see SecurityServiceInterface {@link #logUser(Login, HttpSession)}
 	 */
 	@Override
-	public Map<String, String> logUser(Login login) {
-		return null;
+	public void logUser(Login login, HttpSession session) {
+		if (!StringUtils.isBlank(login.getUsername()) && !StringUtils.isBlank(login.getPassword())) {
+			try {
+				ResponseEntity<Jwt> jwt = msZuulProxy.msAuthentication_generateToken(login);
+				if (jwt.getStatusCode().equals(HttpStatus.OK) && jwt.getBody() != null
+						&& jwt.getBody().getToken() != null) {
+					session.setAttribute("token", jwt.getBody().getToken());
+				}
+			} catch (NotAllowedException e) {
+				throw new NotAllowedException("Permission denied, username or password are incorrect");
+			}
+		} else {
+			throw new EmptyDataException("Username and password are required");
+		}
 	}
 }

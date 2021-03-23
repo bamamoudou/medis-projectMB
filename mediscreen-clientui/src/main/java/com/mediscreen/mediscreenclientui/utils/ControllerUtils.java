@@ -10,9 +10,7 @@ public class ControllerUtils {
 	}
 
 	public RedirectView redirect(String path) {
-		RedirectView redirectView = new RedirectView();
-		redirectView.setUrl(path);
-		return redirectView;
+		return new RedirectView(path);
 	}
 
 	public ModelAndView loginRedirect() {
