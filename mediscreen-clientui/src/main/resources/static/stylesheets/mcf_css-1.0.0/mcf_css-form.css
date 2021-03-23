@@ -1,0 +1,191 @@
+/*! mcf_css v1.0.0 - Library - CSS3 */
+
+::placeholder {
+    color: var(--color_greyE1);
+}
+
+input:disabled {
+    color: var(--color_grey96);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+/* CONTAINER */
+    .form_comp_ipt_ctn {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .form_ipt_ctn {
+        display: flex;
+        width: 100%;
+    }
+
+    .form_ipt_ctn_txt, .form_ipt_ctn_radio, .form_ipt_ctn_select  {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin-bottom: 35px;
+    }
+
+    .form_ipt_ctn_chk, .form_ipt_ctn_txt_icon {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .form_ipt_ctn_chk {
+        margin-bottom: 35px;
+    }
+
+    .form_ipt_ctn_txt_icon {
+        margin-bottom: 25px;
+    }
+
+    .form_ipt_ctn_btns {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .form_ipt_sub_ctn {
+
+    }
+
+/* LABEL */
+    .from_ipt_label {
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 4px;
+        margin-bottom: 15px;
+    }
+
+    .from_ipt_sub_label {
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: var(--color_greyCA);
+        margin-left: 5px;
+    }
+
+/* MESSAGE */
+    .from_ipt_msg {
+
+    }
+
+    .form_error_msg {
+        margin: 0 auto 20px auto;
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: var(--color_red);
+    }
+
+/* TEXT / TEXTAREA */
+    .form_ipt_txt, .form_ipt_textarea {
+        border: 1.5px solid var(--color_greyE1);
+        border-radius: 7px;
+        letter-spacing: 2px;
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    .form_ipt_txt {
+        height: 45px;
+        padding: 0 15px;
+    }
+
+    .form_ipt_ctn_txt_icon .form_ipt_txt {
+        width: 100%;
+    }
+
+    .form_ipt_ctn_txt_icon .feather {
+        margin-right: 10px;
+    }
+
+    .form_ipt_textarea {
+        height: 100px;
+        padding: 15px;
+        resize: none;
+    }
+
+/* CHECKBOX */
+    .from_ipt_chk {
+
+    }
+
+    .from_ipt_chk.chk_on {
+
+    }
+
+    .from_ipt_chk.chk_off {
+
+    }
+
+/* BUTTONS */
+    .from_ipt_btn {
+
+    }
+
+    .from_ipt_btn_submit {
+
+    }
+
+    .from_ipt_btn_undo {
+
+    }
+
+    .from_ipt_btn_next {
+
+    }
+
+    .from_ipt_btn_back {
+
+    }
+
+/* RADIO */
+    .form_ipt_radio_ctn {
+
+    }
+
+    .form_ipt_radio_btn {
+
+    }
+
+    .form_ipt_radio_btn.unselect {
+
+    }
+
+    .form_ipt_radio_btn.select {
+
+    }
+
+/* SELECT */
+    .form_ipt_select {
+
+    }
+
+    .form_ipt_select_option {
+
+    }
+
+    .form_ipt_select.unselect span.text { color: var(--color_greyE1); }
+    .form_ipt_select.selected span.text { color: var(--color_black); }
+    .form_ipt_select.unselect .icon { stroke: var(--color_greyE1); }
+    .form_ipt_select.selected .icon { stroke: var(--color_white); }
+
+/* RANGE */
+    .form_ipt_range {
+
+    }
