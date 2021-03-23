@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "${mediscreen-mediscreen-authentification.name}", url = "${mediscreen-mediscreen-authentification.url}")
+@FeignClient(name = "zuul-server")
 public interface MSAuthenticationProxy {
-	@GetMapping("/validate-token")
-	ResponseEntity<Void> validateToken(@RequestParam("token") String token);
+    @GetMapping("/ms-authentication/validate-token")
+    ResponseEntity<Void> validateToken(@RequestParam("token") String token);
 }

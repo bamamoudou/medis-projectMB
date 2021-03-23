@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mediscreen.mediscreenpatient.exception.NotFoundException;
@@ -30,9 +31,19 @@ public class PatientController {
 	private SecurityService securityService;
 
 	@GetMapping("/patient/getAll")
-	public List<Patient> getPatient(@RequestHeader("token") String token) {
+	public List<Patient> getAllPatients(@RequestHeader("token") String token) {
 		securityService.authenticationCheck(token);
 		List<Patient> patientList = patientService.getAllPatient();
+		if (patientList == null)
+			throw new NotFoundException("No data found");
+		return patientList;
+	}
+
+	@GetMapping("/patient/search")
+	public List<Patient> searchPatients(@RequestHeader("token") String token,
+			@RequestParam(required = true) String search) {
+		securityService.authenticationCheck(token);
+		List<Patient> patientList = patientService.searchPatient(search);
 		if (patientList == null)
 			throw new NotFoundException("No data found");
 		return patientList;

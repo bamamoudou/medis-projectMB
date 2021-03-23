@@ -43,4 +43,11 @@ public interface PatientService {
 	 * @return
 	 */
 	boolean deletePatientById(Integer id);
+	
+	 /**
+     * Search patient
+     * @param search
+     * @return
+     */
+    List<Patient> searchPatient(String search);
 }

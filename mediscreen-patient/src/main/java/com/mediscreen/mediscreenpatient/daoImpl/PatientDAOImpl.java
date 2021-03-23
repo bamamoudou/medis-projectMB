@@ -9,20 +9,19 @@ import java.util.List;
 
 import com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface;
 import com.mediscreen.mediscreenpatient.dao.PatientDAO;
-import com.mediscreen.mediscreenpatient.model.Country;
 import com.mediscreen.mediscreenpatient.model.Patient;
 
 public class PatientDAOImpl extends DaoManager implements PatientDAO {
 
 	/**
-     * Constructor
-     */
-    public PatientDAOImpl(DatabaseConfigInterface databaseConfig) {
-        super(databaseConfig, "PatientDao");
-    }
+	 * Constructor
+	 */
+	public PatientDAOImpl(DatabaseConfigInterface databaseConfig) {
+		super(databaseConfig, "PatientDao");
+	}
 
 	/**
-	 * @see PatientDao {@link #getPatientById(Integer)}
+	 * @see PatientDaoInterface {@link #getPatientById(Integer)}
 	 */
 	@Override
 	public Patient getPatientById(Integer id) {
@@ -32,7 +31,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 		PreparedStatement ps = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT firstname, lastname, sexe, birthday, address, email, phone, country_code");
+		sql.append("SELECT firstname, lastname, sexe, birthday, address, email, phone, country");
 		sql.append(" FROM patient");
 		sql.append(" WHERE id = ?");
 
@@ -51,7 +50,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 				result.setAddress(rs.getString("address"));
 				result.setEmail(rs.getString("email"));
 				result.setPhone(rs.getString("phone"));
-				result.setCountry(new Country(rs.getString("country_code")));
+				result.setCountry(rs.getString("country"));
 			}
 		} catch (Exception e) {
 			super.logger.error("PatientDao.getPatientById() -> Error fetching patient", e);
@@ -79,8 +78,9 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 		PreparedStatement ps = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, firstname, lastname, sexe, birthday, address, email, phone, country_code");
+		sql.append("SELECT id, firstname, firstname, sexe, birthday, address, email, phone, country");
 		sql.append(" FROM patient");
+		sql.append(" ORDER BY firstname");
 
 		try {
 			con = databaseConfig.getConnection();
@@ -97,7 +97,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 				patient.setAddress(rs.getString("address"));
 				patient.setEmail(rs.getString("email"));
 				patient.setPhone(rs.getString("phone"));
-				patient.setCountry(new Country(rs.getString("country_code")));
+				patient.setCountry(rs.getString("country"));
 				result.add(patient);
 			}
 			if (result.size() <= 0) {
@@ -121,7 +121,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(
-				"UPDATE patient SET firstname = ?, lastname = ?, sexe = ?, birthday = ?, address = ?, email = ?, phone = ?, country_code = ?");
+				"UPDATE patient SET firstname = ?, lastname = ?, sexe = ?, birthday = ?, address = ?, email = ?, phone = ?, country = ?");
 		sql.append(" WHERE id = ?");
 
 		try {
@@ -134,7 +134,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 			ps.setString(5, patient.getAddress());
 			ps.setString(6, patient.getEmail());
 			ps.setString(7, patient.getPhone());
-			ps.setString(8, patient.getCountry().getCode());
+			ps.setString(8, patient.getCountry());
 			ps.setInt(9, patient.getId());
 			ps.execute();
 			super.logger.info("PatientDao.updatePatient() -> Profile updated for patient : " + patient.getId());
@@ -157,7 +157,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 		PreparedStatement ps = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO patient (firstname, lastname, sexe, birthday, address, email, phone, country_code)");
+		sql.append("INSERT INTO patient (firstname, lastname, sexe, birthday, address, email, phone, country)");
 		sql.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 		try {
@@ -170,7 +170,7 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 			ps.setString(5, patient.getAddress());
 			ps.setString(6, patient.getEmail());
 			ps.setString(7, patient.getPhone());
-			ps.setString(8, patient.getCountry().getCode());
+			ps.setString(8, patient.getCountry());
 			ps.execute();
 			super.logger.info("PatientDao.createPatient() -> Profile created");
 			return this.getPatientById(super.getMaxId("patient"));

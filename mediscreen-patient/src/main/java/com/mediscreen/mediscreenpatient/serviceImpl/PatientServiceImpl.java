@@ -2,6 +2,7 @@ package com.mediscreen.mediscreenpatient.serviceImpl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,15 +23,16 @@ public class PatientServiceImpl implements PatientService {
 	private final PatientDAO patientDao;
 
 	/**
-     * Constructor
-     * @param patientDao
-     */
-    public PatientServiceImpl(PatientDAO patientDao) {
-        this.patientDao = patientDao;
-    }
+	 * Constructor
+	 * 
+	 * @param patientDao
+	 */
+	public PatientServiceImpl(PatientDAO patientDao) {
+		this.patientDao = patientDao;
+	}
 
 	/**
-	 * @see PatientService {@link #getPatientById(Integer)}
+	 * @see PatientServiceInterface {@link #getPatientById(Integer)}
 	 */
 	@Override
 	public Patient getPatientById(Integer id) {
@@ -47,7 +49,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * @see PatientService {@link #updatePatient(Patient)}
+	 * @see PatientServiceInterface {@link #updatePatient(Patient)}
 	 */
 	@Override
 	public Patient updatePatient(Patient patient) {
@@ -58,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * @see PatientService {@link #createPatient(Patient)}
+	 * @see PatientServiceInterface {@link #createPatient(Patient)}
 	 */
 	@Override
 	public Patient createPatient(Patient patient) {
@@ -66,7 +68,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * @see PatientService {@link #deletePatientById(Integer)}
+	 * @see PatientServiceInterface {@link #deletePatientById(Integer)}
 	 */
 	@Override
 	public boolean deletePatientById(Integer id) {
@@ -81,5 +83,17 @@ public class PatientServiceImpl implements PatientService {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @see PatientServiceInterface {@link #searchPatient(String)}
+	 */
+	@Override
+	public List<Patient> searchPatient(String search) {
+		if (!StringUtils.isBlank(search)) {
+			return patientDao.searchPatients(search);
+		} else {
+			return null;
+		}
 	}
 }

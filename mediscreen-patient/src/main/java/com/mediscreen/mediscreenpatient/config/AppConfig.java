@@ -5,12 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.mediscreen.mediscreenpatient.dao.PatientDAO;
 import com.mediscreen.mediscreenpatient.daoImpl.PatientDAOImpl;
-import com.mediscreen.mediscreenpatient.service.CountryService;
-import com.mediscreen.mediscreenpatient.service.HTTPRequestService;
 import com.mediscreen.mediscreenpatient.service.PatientService;
 import com.mediscreen.mediscreenpatient.service.SecurityService;
-import com.mediscreen.mediscreenpatient.serviceImpl.CountryServiceImpl;
-import com.mediscreen.mediscreenpatient.serviceImpl.HTTPRequestServiceImpl;
 import com.mediscreen.mediscreenpatient.serviceImpl.PatientServiceImpl;
 import com.mediscreen.mediscreenpatient.serviceImpl.SecurityServiceImpl;
 
@@ -24,16 +20,6 @@ public class AppConfig {
 	@Bean
 	public DatabaseConfigInterface databaseConfiguration() {
 		return new DatabaseConfig(applicationProperties());
-	}
-
-	@Bean
-	public HTTPRequestService httpRequestService() {
-		return new HTTPRequestServiceImpl();
-	}
-
-	@Bean
-	public CountryService countryService() {
-		return new CountryServiceImpl(httpRequestService());
 	}
 
 	@Bean
