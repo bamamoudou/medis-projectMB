@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "zuul-server")
 public interface MSAuthenticationProxy {
-    @GetMapping("/ms-authentication/validate-token")
+    @GetMapping("/mediscreen-authentication/validate-token")
     ResponseEntity<Void> validateToken(@RequestParam("token") String token);
 }

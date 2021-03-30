@@ -21,31 +21,31 @@ import com.mediscreen.mediscreenclientui.model.Patient;
 
 @FeignClient(name = "zuul-server")
 public interface MSZuulProxy {
-	// ms-authentication
-	@PostMapping("/ms-authentication/generate-token")
+	// mediscreen-authentication
+	@PostMapping("/mediscreen-authentification/generate-token")
 	ResponseEntity<Jwt> msAuthentication_generateToken(@Valid @RequestBody Login login);
 
-	@GetMapping("/ms-authentication/validate-token")
+	@GetMapping("/mediscreen-authentification/validate-token")
 	ResponseEntity<Void> msAuthentication_validateToken(@RequestParam("token") String token);
 
-	// ms-patientAdmin
-	@GetMapping("/ms-patientadmin/patient/getAll")
+	// mediscreen-patient
+	@GetMapping("/mediscreen-patient/patient/getAll")
 	List<Patient> msPatientAdmin_getAllPatients(@RequestHeader("token") String token);
 
-	@GetMapping("/ms-patientadmin/patient/search")
+	@GetMapping("/mediscreen-patient/patient/search")
 	List<Patient> searchPatients(@RequestHeader("token") String token, @RequestParam(required = true) String search);
 
-	@GetMapping("/ms-patientadmin/patient/get/{id}")
+	@GetMapping("/mediscreen-patient/patient/get/{id}")
 	Patient msPatientAdmin_getPatient(@RequestHeader("token") String token, @PathVariable int id);
 
-	@PostMapping("/ms-patientadmin/patient/create")
+	@PostMapping("/mediscreen-patient/patient/create")
 	ResponseEntity<Patient> msPatientAdmin_createPatient(@RequestHeader("token") String token,
 			@Valid @RequestBody Patient patient);
 
-	@PutMapping("/ms-patientadmin/patient/update")
+	@PutMapping("/mediscreen-patient/patient/update")
 	ResponseEntity<Patient> msPatientAdmin_updatePatient(@RequestHeader("token") String token,
 			@Valid @RequestBody Patient patient);
 
-	@DeleteMapping("/ms-patientadmin/patient/delete/{id}")
+	@DeleteMapping("/mediscreen-patient/patient/delete/{id}")
 	ResponseEntity<Void> msPatientAdmin_deletePatient(@RequestHeader("token") String token, @PathVariable int id);
 }
