@@ -20,6 +20,10 @@ public class SecurityServiceImpl implements SecurityService {
 	public SecurityServiceImpl() {
     }
 
+	public SecurityServiceImpl(MSAuthenticationProxy msAuthenticationProxy) {
+		this.authenticationProxy = msAuthenticationProxy;
+	}
+
 	/**
 	 * @see SecurityService {@link #authenticationCheck(String)}
 	 */
