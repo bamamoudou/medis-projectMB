@@ -11,6 +11,8 @@ import javax.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.mediscreen.mediscreenpatient.model.DBConnection;
+
 @Singleton
 public class DatabaseConfig implements DatabaseConfigInterface {
 
@@ -56,6 +58,10 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	 */
 	public DatabaseConfig(AppProperties appProperties) {
 		this.appProperties = appProperties;
+	}
+
+	public DatabaseConfig(DBConnection dbConnection) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
