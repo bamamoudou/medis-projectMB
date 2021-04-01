@@ -58,6 +58,11 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	 */
 	public DatabaseConfig(AppProperties appProperties) {
 		this.appProperties = appProperties;
+		this.host = appProperties.getHost();
+		this.port = String.valueOf(appProperties.getPort());
+		this.database = appProperties.getDatabase();
+		this.user = appProperties.getUser();
+		this.password = appProperties.getPassword();
 	}
 
 	public DatabaseConfig(DBConnection dbConnection) {
@@ -70,11 +75,6 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	 */
 	public Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		this.host = appProperties.getHost();
-		this.port = String.valueOf(appProperties.getPort());
-		this.database = appProperties.getDatabase();
-		this.user = appProperties.getUser();
-		this.password = appProperties.getPassword();
 		if ((this.host == null) || (this.port == null) || (this.database == null) || (this.user == null)
 				|| (this.password == null)) {
 			logger.error("Error fetching database properties");
@@ -86,7 +86,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
+	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
 	 *      {@link #closeConnection(Connection)}
 	 */
 	@Override
@@ -101,7 +101,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
+	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
 	 *      {@link #closePreparedStatement(Statement)}
 	 */
 	@Override
@@ -116,7 +116,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
+	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
 	 *      {@link #closeResultSet(ResultSet)}
 	 */
 	@Override
@@ -131,7 +131,7 @@ public class DatabaseConfig implements DatabaseConfigInterface {
 	}
 
 	/**
-	 * @see com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface
+	 * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface
 	 *      {@link #closeSQLTransaction(Connection, Statement, ResultSet)}
 	 */
 	@Override
