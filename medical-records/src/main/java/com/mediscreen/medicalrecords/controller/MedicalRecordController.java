@@ -1,4 +1,4 @@
-package com.mediscreen.medicalrecords;
+package com.mediscreen.medicalrecords.controller;
 
 import java.util.List;
 

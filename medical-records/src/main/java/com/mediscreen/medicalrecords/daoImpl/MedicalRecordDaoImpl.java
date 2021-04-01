@@ -62,5 +62,4 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
 		return medicalRecord;
 	}
-
 }

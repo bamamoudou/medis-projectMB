@@ -53,7 +53,7 @@ public class PatientServiceImpl implements PatientService {
 	 */
 	@Override
 	public Patient getPatient(HttpSession session, int id) {
-		return msZuulProxy.msPatientAdmin_getPatient((String) session.getAttribute("token"), id);
+		return msZuulProxy.msPatient_getPatient((String) session.getAttribute("token"), id);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class PatientServiceImpl implements PatientService {
 	public Patient createPatient(HttpSession session, Patient patient) {
 		if (!securityService.isLog(session))
 			throw new NotAllowedException("Permission denied");
-		Patient newPatient = msZuulProxy.msPatientAdmin_createPatient((String) session.getAttribute("token"), patient)
+		Patient newPatient = msZuulProxy.msPatient_createPatient((String) session.getAttribute("token"), patient)
 				.getBody();
 		if (newPatient == null)
 			throw new NotFoundException("Patient can't be create");
@@ -80,7 +80,7 @@ public class PatientServiceImpl implements PatientService {
 		if (this.getPatient(session, patient.getId()) == null)
 			throw new NotFoundException("Patient id unknown");
 		Patient updatePatient = msZuulProxy
-				.msPatientAdmin_updatePatient((String) session.getAttribute("token"), patient).getBody();
+				.msPatient_updatePatient((String) session.getAttribute("token"), patient).getBody();
 		if (updatePatient == null)
 			throw new NotFoundException("Patient can't be updated");
 	}
@@ -94,6 +94,6 @@ public class PatientServiceImpl implements PatientService {
 			throw new NotAllowedException("Permission denied");
 		if (this.getPatient(session, id) == null)
 			throw new NotFoundException("Patient id unknown");
-		return msZuulProxy.msPatientAdmin_deletePatient((String) session.getAttribute("token"), id).getStatusCode();
+		return msZuulProxy.msPatient_deletePatient((String) session.getAttribute("token"), id).getStatusCode();
 	}
 }

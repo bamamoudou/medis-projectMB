@@ -36,16 +36,16 @@ public interface MSZuulProxy {
 	List<Patient> searchPatients(@RequestHeader("token") String token, @RequestParam(required = true) String search);
 
 	@GetMapping("/mediscreen-patient/patient/get/{id}")
-	Patient msPatientAdmin_getPatient(@RequestHeader("token") String token, @PathVariable int id);
+	Patient msPatient_getPatient(@RequestHeader("token") String token, @PathVariable int id);
 
 	@PostMapping("/mediscreen-patient/patient/create")
-	ResponseEntity<Patient> msPatientAdmin_createPatient(@RequestHeader("token") String token,
+	ResponseEntity<Patient> msPatient_createPatient(@RequestHeader("token") String token,
 			@Valid @RequestBody Patient patient);
 
 	@PutMapping("/mediscreen-patient/patient/update")
-	ResponseEntity<Patient> msPatientAdmin_updatePatient(@RequestHeader("token") String token,
+	ResponseEntity<Patient> msPatient_updatePatient(@RequestHeader("token") String token,
 			@Valid @RequestBody Patient patient);
 
 	@DeleteMapping("/mediscreen-patient/patient/delete/{id}")
-	ResponseEntity<Void> msPatientAdmin_deletePatient(@RequestHeader("token") String token, @PathVariable int id);
+	ResponseEntity<Void> msPatient_deletePatient(@RequestHeader("token") String token, @PathVariable int id);
 }
