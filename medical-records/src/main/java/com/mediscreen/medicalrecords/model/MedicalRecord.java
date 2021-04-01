@@ -1,14 +1,20 @@
 package com.mediscreen.medicalrecords.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotNull;
 
 public class MedicalRecord {
-	private Integer id;
+	private String id;
+
+	@NotNull(message = "Patient id is mandatory")
 	private Integer patientId;
 	private String doctorName;
-	private LocalDate createDate;
-	private LocalDate lastChangeDate;
+	private LocalDateTime createDate;
+	private LocalDateTime lastChangeDate;
 	private String content;
+
+	@NotNull(message = "Active state is mandatory")
 	private boolean isActive;
 
 	/**
@@ -27,7 +33,7 @@ public class MedicalRecord {
 	 * @param content
 	 * @param isActive
 	 */
-	public MedicalRecord(Integer id, Integer patientId, String doctorName, LocalDate createDate, String content,
+	public MedicalRecord(String id, Integer patientId, String doctorName, LocalDateTime createDate, String content,
 			boolean isActive) {
 		this.id = id;
 		this.patientId = patientId;
@@ -37,11 +43,33 @@ public class MedicalRecord {
 		this.isActive = isActive;
 	}
 
-	public Integer getId() {
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param patientId
+	 * @param doctorName
+	 * @param createDate
+	 * @param lastChangeDate
+	 * @param content
+	 * @param isActive
+	 */
+	public MedicalRecord(String id, Integer patientId, String doctorName, LocalDateTime createDate,
+			LocalDateTime lastChangeDate, String content, boolean isActive) {
+		this.id = id;
+		this.patientId = patientId;
+		this.doctorName = doctorName;
+		this.createDate = createDate;
+		this.lastChangeDate = lastChangeDate;
+		this.content = content;
+		this.isActive = isActive;
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -61,19 +89,19 @@ public class MedicalRecord {
 		this.doctorName = doctorName;
 	}
 
-	public LocalDate getCreateDate() {
+	public LocalDateTime getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDate createDate) {
+	public void setCreateDate(LocalDateTime createDate) {
 		this.createDate = createDate;
 	}
 
-	public LocalDate getLastChangeDate() {
+	public LocalDateTime getLastChangeDate() {
 		return lastChangeDate;
 	}
 
-	public void setLastChangeDate(LocalDate lastChangeDate) {
+	public void setLastChangeDate(LocalDateTime lastChangeDate) {
 		this.lastChangeDate = lastChangeDate;
 	}
 

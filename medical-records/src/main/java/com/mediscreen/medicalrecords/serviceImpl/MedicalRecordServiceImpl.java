@@ -2,6 +2,7 @@ package com.mediscreen.medicalrecords.serviceImpl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +59,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	 */
 	@Override
 	public MedicalRecord createMedicalRecord(String token, MedicalRecord medicalRecord) {
-		if (medicalRecord.getId() != null && medicalRecord.getId() > 0 && medicalRecord.getPatientId() != null
-				&& medicalRecord.getPatientId() > 0) {
-			if (msZuulProxy.msPatient_getPatient(token, medicalRecord.getId()) == null)
+		if (medicalRecord.getPatientId() != null && medicalRecord.getPatientId() > 0) {
+			if (msZuulProxy.msPatient_getPatient(token, medicalRecord.getPatientId()) == null)
 				throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
 			return medicalRecordDao.createMedicalRecord(medicalRecord);
 		}
@@ -73,9 +73,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	 */
 	@Override
 	public MedicalRecord updateMedicalRecord(String token, MedicalRecord medicalRecord) {
-		if (medicalRecord.getId() != null && medicalRecord.getId() > 0 && medicalRecord.getPatientId() != null
+		if (!StringUtils.isBlank(medicalRecord.getId()) && medicalRecord.getPatientId() != null
 				&& medicalRecord.getPatientId() > 0) {
-			if (msZuulProxy.msPatient_getPatient(token, medicalRecord.getId()) == null)
+			if (msZuulProxy.msPatient_getPatient(token, medicalRecord.getPatientId()) == null)
 				throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
 			return medicalRecordDao.updateMedicalRecord(medicalRecord);
 		}
