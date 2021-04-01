@@ -7,6 +7,8 @@ import com.mediscreen.medicalrecords.dao.MedicalRecordDao;
 import com.mediscreen.medicalrecords.daoImpl.MedicalRecordDaoImpl;
 import com.mediscreen.medicalrecords.service.MedicalRecordService;
 import com.mediscreen.medicalrecords.service.SecurityService;
+import com.mediscreen.medicalrecords.serviceImpl.MedicalRecordServiceImpl;
+import com.mediscreen.medicalrecords.serviceImpl.SecurityServiceImpl;
 
 @Configuration
 public class AppConfig {
