@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mediscreen.medicalrecords.dao.MedicalRecordDao;
+import com.mediscreen.medicalrecords.exception.NotFoundException;
 import com.mediscreen.medicalrecords.model.MedicalRecord;
+import com.mediscreen.medicalrecords.proxy.MSZuulProxy;
 import com.mediscreen.medicalrecords.service.MedicalRecordService;
 
 public class MedicalRecordServiceImpl implements MedicalRecordService {
@@ -30,25 +33,35 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	}
 
 	/**
-	 * @see MedicalRecordServiceInterface {@link #getPatientMedicalRecords(Integer)}
+	 * ems-zuul proxy
+	 */
+	@Autowired
+	private MSZuulProxy msZuulProxy;
+
+	/**
+	 * @see MedicalRecordServiceInterface
+	 *      {@link #getPatientMedicalRecords(String, Integer)}
 	 */
 	@Override
-	public List<MedicalRecord> getPatientMedicalRecords(Integer id) {
-		List<MedicalRecord> medicalRecordList = null;
+	public List<MedicalRecord> getPatientMedicalRecords(String token, Integer id) {
 		if (id != null && id > 0) {
-			medicalRecordList = medicalRecordDao.getAllPatientMedicalRecords(id);
+			if (msZuulProxy.msPatient_getPatient(token, id) == null)
+				throw new NotFoundException("Unknown patient with id : " + id);
+			return medicalRecordDao.getAllPatientMedicalRecords(id);
 		}
-		return medicalRecordList;
+		return null;
 	}
 
 	/**
 	 * @see MedicalRecordServiceInterface
-	 *      {@link #createMedicalRecord(MedicalRecord)}
+	 *      {@link #createMedicalRecord(String, MedicalRecord)}
 	 */
 	@Override
-	public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord) {
+	public MedicalRecord createMedicalRecord(String token, MedicalRecord medicalRecord) {
 		if (medicalRecord.getId() != null && medicalRecord.getId() > 0 && medicalRecord.getPatientId() != null
 				&& medicalRecord.getPatientId() > 0) {
+			if (msZuulProxy.msPatient_getPatient(token, medicalRecord.getId()) == null)
+				throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
 			return medicalRecordDao.createMedicalRecord(medicalRecord);
 		}
 		return null;
@@ -56,12 +69,14 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
 	/**
 	 * @see MedicalRecordServiceInterface
-	 *      {@link #updateMedicalRecord(MedicalRecord)}
+	 *      {@link #updateMedicalRecord(String, MedicalRecord)}
 	 */
 	@Override
-	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
+	public MedicalRecord updateMedicalRecord(String token, MedicalRecord medicalRecord) {
 		if (medicalRecord.getId() != null && medicalRecord.getId() > 0 && medicalRecord.getPatientId() != null
 				&& medicalRecord.getPatientId() > 0) {
+			if (msZuulProxy.msPatient_getPatient(token, medicalRecord.getId()) == null)
+				throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
 			return medicalRecordDao.updateMedicalRecord(medicalRecord);
 		}
 		return null;

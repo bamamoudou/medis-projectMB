@@ -31,7 +31,7 @@ public class MedicalRecordController {
 	@GetMapping("/medical-record/getAll/{id}")
 	public List<MedicalRecord> getAllPatientMedicalRecords(@RequestHeader("token") String token, @PathVariable int id) {
 		securityService.authenticationCheck(token);
-		List<MedicalRecord> medicalRecordList = medicalRecordService.getPatientMedicalRecords(id);
+		List<MedicalRecord> medicalRecordList = medicalRecordService.getPatientMedicalRecords(token, id);
 		if (medicalRecordList == null || medicalRecordList.size() == 0)
 			throw new NotFoundException("No data found");
 		return medicalRecordList;
@@ -41,7 +41,7 @@ public class MedicalRecordController {
 	public ResponseEntity<MedicalRecord> createMedicalRecord(@RequestHeader("token") String token,
 			@Valid @RequestBody MedicalRecord medicalRecord) {
 		securityService.authenticationCheck(token);
-		MedicalRecord newMedicalRecord = medicalRecordService.createMedicalRecord(medicalRecord);
+		MedicalRecord newMedicalRecord = medicalRecordService.createMedicalRecord(token, medicalRecord);
 		if (newMedicalRecord == null)
 			return ResponseEntity.noContent().build();
 		return new ResponseEntity<>(newMedicalRecord, HttpStatus.CREATED);
@@ -51,7 +51,7 @@ public class MedicalRecordController {
 	public ResponseEntity<MedicalRecord> updateMedicalRecord(@RequestHeader("token") String token,
 			@Valid @RequestBody MedicalRecord medicalRecord) {
 		securityService.authenticationCheck(token);
-		MedicalRecord updateMedicalRecord = medicalRecordService.updateMedicalRecord(medicalRecord);
+		MedicalRecord updateMedicalRecord = medicalRecordService.updateMedicalRecord(token, medicalRecord);
 		if (updateMedicalRecord == null)
 			return ResponseEntity.noContent().build();
 		return new ResponseEntity<>(updateMedicalRecord, HttpStatus.OK);

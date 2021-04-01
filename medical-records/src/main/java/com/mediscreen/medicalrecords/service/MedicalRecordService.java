@@ -5,27 +5,27 @@ import java.util.List;
 import com.mediscreen.medicalrecords.model.MedicalRecord;
 
 public interface MedicalRecordService {
-	/**
-	 * Get all patient medical records
-	 * 
-	 * @param id
-	 * @return
-	 */
-	List<MedicalRecord> getPatientMedicalRecords(Integer id);
+	 /**
+     * Get all patient medical records
+     * @param token
+     * @param id
+     * @return
+     */
+    List<MedicalRecord> getPatientMedicalRecords(String token, Integer id);
 
-	/**
-	 * Update Medical Record
-	 * 
-	 * @param medicalRecord
-	 * @return
-	 */
-	MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
+    /**
+     * Update Medical Record
+     * @param token
+     * @param medicalRecord
+     * @return
+     */
+    MedicalRecord updateMedicalRecord(String token, MedicalRecord medicalRecord);
 
-	/**
-	 * Create Medical Record
-	 * 
-	 * @param medicalRecord
-	 * @return
-	 */
-	MedicalRecord createMedicalRecord(MedicalRecord medicalRecord);
+    /**
+     * Create Medical Record
+     * @param token
+     * @param medicalRecord
+     * @return
+     */
+    MedicalRecord createMedicalRecord(String token, MedicalRecord medicalRecord);
 }
