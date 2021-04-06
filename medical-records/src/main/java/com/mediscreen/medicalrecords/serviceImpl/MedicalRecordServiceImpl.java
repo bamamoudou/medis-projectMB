@@ -25,6 +25,12 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	private MedicalRecordDao medicalRecordDao;
 
 	/**
+	 * ems-zuul proxy
+	 */
+	@Autowired
+	private MSZuulProxy msZuulProxy;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param medicalRecordDao
@@ -34,10 +40,15 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	}
 
 	/**
-	 * ems-zuul proxy
+	 * Constructor
+	 * 
+	 * @param medicalRecordDao
+	 * @param msZuulProxy
 	 */
-	@Autowired
-	private MSZuulProxy msZuulProxy;
+	public MedicalRecordServiceImpl(MedicalRecordDao medicalRecordDao, MSZuulProxy msZuulProxy) {
+		this.medicalRecordDao = medicalRecordDao;
+		this.msZuulProxy = msZuulProxy;
+	}
 
 	/**
 	 * @see MedicalRecordServiceInterface
