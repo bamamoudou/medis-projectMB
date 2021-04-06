@@ -21,8 +21,8 @@ public class AuthentificationController {
 	private SecurityService securityService;
 
 	@PostMapping("/generate-token")
-	public ResponseEntity<Jwt> generateToken(@Valid @RequestBody Login userLogin) {
-		return new ResponseEntity<>(securityService.logUser(userLogin), HttpStatus.OK);
+	public ResponseEntity<Jwt> generateToken(@Valid @RequestBody Login login) {
+		return new ResponseEntity<>(securityService.logUser(login), HttpStatus.OK);
 	}
 
 	@GetMapping("/validate-token")

@@ -1,8 +1,6 @@
-package com.mediscreen.mediscreenpatient.model;
+package com.mediscreen.medicalrecords.model;
 
 import java.time.LocalDate;
-
-import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,19 +8,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Patient {
 	private Integer id;
 
-	@NotBlank
 	@Length(max = 60, message = "Max length : 60")
 	private String firstname;
 
-	@NotBlank
 	@Length(max = 60, message = "Max length : 60")
 	private String lastname;
 
-	@NotBlank
 	@Length(max = 1, message = "Max length : 1")
 	private String sexe;
 
-	@DateTimeFormat
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthday;
 
 	@Length(max = 255, message = "Max length : 255")

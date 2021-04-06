@@ -6,7 +6,7 @@ import com.mediscreen.mediscreenpatient.model.Patient;
 
 public interface PatientService {
 	/**
-	 * GET patient profile with his id
+	 * Get patient profile with his id
 	 * 
 	 * @param id
 	 * @return
@@ -14,14 +14,14 @@ public interface PatientService {
 	Patient getPatientById(Integer id);
 
 	/**
-	 * GET all patient list
+	 * Get all patient list
 	 * 
 	 * @return
 	 */
 	List<Patient> getAllPatient();
 
 	/**
-	 * UPDATE patient profile
+	 * Upadte patient profile
 	 * 
 	 * @param patient
 	 * @return
@@ -29,7 +29,7 @@ public interface PatientService {
 	Patient updatePatient(Patient patient);
 
 	/**
-	 * CREATE new patient profile
+	 * Create new patient profile
 	 * 
 	 * @param patient
 	 * @return
@@ -37,17 +37,18 @@ public interface PatientService {
 	Patient createPatient(Patient patient);
 
 	/**
-	 * DELETE patient with his id
+	 * Delete patient with his id
 	 * 
 	 * @param id
 	 * @return
 	 */
 	boolean deletePatientById(Integer id);
-	
-	 /**
-     * Search patient
-     * @param search
-     * @return
-     */
-    List<Patient> searchPatient(String search);
+
+	/**
+	 * Search patient
+	 * 
+	 * @param search
+	 * @return
+	 */
+	List<Patient> searchPatient(String search);
 }

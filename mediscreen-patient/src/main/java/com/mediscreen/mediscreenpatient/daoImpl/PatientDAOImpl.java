@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.mediscreen.mediscreenpatient.config.DatabaseConfigInterface;
 import com.mediscreen.mediscreenpatient.dao.PatientDAO;
+import com.mediscreen.mediscreenpatient.exception.InternalServerErrorException;
 import com.mediscreen.mediscreenpatient.model.Patient;
 
 public class PatientDAOImpl extends DaoManager implements PatientDAO {
@@ -52,8 +54,12 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 				result.setPhone(rs.getString("phone"));
 				result.setCountry(rs.getString("country"));
 			}
-		} catch (Exception e) {
-			super.logger.error("PatientDao.getPatientById() -> Error fetching patient", e);
+		} catch (ClassNotFoundException e) {
+			super.logger.error("PatientDao.getPatientById() -> Error fetching patient : {0}", e);
+			throw new InternalServerErrorException("ClassNotFoundException : " + e);
+		} catch (SQLException e) {
+			super.logger.error("PatientDao.getPatientById() -> Error fetching patient : {0}", e);
+			throw new InternalServerErrorException("SQLException : " + e);
 		} finally {
 			databaseConfig.closeSQLTransaction(con, ps, rs);
 		}
@@ -103,8 +109,12 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 			if (result.size() <= 0) {
 				result = null;
 			}
-		} catch (Exception e) {
-			super.logger.error("PatientDao.getAllPatient() -> Error fetching patients", e);
+		} catch (ClassNotFoundException e) {
+			super.logger.error("PatientDao.getAllPatient() -> Error fetching patients : {0}", e);
+			throw new InternalServerErrorException("ClassNotFoundException : " + e);
+		} catch (SQLException e) {
+			super.logger.error("PatientDao.getAllPatient() -> Error fetching patients : {0}", e);
+			throw new InternalServerErrorException("SQLException : " + e);
 		} finally {
 			databaseConfig.closeSQLTransaction(con, ps, rs);
 		}
@@ -139,13 +149,15 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 			ps.execute();
 			super.logger.info("PatientDao.updatePatient() -> Profile updated for patient : " + patient.getId());
 			return this.getPatientById(patient.getId());
-		} catch (Exception ex) {
-			super.logger.error("PatientDao.updatePatient() -> Error update patient", ex);
+		} catch (ClassNotFoundException e) {
+			super.logger.error("PatientDao.updatePatient() -> Error update patient : {0}", e);
+			throw new InternalServerErrorException("ClassNotFoundException : " + e);
+		} catch (SQLException e) {
+			super.logger.error("PatientDao.updatePatient() -> Error update patient : {0}", e);
+			throw new InternalServerErrorException("SQLException : " + e);
 		} finally {
 			databaseConfig.closeSQLTransaction(con, ps, null);
 		}
-
-		return null;
 	}
 
 	/**
@@ -174,12 +186,15 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 			ps.execute();
 			super.logger.info("PatientDao.createPatient() -> Profile created");
 			return this.getPatientById(super.getMaxId("patient"));
-		} catch (Exception ex) {
-			super.logger.error("PatientDao.createPatient() -> Error create new user", ex);
+		} catch (ClassNotFoundException e) {
+			super.logger.error("PatientDao.createPatient() -> Error create new user : {O}", e);
+			throw new InternalServerErrorException("ClassNotFoundException : " + e);
+		} catch (SQLException e) {
+			super.logger.error("PatientDao.createPatient() -> Error create new user : {O}", e);
+			throw new InternalServerErrorException("SQLException : " + e);
 		} finally {
 			databaseConfig.closeSQLTransaction(con, ps, null);
 		}
-		return null;
 	}
 
 	/**
@@ -223,8 +238,12 @@ public class PatientDAOImpl extends DaoManager implements PatientDAO {
 			if (result.size() <= 0) {
 				result = null;
 			}
-		} catch (Exception e) {
-			super.logger.error("PatientDao.searchPatients() -> Error fetching patients", e);
+		} catch (ClassNotFoundException e) {
+			super.logger.error("PatientDao.searchPatients() -> Error fetching patients : {O}", e);
+			throw new InternalServerErrorException("ClassNotFoundException : " + e);
+		} catch (SQLException e) {
+			super.logger.error("PatientDao.searchPatients() -> Error fetching patients : {O}", e);
+			throw new InternalServerErrorException("SQLException : " + e);
 		} finally {
 			databaseConfig.closeSQLTransaction(con, ps, rs);
 		}
