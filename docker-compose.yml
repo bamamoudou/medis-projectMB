@@ -31,7 +31,18 @@ services:
         command: [ "-f", "/etc/mongod.conf" ]
         networks:
               - mediscreen-network
-    #ems-eureka
+   # MongoDB - Data
+    mongo_db_data:
+        image: mongo:latest
+        container_name: mongo_db_data
+        volumes:
+            - ./dckr_database/mongodb/init/:/src/data/
+        command: ./src/data/import.sh 
+        depends_on:
+            - mongo_db
+        networks:
+            - mediscreen-network    
+ #ems-eureka
     ems-eureka:
         build: ./edge-microservices/ems-eureka/
         restart: always
