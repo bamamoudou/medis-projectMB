@@ -3,7 +3,7 @@ services:
     mysql_db:
         image: mysql:latest
         volumes:
-            - "./mediscreen-patient/src/main/resources/static/database/patient_data.sql:/docker-entrypoint-initdb.d/0_init.sql"
+            - "./ms-patientAdmin/src/main/resources/static/database/mediscreen_patientAdmin_database.sql:/docker-entrypoint-initdb.d/0_init.sql"
         restart: always
         ports:
             - "3306:3306"
@@ -16,19 +16,19 @@ services:
         networks:
             - mediscreen-network
 
-    #eureka
-    eureka-server:
-        build: ./edge-microservices/eureka-server/
+    #ems-eureka
+    ems-eureka:
+        build: ./EdgeMS/ems-eureka/
         restart: always
         ports: 
             - "9001:9001"
-        container_name: eureka-server
+        container_name: ems-eureka
         networks:
             - mediscreen-network
 
-    # zuul
-    zuul-server:
-        build: ./edge-microservices/zuul-server/
+    # ems-zuul
+    ems-zuul:
+        build: ./EdgeMS/ems-zuul/
         restart: always
         ports: 
             - "9002:9002"
@@ -36,13 +36,13 @@ services:
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
     
     #ems-admin
-    admin-service:
-        build: ./edge-microservices/admin-service/
+    ems-admin:
+        build: ./EdgeMS/ems-admin/
         restart: always
         ports: 
             - "9004:9004"
@@ -50,13 +50,13 @@ services:
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
 
-    #authentication
-    mediscreen-authentication:
-        build: ./mediscreen-authentication/
+    #ms-authentication
+    ms-authentication:
+        build: ./ms-authentication/
         restart: always
         ports: 
             - "8081:8081"
@@ -64,28 +64,28 @@ services:
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
 
-    #patient 
-    mediscreen-patient:
-        build: ./mediscreen-patient/
+    #ms-patientadmin 
+    ms-patientadmin:
+        build: ./ms-patientAdmin/
         restart: always
         ports: 
             - "8082:8082"
-        container_name: ms-patient
+        container_name: ms-patientadmin
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
-            - mediscreen-mediscreen-patient-db.host=mysql_db
+            - mediscreen-ms-patient-admin-db.host=mysql_db
         depends_on:
-            - eureka-server
+            - ems-eureka
             - mysql_db
         networks:
             - mediscreen-network
 
-  #clientui
-    mediscreen-clientui:
+  # ms-clientui
+    ms-clientui:
         build: ./ms-clientui/
         restart: always
         ports:
@@ -94,7 +94,7 @@ services:
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
 networks:
