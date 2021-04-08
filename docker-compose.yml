@@ -89,7 +89,7 @@ services:
         build: ./ms-clientui/
         restart: always
         ports:
-            - "8888:8888"
+            - "8080:8080"
         container_name: ms-clientui
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
