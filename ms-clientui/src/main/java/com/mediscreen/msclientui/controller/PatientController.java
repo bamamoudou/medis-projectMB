@@ -2,7 +2,8 @@ package com.mediscreen.msclientui.controller;
 
 import com.mediscreen.msclientui.interfaces.PatientServiceInterface;
 import com.mediscreen.msclientui.interfaces.SecurityServiceInterface;
-import com.mediscreen.msclientui.models.Patient;
+import com.mediscreen.msclientui.model.MedicalRecord;
+import com.mediscreen.msclientui.model.Patient;
 import com.mediscreen.msclientui.utils.ControllerUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

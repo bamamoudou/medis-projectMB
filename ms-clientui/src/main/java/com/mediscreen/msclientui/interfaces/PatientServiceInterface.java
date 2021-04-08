@@ -1,6 +1,6 @@
 package com.mediscreen.msclientui.interfaces;
 
-import com.mediscreen.msclientui.models.Patient;
+import com.mediscreen.msclientui.model.Patient;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpSession;

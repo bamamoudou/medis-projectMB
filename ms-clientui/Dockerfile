@@ -1,4 +1,4 @@
-FROM adoptopenjdk:11-jre-hotspot
+FROM openjdk:8-jdk-alpine
 VOLUME /tmp
-COPY ./target/*.jar app.jar
+COPY ./jar/*.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]

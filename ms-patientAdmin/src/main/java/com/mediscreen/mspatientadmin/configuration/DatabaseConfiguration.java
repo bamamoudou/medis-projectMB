@@ -54,6 +54,11 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
      */
     public DatabaseConfiguration(AppProperties appProperties) {
         this.appProperties = appProperties;
+        this.host = appProperties.getHost();
+        this.port = String.valueOf(appProperties.getPort());
+        this.database = appProperties.getDatabase();
+        this.user = appProperties.getUser();
+        this.password = appProperties.getPassword();
     }
 
     /**
@@ -61,11 +66,6 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
      */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        this.host = appProperties.getHost();
-        this.port = String.valueOf(appProperties.getPort());
-        this.database = appProperties.getDatabase();
-        this.user = appProperties.getUser();
-        this.password = appProperties.getPassword();
         if ((this.host == null) || (this.port == null) || (this.database == null) || (this.user == null) || (this.password == null)) {
             logger.error("Error fetching database properties");
             throw new NullPointerException("Error fetching database properties");

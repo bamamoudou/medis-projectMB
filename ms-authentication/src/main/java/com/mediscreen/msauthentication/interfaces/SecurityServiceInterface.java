@@ -1,7 +1,7 @@
 package com.mediscreen.msauthentication.interfaces;
 
-import com.mediscreen.msauthentication.models.Jwt;
-import com.mediscreen.msauthentication.models.Login;
+import com.mediscreen.msauthentication.model.Jwt;
+import com.mediscreen.msauthentication.model.Login;
 
 public interface SecurityServiceInterface {
     /**

@@ -2,9 +2,10 @@ package com.mediscreen.msclientui.service;
 
 import com.mediscreen.msclientui.exception.NotAllowedException;
 import com.mediscreen.msclientui.exception.NotFoundException;
+import com.mediscreen.msclientui.interfaces.MedicalRecordServiceInterface;
 import com.mediscreen.msclientui.interfaces.PatientServiceInterface;
 import com.mediscreen.msclientui.interfaces.SecurityServiceInterface;
-import com.mediscreen.msclientui.models.Patient;
+import com.mediscreen.msclientui.model.Patient;
 import com.mediscreen.msclientui.proxy.MSZuulProxy;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class PatientService implements PatientServiceInterface {
     @Autowired
     private SecurityServiceInterface securityService;
 
+    @Autowired
+    private MedicalRecordServiceInterface medicalRecordService;
+
     /**
      * @see PatientServiceInterface {@link #getAllPatients(HttpSession)}
      */
@@ -39,11 +43,7 @@ public class PatientService implements PatientServiceInterface {
      */
     @Override
     public List<Patient> searchPatient(HttpSession session, String search) {
-        if (!StringUtils.isBlank(search)) {
-            return msZuulProxy.searchPatients((String) session.getAttribute("token"), search);
-        } else {
-            return null;
-        }
+        return msZuulProxy.searchPatients((String) session.getAttribute("token"), search);
     }
 
     /**
@@ -51,7 +51,9 @@ public class PatientService implements PatientServiceInterface {
      */
     @Override
     public Patient getPatient(HttpSession session, int id) {
-        return msZuulProxy.msPatientAdmin_getPatient((String) session.getAttribute("token"), id);
+        Patient patient = msZuulProxy.msPatientAdmin_getPatient((String) session.getAttribute("token"), id);
+        patient.setMedicalRecordList(medicalRecordService.getAllPatientMedicalRecords(session, id));
+        return patient;
     }
 
     /**

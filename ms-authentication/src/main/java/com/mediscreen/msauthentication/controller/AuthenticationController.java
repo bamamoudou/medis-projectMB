@@ -1,8 +1,8 @@
 package com.mediscreen.msauthentication.controller;
 
 import com.mediscreen.msauthentication.interfaces.SecurityServiceInterface;
-import com.mediscreen.msauthentication.models.Jwt;
-import com.mediscreen.msauthentication.models.Login;
+import com.mediscreen.msauthentication.model.Jwt;
+import com.mediscreen.msauthentication.model.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

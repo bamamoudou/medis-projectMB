@@ -3,7 +3,7 @@ package com.mediscreen.msclientui.controller;
 import com.mediscreen.msclientui.exception.EmptyDataException;
 import com.mediscreen.msclientui.exception.NotAllowedException;
 import com.mediscreen.msclientui.interfaces.SecurityServiceInterface;
-import com.mediscreen.msclientui.models.Login;
+import com.mediscreen.msclientui.model.Login;
 import com.mediscreen.msclientui.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;

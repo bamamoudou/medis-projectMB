@@ -5,8 +5,8 @@ import com.mediscreen.msauthentication.exception.NotAllowedException;
 import com.mediscreen.msauthentication.exception.NotFoundException;
 import com.mediscreen.msauthentication.interfaces.SecurityServiceInterface;
 import com.mediscreen.msauthentication.interfaces.JwtServiceInterface;
-import com.mediscreen.msauthentication.models.Jwt;
-import com.mediscreen.msauthentication.models.Login;
+import com.mediscreen.msauthentication.model.Jwt;
+import com.mediscreen.msauthentication.model.Login;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
@@ -44,14 +44,16 @@ public class SecurityService implements SecurityServiceInterface {
      */
     public Jwt logUser(Login login) {
         if (appProperties.getUsername() != null &&
-            appProperties.getPassword() != null
+            appProperties.getPassword() != null &&
+            login.getUsername() != null &&
+            login.getPassword() != null
         ){
             if (appProperties.getUsername().equals(login.getUsername()) &&
                 passwordEncoder.matches(login.getPassword(), appProperties.getPassword())) {
                 UUID uuid = UUID.randomUUID();
                 Map<String, Object> claims = new HashMap<>();
                 claims.put("userID", uuid.toString());
-                claims.put("username", login.getPassword());
+                claims.put("username", login.getUsername());
                 Long time = (long) 60 * 60 * 24;
                 if (login.isRememberUser()) time *= 90;
                 return jwtServiceInterface.createJWT(uuid, "Login", "Mediscreen", claims, time);

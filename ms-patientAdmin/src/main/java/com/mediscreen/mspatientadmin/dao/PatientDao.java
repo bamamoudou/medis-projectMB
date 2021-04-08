@@ -3,7 +3,7 @@ package com.mediscreen.mspatientadmin.dao;
 import com.mediscreen.mspatientadmin.exception.InternalServerErrorException;
 import com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface;
 import com.mediscreen.mspatientadmin.interfaces.PatientDaoInterface;
-import com.mediscreen.mspatientadmin.models.Patient;
+import com.mediscreen.mspatientadmin.model.Patient;
 
 import java.sql.*;
 import java.util.ArrayList;

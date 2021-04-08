@@ -5,7 +5,7 @@
     <section class="main_section flex flex_column shdw_lv2 wdth_90 hght_100 mrg_auto oflow_hidden">
         <h1 class="wdth_100 txt_ctr mrg_0_auto txt_ltr-sp_2 txt_upp">Create patient</h1>
         <div class="main_section_subSection_ctn wdth_100">
-            <div id="patient-sheet-profile" class="main_section_subSection hght_50 block">
+            <div id="patient-sheet-profile" class="main_section_subSection hght_100 block">
                 <form class="form wdth_70" method="POST" th:object="${patient}" th:action="@{/patient/create}">
                     <p class="form_error_msg" th:text="${error} ?: ''"></p>
                     <div class="form_col_ctn flex flex_row flex_justify_sp-between wdth_100">

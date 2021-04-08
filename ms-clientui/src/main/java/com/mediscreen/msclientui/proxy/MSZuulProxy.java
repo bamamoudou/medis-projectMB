@@ -1,8 +1,9 @@
 package com.mediscreen.msclientui.proxy;
 
-import com.mediscreen.msclientui.models.Jwt;
-import com.mediscreen.msclientui.models.Login;
-import com.mediscreen.msclientui.models.Patient;
+import com.mediscreen.msclientui.model.Jwt;
+import com.mediscreen.msclientui.model.Login;
+import com.mediscreen.msclientui.model.MedicalRecord;
+import com.mediscreen.msclientui.model.Patient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +38,13 @@ public interface MSZuulProxy {
 
     @DeleteMapping("/ms-patientadmin/patient/delete/{id}")
     ResponseEntity<Void> msPatientAdmin_deletePatient(@RequestHeader("token") String token, @PathVariable int id);
+
+    @GetMapping("/ms-medicalrecord/medical-record/getAll/{id}")
+    List<MedicalRecord> msMedicalRecord_getAllPatientMedicalRecords(@RequestHeader("token") String token, @PathVariable int id);
+
+    @PostMapping("/ms-medicalrecord//medical-record/create")
+    ResponseEntity<MedicalRecord> msMedicalRecords_createMedicalRecord(@RequestHeader("token") String token, @Valid @RequestBody MedicalRecord medicalRecord);
+
+    @PutMapping("/ms-medicalrecord//medical-record/update")
+    ResponseEntity<MedicalRecord> msMedicalRecords_updateMedicalRecord(@RequestHeader("token") String token, @Valid @RequestBody MedicalRecord medicalRecord);
 }

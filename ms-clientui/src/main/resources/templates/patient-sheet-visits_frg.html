@@ -1,5 +1,45 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="patient-sheet-visits" id="patient-sheet-visits" class="main_section_subSection hght_100 none"></div>
+    <div th:fragment="patient-sheet-visits" id="patient-sheet-visits" class="main_section_subSection hght_100 none oflow_y_scroll oflow_x_hidden ">
+        <div class="visits_ctn flex flex_column flex_align_center mrg_auto wdth_50">
+            <form id="visit_form" class="form wdth_80" th:data-url="${'/medical-record/create/' + patient.getId()}">
+                <p id="form_error_msg" class="form_error_msg" th:text="${error} ?: ''"></p>
+                <div class="form_ipt_ctn_txt">
+                    <label class="from_ipt_label" for="doctorName">Doctor</label>
+                    <input type="text" placeholder="Dr. SMITH John" id="doctorName" class="form_ipt_txt txt_captz txt_ltr-sp_2">
+                </div>
+                <div class="form_ipt_ctn_txt">
+                    <label class="from_ipt_label" for="content">Content</label>
+                    <textarea placeholder="Visit content .." id="content" class="form_ipt_textarea txt_captz txt_ltr-sp_2"></textarea>
+                </div>
+                <div class="form_ipt_ctn_btns">
+                    <input type="reset" name="reset" class="from_ipt_btn btn color_grey69 bck_white txt_upp txt_ltr-sp_4" value="cancel">
+                    <input type="submit" name="submit" class="from_ipt_btn btn color_white bck_black txt_upp txt_ltr-sp_4" value="add">
+                </div>
+            </form>
+            <div th:each="medRecord : ${patient.medicalRecordList}" class="visit wdth_100 flex flex_row pos_relative" th:classappend="${medRecord.isActive()} ? active">
+                <div class="visit_info flex flex_column hght_100 wdth_35">
+                    <p class="visit_info_doctor txt_ltr-sp_2" th:text="'Dr. ' + ${medRecord.doctorName}"></p>
+                    <div class="visit_info_ctn" th:if="${medRecord.createDate != null}">
+                        <p class="color_black txt_ltr-sp_2 txt_upp">Date :</p>
+                        <p class="color_greyCA txt_ltr-sp_2" th:text="${#temporals.format(medRecord.createDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
+                    </div>
+                    <div class="visit_info_ctn" th:if="${medRecord.lastChangeDate != null}">
+                        <p class="color_black txt_ltr-sp_2 txt_upp">Last change :</p>
+                        <p class="color_greyCA txt_ltr-sp_2" th:text="${#temporals.format(medRecord.lastChangeDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
+                    </div>
+                </div>
+                <p class="visit_content hght_100 wdth_65 txt_ltr-sp_2" th:text="${medRecord.content}"></p>
+                <span th:data-id="${medRecord.getId()}" th:data-patient="${medRecord.getPatientId()}" th:data-active="${!medRecord.isActive()}" class="btn btn_active pos_absolute flex_center">
+                    <svg th:if="${medRecord.isActive()}" class="feather strk_red">
+                        <use th:href="@{/assets/icons/feather-sprite.svg#x}"/>
+                    </svg>
+                    <svg th:unless="${medRecord.isActive()}" class="feather strk_green">
+                        <use th:href="@{/assets/icons/feather-sprite.svg#check}"/>
+                    </svg>
+                </span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

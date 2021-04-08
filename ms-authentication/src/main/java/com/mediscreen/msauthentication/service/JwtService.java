@@ -3,7 +3,7 @@ package com.mediscreen.msauthentication.service;
 import com.mediscreen.msauthentication.configuration.AppProperties;
 import com.mediscreen.msauthentication.exception.NotAllowedException;
 import com.mediscreen.msauthentication.interfaces.JwtServiceInterface;
-import com.mediscreen.msauthentication.models.Jwt;
+import com.mediscreen.msauthentication.model.Jwt;
 import io.jsonwebtoken.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

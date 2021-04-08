@@ -1,9 +1,8 @@
 package com.mediscreen.msclientui.interfaces;
 
-import com.mediscreen.msclientui.models.Login;
+import com.mediscreen.msclientui.model.Login;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 public interface SecurityServiceInterface {
     /**

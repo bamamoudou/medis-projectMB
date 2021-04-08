@@ -3,7 +3,7 @@ package com.mediscreen.mspatientadmin.service;
 import com.mediscreen.mspatientadmin.exception.NotFoundException;
 import com.mediscreen.mspatientadmin.interfaces.PatientDaoInterface;
 import com.mediscreen.mspatientadmin.interfaces.PatientServiceInterface;
-import com.mediscreen.mspatientadmin.models.Patient;
+import com.mediscreen.mspatientadmin.model.Patient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

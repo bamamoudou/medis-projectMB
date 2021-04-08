@@ -1,6 +1,6 @@
 package com.mediscreen.msauthentication.interfaces;
 
-import com.mediscreen.msauthentication.models.Jwt;
+import com.mediscreen.msauthentication.model.Jwt;
 import io.jsonwebtoken.Claims;
 
 import java.util.Map;

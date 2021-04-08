@@ -94,11 +94,61 @@
         height: calc(100% - 100px - 80px);
     }
 
+    /* PROFILE */
     #patient-sheet-profile form, #patient-sheet-profile form .form_ipt_ctn_btns {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     #patient-sheet-profile form .form_ipt_ctn_btns .from_ipt_btn {
         width: 150px;
         margin: 0 10px;
+    }
+
+    /* VISITS */
+    #patient-sheet-visits .visits_ctn {
+        padding-top: 30px;
+    }
+
+    #patient-sheet-visits .visit {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        min-height: 150px;
+        border-bottom: 1px solid var(--color_greyE1);
+    }
+
+    #patient-sheet-visits .visit .visit_info, #patient-sheet-visits .visit .visit_content {
+        opacity: 0.4;
+    }
+
+    #patient-sheet-visits .visit.active .visit_info, #patient-sheet-visits .visit.active .visit_content {
+        opacity: 1;
+    }
+
+    #patient-sheet-visits .visit:last-child {
+        border: none;
+    }
+
+    #patient-sheet-visits .visit_info .visit_info_doctor {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    #patient-sheet-visits .visit_info .visit_info_ctn {
+        font-size: 10px;
+        margin-bottom: 5px;
+    }
+
+    #patient-sheet-visits .visit_content {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    #patient-sheet-visits form {
+        margin-bottom: 60px;
+    }
+
+    #patient-sheet-visits .visit .btn_active {
+        top: 50%;
+        right: -80px;
+        transform: translateY(-50%);
     }

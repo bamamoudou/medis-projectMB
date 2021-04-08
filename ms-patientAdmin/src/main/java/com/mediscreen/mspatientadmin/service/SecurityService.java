@@ -16,7 +16,18 @@ public class SecurityService implements SecurityServiceInterface {
     @Autowired
     private MSAuthenticationProxy msAuthenticationProxy;
 
+    /**
+     * Constructor
+     */
     public SecurityService() {
+    }
+
+    /**
+     * Constructor
+     * @param msAuthenticationProxy
+     */
+    public SecurityService(MSAuthenticationProxy msAuthenticationProxy) {
+        this.msAuthenticationProxy = msAuthenticationProxy;
     }
 
     /**

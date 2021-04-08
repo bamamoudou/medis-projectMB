@@ -1,7 +1,9 @@
 package com.mediscreen.msclientui.configuration;
 
+import com.mediscreen.msclientui.interfaces.MedicalRecordServiceInterface;
 import com.mediscreen.msclientui.interfaces.PatientServiceInterface;
 import com.mediscreen.msclientui.interfaces.SecurityServiceInterface;
+import com.mediscreen.msclientui.service.MedicalRecordService;
 import com.mediscreen.msclientui.service.PatientService;
 import com.mediscreen.msclientui.service.SecurityService;
 import com.mediscreen.msclientui.utils.ControllerUtils;
@@ -28,5 +30,10 @@ public class AppConfiguration {
     @Bean
     public PatientServiceInterface patientService() {
         return new PatientService();
+    }
+
+    @Bean
+    public MedicalRecordServiceInterface medicalRecordService(){
+        return new MedicalRecordService();
     }
 }
