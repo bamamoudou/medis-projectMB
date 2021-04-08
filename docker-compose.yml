@@ -18,7 +18,7 @@ services:
 
     #ems-eureka
     ems-eureka:
-        build: ./EdgeMS/ems-eureka/
+        build: ./edge-microservices/ems-eureka/
         restart: always
         ports: 
             - "9001:9001"
@@ -28,7 +28,7 @@ services:
 
     # ems-zuul
     ems-zuul:
-        build: ./EdgeMS/ems-zuul/
+        build: ./edge-microservices/ems-zuul/
         restart: always
         ports: 
             - "9002:9002"
@@ -42,7 +42,7 @@ services:
     
     #ems-admin
     ems-admin:
-        build: ./EdgeMS/ems-admin/
+        build: ./edge-microservices/ems-admin/
         restart: always
         ports: 
             - "9004:9004"
