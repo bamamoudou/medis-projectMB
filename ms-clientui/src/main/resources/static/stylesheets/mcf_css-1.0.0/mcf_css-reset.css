@@ -1,0 +1,14 @@
+/*! mcf_css v1.0.0 - Library - CSS3 */
+
+html, body, p, a,
+ol, ul, li, dl, dt, dd,
+blockquote, figure, fieldset, legend,
+textarea, pre, iframe,
+hr, h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0 }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal }
+ul { list-style: none }
+button, input, select, textarea { margin: 0 }
+textarea:focus, input:focus{ outline: none; }
+button { border: none; cursor: pointer; }
+a { cursor: pointer; text-decoration: none; color: #000000; }
+textarea, input { border: none; background: none; }
