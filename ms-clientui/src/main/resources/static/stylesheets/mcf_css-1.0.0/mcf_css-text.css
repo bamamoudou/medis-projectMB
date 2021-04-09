@@ -1,0 +1,88 @@
+/*! mcf_css v1.0.0 - Library - CSS3 */
+
+h1 { /* CODE */ }
+
+h2 { /* CODE */ }
+
+h3 { /* CODE */ }
+
+h4 { /* CODE */ }
+
+h5 { /* CODE */ }
+
+h6 { /* CODE */ }
+
+mark { /* CODE */ }
+
+del { /* CODE */ }
+
+s { /* CODE */ }
+
+ins { /* CODE */ }
+
+u { /* CODE */ }
+
+small { /* CODE */ }
+
+strong { /* CODE */ }
+
+em { /* CODE */ }
+
+abbr { /* CODE */ }
+
+blockquote { /* CODE */ }
+
+figcaption { /* CODE */ }
+
+cite  { /* CODE */ }
+
+ul { /* CODE */ }
+
+ol { /* CODE */ }
+
+li { /* CODE */ }
+
+.title { /* CODE */ }
+
+.sub_title { /* CODE */ }
+
+.txt_upp { text-transform: uppercase; }
+.txt_low { text-transform: lowercase; }
+.txt_udrline { text-decoration: underline; }
+.txt_unset { text-decoration: unset; }
+.txt_captz { text-transform: capitalize; }
+.txt_ctr { text-align: center; }
+.txt_right { text-align: right; }
+.txt_left { text-align: left; }
+.txt_justify { text-align: justify; }
+.txt_bold { font-weight: bold; }
+.txt_light { font-weight: lighter; }
+.txt_italic { font-style: italic; }
+.txt_oblique { font-style: oblique; }
+.txt_revert { font-style: revert; }
+.txt_ltr-sp_1 { letter-spacing: 1px; }
+.txt_ltr-sp_2 { letter-spacing: 2px; }
+.txt_ltr-sp_3 { letter-spacing: 3px; }
+.txt_ltr-sp_4 { letter-spacing: 4px; }
+.txt_ltr-sp_5 { letter-spacing: 5px; }
+.txt_ltr-sp_10 { letter-spacing: 10px; }
+.txt_wrd-sp_1 { word-spacing: 1px; }
+.txt_wrd-sp_2 { word-spacing: 2px; }
+.txt_wrd-sp_3 { word-spacing: 3px; }
+.txt_wrd-sp_4 { word-spacing: 4px; }
+.txt_wrd-sp_5 { word-spacing: 5px; }
+.txt_wrd-sp_10 { word-spacing: 10px; }
+.txt_wrd_wrap_initial { word-wrap: initial; }
+.txt_wrd_wrap_anywhere { word-wrap: anywhere; }
+.txt_wrd_wrap_br-word { word-wrap: break-word; }
+.txt_wrd_wrap_normal { word-wrap: normal; }
+.txt_wrd_wrap_inherit { word-wrap: inherit; }
+.txt_wrd_wrap_revert { word-wrap: revert; }
+.txt_wrd_wrap_unset { word-wrap: unset; }
+.txt_txt_wrap_unset { text-wrap: unset; }
+.txt_txt_wrap_revert { text-wrap: revert; }
+.txt_txt_wrap_inherit{ text-wrap: inherit; }
+.txt_txt_wrap_initial { text-wrap: initial; }
+.txt_txt_wrap_normal { text-wrap: normal; }
+.txt_txt_wrap_avoid { text-wrap: avoid; }
+.txt_txt_wrap_none { text-wrap: none; }

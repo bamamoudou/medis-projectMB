@@ -1,0 +1,29 @@
+.main_content {
+    margin-bottom: 50px;
+    height: calc(100% - var(--mainHeaderHeight) - 50px);
+}
+
+.main_section {
+    padding: 25px 25px 0px 25px;
+    height: calc(100% - 25px);
+    width: calc(90% - 50px);
+}
+
+.main_section h1 {
+    font-size: 20px;
+    margin: 30px 0;
+}
+
+/* SECTIONS */
+.main_section_subSection_ctn {
+    height: calc(100% - 80px);
+}
+
+#patient-sheet-profile form, #patient-sheet-profile form .form_ipt_ctn_btns {
+    margin-top: 50px;
+}
+
+#patient-sheet-profile form .form_ipt_ctn_btns .from_ipt_btn {
+    width: 150px;
+    margin: 0 10px;
+}

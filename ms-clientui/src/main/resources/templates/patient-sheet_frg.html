@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="patient-sheet">
+    <header th:replace="header_frg :: main_header"></header>
+    <main class="main_content">
+        <section class="main_section flex flex_column shdw_lv2 wdth_90 hght_100 mrg_auto">
+            <header class="main_section_header flex flex_row flex_align_center wdth_100">
+                <a th:href="@{/search}" class="btn_back flex_center wdth_5 hght_100">
+                    <svg class="icon feather strk_black">
+                        <use th:href="@{/assets/icons/feather-sprite.svg#chevron-left}"/>
+                    </svg>
+                </a>
+                <div class="patient_imgProfile flex_center oflow_hidden shdw_lv2">
+                    <img th:if="${patient.getProfilePictureExt() != null}" th:src="@{'/assets/profilePicture/' + ${patient.getId()} + '_' + ${patient.getFirstname()} + '_' + ${patient.getLastname()} + ${patient.getProfilePictureExt()}}" alt="profile_pct" class="wdth_100">
+                    <img th:unless="${patient.getProfilePictureExt() != null}" th:src="@{/assets/icons/user.svg}" class="wdth_100">
+                </div>
+                <div class="patient_name flex flex_row flex_align_center wdth_20 hght_100">
+                    <p th:text="${patient.getLastname()}" class="patient_name_lastname txt_upp txt_ltr-sp_2"></p>
+                    <p th:text="${patient.getFirstname()}" class="patient_name_firstname txt_captz txt_ltr-sp_2"></p>
+                </div>
+                <div class="patient_contact flex flex_column flex_justify_center flex_align_start wdth_25 hght_100">
+                    <p class="patient_contact_mail txt_ltr-sp_2" th:text="${patient.getEmail()}"></p>
+                    <p class="patient_contact_phone txt_ltr-sp_2 color_grey96" th:text="${patient.getPhone()}"></p>
+                </div>
+                <div class="patient_visits flex flex_column flex_justify_center flex_align_start wdth_25 hght_100">
+                    <p th:if="${patient.medicalRecordList.size() != null && patient.medicalRecordList.size() > 0}" class="txt_captz txt_ltr-sp_2" th:text="'last visit : ' + ${#temporals.format(patient.medicalRecordList[0].createDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
+                    <p class="txt_captz txt_ltr-sp_2 opacity_0"></p>
+                </div>
+                <div th:switch="${patient.medicalReport.result.name}" class="patient_reportResume flex flex_row flex_align_center flex_justify_end wdth_20 hght_100">
+                    <span th:case="${'NONE'}" class="reportValue txt_upp brd_green color_green" th:text="${patient.medicalReport.result.lib}"></span>
+                    <span th:case="${'BORDERLINE'}" class="reportValue txt_upp brd_yellow color_yellow" th:text="${patient.medicalReport.result.lib}"></span>
+                    <span th:case="${'IN_DANGER'}" class="reportValue txt_upp brd_orange color_orange" th:text="${patient.medicalReport.result.lib}"></span>
+                    <span th:case="${'EARLY_ONSET'}" class="reportValue txt_upp brd_red color_red" th:text="${patient.medicalReport.result.lib}"></span>
+                </div>
+            </header>
+            <nav class="main_section_nav flex_center flex_row wdth_100">
+                <div class="btn btn_tab flex_center active" data-btn-target-id="#patient-sheet-profile" data-btn-target-class=".main_section_subSection">
+                    <svg class="icon feather strk_black">
+                        <use th:href="@{/assets/icons/feather-sprite.svg#user}"/>
+                    </svg>
+                    <p class="btn_label txt_upp txt_ltr-sp_2">profile</p>
+                </div>
+                <div class="btn btn_tab flex_center" data-btn-target-id="#patient-sheet-visits" data-btn-target-class=".main_section_subSection">
+                    <svg class="icon feather strk_black">
+                        <use th:href="@{/assets/icons/feather-sprite.svg#clock}"/>
+                    </svg>
+                    <p class="btn_label txt_upp txt_ltr-sp_2">visits</p>
+                </div>
+                <div class="btn btn_tab flex_center" data-btn-target-id="#patient-sheet-report" data-btn-target-class=".main_section_subSection">
+                    <svg class="icon feather strk_black">
+                        <use th:href="@{/assets/icons/feather-sprite.svg#file-text}"/>
+                    </svg>
+                    <p class="btn_label txt_upp txt_ltr-sp_2">report</p>
+                </div>
+            </nav>
+            <div class="main_section_subSection_ctn wdth_100">
+                <div th:replace="patient-sheet-profile_frg :: patient-sheet-profile"></div>
+                <div th:replace="patient-sheet-visits_frg :: patient-sheet-visits"></div>
+                <div th:replace="patient-sheet-report_frg :: patient-sheet-report"></div>
+            </div>
+        </section>
+    </main>
+    <footer th:replace="footer_frg :: main_footer"></footer>
+</body>
+</html>

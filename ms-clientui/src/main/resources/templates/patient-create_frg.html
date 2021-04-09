@@ -1,0 +1,60 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="patient-sheet">
+<header th:replace="header_frg :: main_header"></header>
+<main class="main_content">
+    <section class="main_section flex flex_column shdw_lv2 wdth_90 hght_100 mrg_auto oflow_hidden">
+        <h1 class="wdth_100 txt_ctr mrg_0_auto txt_ltr-sp_2 txt_upp">Create patient</h1>
+        <div class="main_section_subSection_ctn wdth_100">
+            <div id="patient-sheet-profile" class="main_section_subSection hght_100 block">
+                <form class="form wdth_70" method="POST" th:object="${patient}" th:action="@{/patient/create}">
+                    <p class="form_error_msg" th:text="${error} ?: ''"></p>
+                    <div class="form_col_ctn flex flex_row flex_justify_sp-between wdth_100">
+                        <div class="form_col wdth_45">
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="firstname">Firstname</label>
+                                <input type="text" th:field="*{firstname}" placeholder="john" name="firstname" id="firstname" th:value="${patient.getFirstname()}" class="form_ipt_txt txt_captz txt_ltr-sp_2">
+                            </div>
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="lastname">Lastname</label>
+                                <input type="text" th:field="*{lastname}" placeholder="smith" name="lastname" id="lastname" th:value="${patient.getLastname()}" class="form_ipt_txt txt_captz txt_ltr-sp_2">
+                            </div>
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="birthday">Birthday</label>
+                                <input type="date" th:field="*{birthday}" placeholder="YYYY-MM-DD" name="birthday" id="birthday" th:value="${patient.getBirthday()}" class="form_ipt_txt txt_ltr-sp_2">
+                            </div>
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="sexe">Sexe</label>
+                                <input type="text" th:field="*{sexe}" placeholder="M / F" name="sexe" id="sexe" th:value="${patient.getSexe()}" maxlength="1" class="form_ipt_txt txt_ltr-sp_2">
+                            </div>
+                        </div>
+                        <div class="form_col wdth_45">
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="address">Address</label>
+                                <input type="text" th:field="*{address}" placeholder="75 Halifax Street Bronx, NY 10466" name="address" id="address" th:value="${patient.getAddress()}" class="form_ipt_txt txt_ltr-sp_2">
+                            </div>
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="email">email</label>
+                                <input type="text" th:field="*{email}" placeholder="john.smith@email.com" name="email" id="email" th:value="${patient.getEmail()}" class="form_ipt_txt txt_ltr-sp_2">
+                            </div>
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="phone">Phone</label>
+                                <input type="text" th:field="*{phone}" placeholder="000-000-000" name="phone" id="phone" th:value="${patient.getPhone()}" class="form_ipt_txt txt_ltr-sp_2">
+                            </div>
+                            <div class="form_ipt_ctn_txt">
+                                <label class="from_ipt_label" for="country">Country</label>
+                                <input type="text" th:field="*{country}" placeholder="United States of America" name="country" id="country" th:value="${patient.getCountry()}" class="form_ipt_txt txt_ltr-sp_2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form_ipt_ctn_btns">
+                        <a th:href="@{/search}" class="from_ipt_btn btn color_grey69 bck_white txt_upp txt_ltr-sp_4">cancel</a>
+                        <input type="submit" name="submit" class="from_ipt_btn btn color_white bck_black txt_upp txt_ltr-sp_4" value="apply">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="footer_frg :: main_footer"></footer>
+</body>
+</html>
