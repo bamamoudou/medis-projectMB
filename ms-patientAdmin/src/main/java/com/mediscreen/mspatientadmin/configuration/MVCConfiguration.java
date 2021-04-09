@@ -6,8 +6,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MVCConfiguration implements WebMvcConfigurer {
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        // No views
-    }
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		// No views
+	}
 }

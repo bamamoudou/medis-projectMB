@@ -1,39 +1,39 @@
 package com.mediscreen.mspatientadmin.configuration;
 
-import com.mediscreen.mspatientadmin.dao.PatientDao;
-import com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface;
-import com.mediscreen.mspatientadmin.interfaces.PatientDaoInterface;
-import com.mediscreen.mspatientadmin.interfaces.PatientServiceInterface;
-import com.mediscreen.mspatientadmin.interfaces.SecurityServiceInterface;
+import com.mediscreen.mspatientadmin.dao.PatientDaoImpl;
 import com.mediscreen.mspatientadmin.service.PatientService;
 import com.mediscreen.mspatientadmin.service.SecurityService;
+import com.mediscreen.mspatientadmin.dao.PatientDao;
+import com.mediscreen.mspatientadmin.serviceImpl.PatientServiceImpl;
+import com.mediscreen.mspatientadmin.serviceImpl.SecurityServiceImpl;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfiguration {
-    @Bean
-    public AppProperties applicationProperties(){
-        return new AppProperties();
-    }
+	@Bean
+	public AppProperties applicationProperties() {
+		return new AppProperties();
+	}
 
-    @Bean
-    public DatabaseConfigurationInterface databaseConfiguration() {
-        return new DatabaseConfiguration(applicationProperties());
-    }
+	@Bean
+	public DatabaseConfigurationInterface databaseConfiguration() {
+		return new DatabaseConfiguration(applicationProperties());
+	}
 
-    @Bean
-    public PatientDaoInterface patientDao(){
-        return new PatientDao(databaseConfiguration());
-    }
+	@Bean
+	public PatientDao patientDao() {
+		return new PatientDaoImpl(databaseConfiguration());
+	}
 
-    @Bean
-    public PatientServiceInterface patientService() {
-        return new PatientService(patientDao());
-    }
+	@Bean
+	public PatientService patientService() {
+		return new PatientServiceImpl(patientDao());
+	}
 
-    @Bean
-    public SecurityServiceInterface securityService() {
-        return new SecurityService();
-    }
+	@Bean
+	public SecurityService securityService() {
+		return new SecurityServiceImpl();
+	}
 }

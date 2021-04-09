@@ -1,39 +1,39 @@
 package com.mediscreen.msmedicalrecord.configuration;
 
-import com.mediscreen.msmedicalrecord.dao.MedicalRecordDao;
-import com.mediscreen.msmedicalrecord.interfaces.DatabaseConfigurationInterface;
-import com.mediscreen.msmedicalrecord.interfaces.MedicalRecordDaoInterface;
-import com.mediscreen.msmedicalrecord.interfaces.MedicalRecordServiceInterface;
-import com.mediscreen.msmedicalrecord.interfaces.SecurityServiceInterface;
-import com.mediscreen.msmedicalrecord.service.MedicalRecordService;
-import com.mediscreen.msmedicalrecord.service.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.mediscreen.msmedicalrecord.dao.MedicalRecordDaoImpl;
+import com.mediscreen.msmedicalrecord.service.MedicalRecordService;
+import com.mediscreen.msmedicalrecord.service.SecurityService;
+import com.mediscreen.msmedicalrecord.dao.MedicalRecordDao;
+import com.mediscreen.msmedicalrecord.serviceImpl.MedicalRecordServiceImpl;
+import com.mediscreen.msmedicalrecord.serviceImpl.SecurityServiceImpl;
+
 @Configuration
 public class AppConfiguration {
-    @Bean
-    public AppProperties appProperties(){
-        return new AppProperties();
-    }
+	@Bean
+	public AppProperties appProperties() {
+		return new AppProperties();
+	}
 
-    @Bean
-    public SecurityServiceInterface securityService() {
-        return new SecurityService();
-    }
+	@Bean
+	public SecurityService securityService() {
+		return new SecurityServiceImpl();
+	}
 
-    @Bean
-    public DatabaseConfigurationInterface databaseConfiguration(){
-        return new DatabaseConfiguration(appProperties());
-    }
+	@Bean
+	public DatabaseConfigurationInterface databaseConfiguration() {
+		return new DatabaseConfiguration(appProperties());
+	}
 
-    @Bean
-    public MedicalRecordDaoInterface medicalRecordDao(){
-        return new MedicalRecordDao(databaseConfiguration());
-    }
+	@Bean
+	public MedicalRecordDao medicalRecordDao() {
+		return new MedicalRecordDaoImpl(databaseConfiguration());
+	}
 
-    @Bean
-    public MedicalRecordServiceInterface medicalRecordService(){
-        return new MedicalRecordService(medicalRecordDao());
-    }
+	@Bean
+	public MedicalRecordService medicalRecordService() {
+		return new MedicalRecordServiceImpl(medicalRecordDao());
+	}
 }

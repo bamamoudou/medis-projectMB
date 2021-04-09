@@ -1,9 +1,9 @@
-package com.mediscreen.msauthentication.interfaces;
+package com.mediscreen.msauthentication.services;
 
 import com.mediscreen.msauthentication.model.Jwt;
 import com.mediscreen.msauthentication.model.Login;
 
-public interface SecurityServiceInterface {
+public interface SecurityService {
     /**
      * Log user
      * @param login

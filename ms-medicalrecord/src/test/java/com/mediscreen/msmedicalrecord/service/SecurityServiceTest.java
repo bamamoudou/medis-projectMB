@@ -3,6 +3,8 @@ package com.mediscreen.msmedicalrecord.service;
 import com.mediscreen.msmedicalrecord.exception.EmptyDataException;
 import com.mediscreen.msmedicalrecord.exception.NotAllowedException;
 import com.mediscreen.msmedicalrecord.proxy.MSZuulProxy;
+import com.mediscreen.msmedicalrecord.serviceImpl.SecurityServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -18,27 +20,29 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SecurityServiceTest {
-    private SecurityService securityService;
+	private SecurityServiceImpl securityService;
 
-    @Mock
-    private static MSZuulProxy msZuulProxy;
+	@Mock
+	private static MSZuulProxy msZuulProxy;
 
-    @BeforeEach
-    void init_test(){
-        securityService = new SecurityService(msZuulProxy);
-    }
+	@BeforeEach
+	void init_test() {
+		securityService = new SecurityServiceImpl(msZuulProxy);
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void authenticationCheck_test_emptyToken(){
-        assertThatExceptionOfType(EmptyDataException.class).isThrownBy(() -> securityService.authenticationCheck(""));
-        assertThatExceptionOfType(EmptyDataException.class).isThrownBy(() -> securityService.authenticationCheck(null));
-    }
+	@Tag("SecurityServiceTest")
+	@Test
+	void authenticationCheck_test_emptyToken() {
+		assertThatExceptionOfType(EmptyDataException.class).isThrownBy(() -> securityService.authenticationCheck(""));
+		assertThatExceptionOfType(EmptyDataException.class).isThrownBy(() -> securityService.authenticationCheck(null));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void authenticationCheck_test_permissionDenied(){
-        when(msZuulProxy.msAuthentication_validateToken(anyString())).thenReturn(new ResponseEntity<>(HttpStatus.FORBIDDEN));
-        assertThatExceptionOfType(NotAllowedException.class).isThrownBy(() -> securityService.authenticationCheck("token"));
-    }
+	@Tag("SecurityServiceTest")
+	@Test
+	void authenticationCheck_test_permissionDenied() {
+		when(msZuulProxy.msAuthenticationValidateToken(anyString()))
+				.thenReturn(new ResponseEntity<>(HttpStatus.FORBIDDEN));
+		assertThatExceptionOfType(NotAllowedException.class)
+				.isThrownBy(() -> securityService.authenticationCheck("token"));
+	}
 }

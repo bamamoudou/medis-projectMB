@@ -1,4 +1,4 @@
-package com.mediscreen.msauthentication.interfaces;
+package com.mediscreen.msauthentication.services;
 
 import com.mediscreen.msauthentication.model.Jwt;
 import io.jsonwebtoken.Claims;
@@ -6,7 +6,7 @@ import io.jsonwebtoken.Claims;
 import java.util.Map;
 import java.util.UUID;
 
-public interface JwtServiceInterface {
+public interface JwtService {
     /**
      * Create JWT
      * @param id

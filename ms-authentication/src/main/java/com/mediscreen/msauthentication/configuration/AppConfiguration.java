@@ -1,9 +1,10 @@
 package com.mediscreen.msauthentication.configuration;
 
-import com.mediscreen.msauthentication.interfaces.SecurityServiceInterface;
-import com.mediscreen.msauthentication.interfaces.JwtServiceInterface;
-import com.mediscreen.msauthentication.service.SecurityService;
-import com.mediscreen.msauthentication.service.JwtService;
+import com.mediscreen.msauthentication.serviceImpl.JwtServiceImpl;
+import com.mediscreen.msauthentication.serviceImpl.SecurityServiceImpl;
+import com.mediscreen.msauthentication.services.JwtService;
+import com.mediscreen.msauthentication.services.SecurityService;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,12 +17,12 @@ public class AppConfiguration {
     }
 
     @Bean
-    public JwtServiceInterface tokenService(){
-        return new JwtService(applicationProperties());
+    public JwtServiceImpl tokenService(){
+        return new JwtServiceImpl(applicationProperties());
     }
 
     @Bean
-    public SecurityServiceInterface serviceInterface(){
-        return new SecurityService(tokenService(), new BCryptPasswordEncoder(), applicationProperties());
+    public SecurityServiceImpl serviceInterface(){
+        return new SecurityServiceImpl(tokenService(), new BCryptPasswordEncoder(), applicationProperties());
     }
 }

@@ -6,6 +6,9 @@ import com.mediscreen.msauthentication.exception.NotAllowedException;
 import com.mediscreen.msauthentication.exception.NotFoundException;
 import com.mediscreen.msauthentication.model.Jwt;
 import com.mediscreen.msauthentication.model.Login;
+import com.mediscreen.msauthentication.serviceImpl.JwtServiceImpl;
+import com.mediscreen.msauthentication.serviceImpl.SecurityServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,111 +29,106 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SecurityServiceTest {
-    private String token = JWTTest.token;
-    private String wrongToken = JWTTest.wrongToken;
+	private String token = JWTTest.token;
+	private String wrongToken = JWTTest.wrongToken;
 
-    private Login login;
+	private Login login;
 
-    @Mock
-    private static JwtService jwtService;
+	@Mock
+	private static JwtServiceImpl jwtService;
 
-    @Mock
-    private static AppProperties appProperties;
+	@Mock
+	private static AppProperties appProperties;
 
-    private SecurityService securityService;
+	private SecurityServiceImpl securityService;
 
-    @BeforeEach
-    void init_test(){
-        securityService = new SecurityService(jwtService, new BCryptPasswordEncoder(), appProperties);
+	@BeforeEach
+	void init_test() {
+		securityService = new SecurityServiceImpl(jwtService, new BCryptPasswordEncoder(), appProperties);
 
-        login = new Login("username", "password", false);
-    }
+		login = new Login("username", "password", false);
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void isLog_test() {
-        when(jwtService.parseJWT(token)).thenReturn(JWTTest.claims);
-        when(jwtService.parseJWT(wrongToken)).thenReturn(null);
+	@Tag("SecurityServiceTest")
+	@Test
+	void isLog_test() {
+		when(jwtService.parseJWT(token)).thenReturn(JWTTest.claims);
+		when(jwtService.parseJWT(wrongToken)).thenReturn(null);
 
-        assertThat(securityService.isLog(token)).isTrue();
-        assertThat(securityService.isLog(wrongToken)).isFalse();
-    }
+		assertThat(securityService.isLog(token)).isTrue();
+		assertThat(securityService.isLog(wrongToken)).isFalse();
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test_appPropertiesEmpty_username(){
-        when(appProperties.getUsername()).thenReturn("username");
-        when(appProperties.getPassword()).thenReturn(null);
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test_appPropertiesEmpty_username() {
+		when(appProperties.getUsername()).thenReturn("username");
+		when(appProperties.getPassword()).thenReturn(null);
 
-        assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
-    }
+		assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test_appPropertiesEmpty_password(){
-        when(appProperties.getUsername()).thenReturn(null);
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test_appPropertiesEmpty_password() {
+		when(appProperties.getUsername()).thenReturn(null);
 
-        assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
-    }
+		assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test_loginEmpty_username(){
-        when(appProperties.getUsername()).thenReturn("username");
-        when(appProperties.getPassword()).thenReturn("password");
-        login.setUsername(null);
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test_loginEmpty_username() {
+		when(appProperties.getUsername()).thenReturn("username");
+		when(appProperties.getPassword()).thenReturn("password");
+		login.setUsername(null);
 
-        assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
-    }
+		assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test_loginEmpty_password(){
-        when(appProperties.getUsername()).thenReturn("username");
-        when(appProperties.getPassword()).thenReturn("password");
-        login.setPassword(null);
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test_loginEmpty_password() {
+		when(appProperties.getUsername()).thenReturn("username");
+		when(appProperties.getPassword()).thenReturn("password");
+		login.setPassword(null);
 
-        assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
-    }
+		assertThatExceptionOfType(NotFoundException.class).isThrownBy(() -> securityService.logUser(login));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test_WrongUsername(){
-        when(appProperties.getUsername()).thenReturn("username");
-        when(appProperties.getPassword()).thenReturn("password");
-        login.setUsername("wrongUsername");
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test_WrongUsername() {
+		when(appProperties.getUsername()).thenReturn("username");
+		when(appProperties.getPassword()).thenReturn("password");
+		login.setUsername("wrongUsername");
 
-        assertThatExceptionOfType(NotAllowedException.class).isThrownBy(() -> securityService.logUser(login));
-    }
+		assertThatExceptionOfType(NotAllowedException.class).isThrownBy(() -> securityService.logUser(login));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test_WrongPassword(){
-        when(appProperties.getUsername()).thenReturn("username");
-        when(appProperties.getPassword()).thenReturn("$2a$10$gm7I1D4XJ8hBIQxScnSwqelQfNKPnm/ifw7FXcsn4kTDxBsBFtyza");
-        login.setPassword("wrongPassword");
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test_WrongPassword() {
+		when(appProperties.getUsername()).thenReturn("username");
+		when(appProperties.getPassword()).thenReturn("$2a$10$gm7I1D4XJ8hBIQxScnSwqelQfNKPnm/ifw7FXcsn4kTDxBsBFtyza");
+		login.setPassword("wrongPassword");
 
-        assertThatExceptionOfType(NotAllowedException.class).isThrownBy(() -> securityService.logUser(login));
-    }
+		assertThatExceptionOfType(NotAllowedException.class).isThrownBy(() -> securityService.logUser(login));
+	}
 
-    @Tag("SecurityServiceTest")
-    @Test
-    void logUser_test(){
-        when(appProperties.getUsername()).thenReturn("username");
-        when(appProperties.getPassword()).thenReturn("$2a$10$gm7I1D4XJ8hBIQxScnSwqelQfNKPnm/ifw7FXcsn4kTDxBsBFtyza");
-        when(jwtService.createJWT(
-                any(UUID.class),
-                anyString(),
-                anyString(),
-                any(Map.class),
-                any(Long.class)
-        )).thenReturn(new Jwt(JWTTest.token, LocalDateTime.now(), LocalDateTime.now()));
+	@Tag("SecurityServiceTest")
+	@Test
+	void logUser_test() {
+		when(appProperties.getUsername()).thenReturn("username");
+		when(appProperties.getPassword()).thenReturn("$2a$10$gm7I1D4XJ8hBIQxScnSwqelQfNKPnm/ifw7FXcsn4kTDxBsBFtyza");
+		when(jwtService.createJWT(any(UUID.class), anyString(), anyString(), any(Map.class), any(Long.class)))
+				.thenReturn(new Jwt(JWTTest.token, LocalDateTime.now(), LocalDateTime.now()));
 
-        Jwt generateJwt = securityService.logUser(login);
-        assertThat(generateJwt.getGenerationDate()).isNotNull();
-        assertThat(generateJwt.getExpirationDate()).isNotNull();
-        assertThat(generateJwt.getExpirationDate()).isAfterOrEqualTo(generateJwt.getGenerationDate());
-        assertThat(generateJwt.getToken()).isNotNull();
-        assertThat(generateJwt.getToken()).isNotBlank();
-    }
+		Jwt generateJwt = securityService.logUser(login);
+		assertThat(generateJwt.getGenerationDate()).isNotNull();
+		assertThat(generateJwt.getExpirationDate()).isNotNull();
+		assertThat(generateJwt.getExpirationDate()).isAfterOrEqualTo(generateJwt.getGenerationDate());
+		assertThat(generateJwt.getToken()).isNotNull();
+		assertThat(generateJwt.getToken()).isNotBlank();
+	}
 }

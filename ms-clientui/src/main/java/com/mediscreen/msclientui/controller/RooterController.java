@@ -1,7 +1,7 @@
 package com.mediscreen.msclientui.controller;
 
 import com.mediscreen.msclientui.configuration.AppProperties;
-import com.mediscreen.msclientui.interfaces.SecurityServiceInterface;
+import com.mediscreen.msclientui.service.SecurityService;
 import com.mediscreen.msclientui.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -17,38 +17,38 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class RooterController implements ErrorController {
 
-    @Autowired
-    private ControllerUtils controllerUtils;
+	@Autowired
+	private ControllerUtils controllerUtils;
 
-    @Autowired
-    private SecurityServiceInterface securityService;
+	@Autowired
+	private SecurityService securityService;
 
-    @Autowired
-    private AppProperties appProperties;
+	@Autowired
+	private AppProperties appProperties;
 
-    @Override
-    public String getErrorPath() {
-        return "/error";
-    }
+	@Override
+	public String getErrorPath() {
+		return "/error";
+	}
 
-    @GetMapping("/")
-    public ModelAndView root(HttpSession session) {
-        if (securityService.isLog(session)) {
-            return controllerUtils.doRedirect(appProperties.getDefaultUrl());
-        } else {
-            return controllerUtils.loginRedirect();
-        }
-    }
+	@GetMapping("/")
+	public ModelAndView root(HttpSession session) {
+		if (securityService.isLog(session)) {
+			return controllerUtils.doRedirect(appProperties.getDefaultUrl());
+		} else {
+			return controllerUtils.loginRedirect();
+		}
+	}
 
-    @GetMapping("/error")
-    public ModelAndView handleError(HttpSession session, HttpServletRequest request) {
-        ModelMap model = new ModelMap();
-        model.addAttribute("page", "error");
-        model.addAttribute("error_code", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
-        model.addAttribute("error_msg", request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
-        model.addAttribute("error_exp", request.getAttribute(RequestDispatcher.ERROR_EXCEPTION));
-        model.addAttribute("isLogin", securityService.isLog(session));
+	@GetMapping("/error")
+	public ModelAndView handleError(HttpSession session, HttpServletRequest request) {
+		ModelMap model = new ModelMap();
+		model.addAttribute("page", "error");
+		model.addAttribute("error_code", request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+		model.addAttribute("error_msg", request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
+		model.addAttribute("error_exp", request.getAttribute(RequestDispatcher.ERROR_EXCEPTION));
+		model.addAttribute("isLogin", securityService.isLog(session));
 
-        return new ModelAndView("template" , model);
-    }
+		return new ModelAndView("template", model);
+	}
 }
