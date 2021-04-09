@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ../../edge-microservices/ems-eureka
+cd ./edge-microservices/ems-eureka
 ./build.sh
 
 cd ../../edge-microservices/ems-zuul
