@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MedicalRecordService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-medicalRecord</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msmedicalrecord.service</a> &gt; <span class="el_source">MedicalRecordService.java</span></div><h1>MedicalRecordService.java</h1><pre class="source lang-java linenums">package com.mediscreen.msmedicalrecord.service;
+
+import com.mediscreen.msmedicalrecord.exception.NotFoundException;
+import com.mediscreen.msmedicalrecord.interfaces.MedicalRecordDaoInterface;
+import com.mediscreen.msmedicalrecord.interfaces.MedicalRecordServiceInterface;
+import com.mediscreen.msmedicalrecord.model.MedicalRecord;
+import com.mediscreen.msmedicalrecord.model.Patient;
+import com.mediscreen.msmedicalrecord.proxy.MSZuulProxy;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+public class MedicalRecordService implements MedicalRecordServiceInterface {
+    /**
+     * Logger log4j2
+     */
+<span class="fc" id="L20">    private final Logger logger = LogManager.getLogger(this.getClass());</span>
+
+    /**
+     * MedicalRecordDao
+     */
+    private MedicalRecordDaoInterface medicalRecordDao;
+
+    /**
+     * ems-zuul proxy
+     */
+    @Autowired
+    private MSZuulProxy msZuulProxy;
+
+    /**
+     * Constructor
+     * @param medicalRecordDao
+     */
+<span class="fc" id="L37">    public MedicalRecordService(MedicalRecordDaoInterface medicalRecordDao) {</span>
+<span class="fc" id="L38">        this.medicalRecordDao = medicalRecordDao;</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Constructor
+     * @param medicalRecordDao
+     * @param msZuulProxy
+     */
+<span class="fc" id="L46">    public MedicalRecordService(MedicalRecordDaoInterface medicalRecordDao, MSZuulProxy msZuulProxy) {</span>
+<span class="fc" id="L47">        this.medicalRecordDao = medicalRecordDao;</span>
+<span class="fc" id="L48">        this.msZuulProxy = msZuulProxy;</span>
+<span class="fc" id="L49">    }</span>
+
+    /**
+     * @see MedicalRecordServiceInterface {@link #getPatientMedicalRecords(String, Integer)}
+     */
+    @Override
+    public List&lt;MedicalRecord&gt; getPatientMedicalRecords(String token, Integer id) {
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        if (id != null &amp;&amp; id &gt; 0) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            if (msZuulProxy.msPatientAdmin_getPatient(token, id) == null) throw new NotFoundException(&quot;Unknown patient with id : &quot; + id);</span>
+<span class="fc" id="L58">            return medicalRecordDao.getAllPatientMedicalRecords(id);</span>
+        }
+<span class="fc" id="L60">        return null;</span>
+    }
+
+    /**
+     * @see MedicalRecordServiceInterface {@link #createMedicalRecord(String, MedicalRecord)}
+     */
+    @Override
+    public MedicalRecord createMedicalRecord(String token, MedicalRecord medicalRecord){
+<span class="fc" id="L68">        if (</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            medicalRecord.getPatientId() != null &amp;&amp;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            medicalRecord.getPatientId() &gt; 0</span>
+        ) {
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (msZuulProxy.msPatientAdmin_getPatient(token, medicalRecord.getPatientId()) == null) throw new NotFoundException(&quot;Unknown patient with id : &quot; + medicalRecord.getId());</span>
+<span class="fc" id="L73">            return medicalRecordDao.createMedicalRecord(medicalRecord);</span>
+        }
+<span class="fc" id="L75">        return null;</span>
+    }
+
+    /**
+     * @see MedicalRecordServiceInterface {@link #updateMedicalRecord(String, MedicalRecord)}
+     */
+    @Override
+    public MedicalRecord updateMedicalRecord(String token, MedicalRecord medicalRecord) {
+<span class="fc" id="L83">        if (</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            !StringUtils.isBlank(medicalRecord.getId()) &amp;&amp;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            medicalRecord.getPatientId() != null &amp;&amp;</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            medicalRecord.getPatientId() &gt; 0</span>
+        ) {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">            if (msZuulProxy.msPatientAdmin_getPatient(token, medicalRecord.getPatientId()) == null) throw new NotFoundException(&quot;Unknown patient with id : &quot; + medicalRecord.getId());</span>
+<span class="fc" id="L89">            return medicalRecordDao.updateMedicalRecord(medicalRecord);</span>
+        }
+<span class="fc" id="L91">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

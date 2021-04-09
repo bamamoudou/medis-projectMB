@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-patientAdmin</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mspatientadmin.dao</a> &gt; <span class="el_source">PatientDao.java</span></div><h1>PatientDao.java</h1><pre class="source lang-java linenums">package com.mediscreen.mspatientadmin.dao;
+
+import com.mediscreen.mspatientadmin.exception.InternalServerErrorException;
+import com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface;
+import com.mediscreen.mspatientadmin.interfaces.PatientDaoInterface;
+import com.mediscreen.mspatientadmin.model.Patient;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PatientDao extends DaoManager implements PatientDaoInterface {
+    /**
+     * Constructor
+     */
+    public PatientDao(DatabaseConfigurationInterface databaseConfiguration) {
+<span class="fc" id="L17">        super(databaseConfiguration, &quot;PatientDao&quot;);</span>
+<span class="fc" id="L18">    }</span>
+
+    /**
+     * @see PatientDaoInterface {@link #getPatientById(Integer)}
+     */
+    @Override
+    public Patient getPatientById(Integer id) {
+<span class="nc" id="L25">        Patient result = null;</span>
+<span class="nc" id="L26">        ResultSet rs = null;</span>
+<span class="nc" id="L27">        Connection con = null;</span>
+<span class="nc" id="L28">        PreparedStatement ps = null;</span>
+
+<span class="nc" id="L30">        StringBuilder sql = new StringBuilder();</span>
+<span class="nc" id="L31">        sql.append(&quot;SELECT firstname, lastname, sexe, birthday, address, email, phone, country&quot;);</span>
+<span class="nc" id="L32">        sql.append(&quot; FROM patient&quot;);</span>
+<span class="nc" id="L33">        sql.append(&quot; WHERE id = ?&quot;);</span>
+
+        try {
+<span class="nc" id="L36">            con = databaseConfiguration.getConnection();</span>
+<span class="nc" id="L37">            ps = con.prepareStatement(sql.toString());</span>
+<span class="nc" id="L38">            ps.setInt(1, id);</span>
+<span class="nc" id="L39">            rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if(rs.next()){</span>
+<span class="nc" id="L41">                result = new Patient();</span>
+<span class="nc" id="L42">                result.setId(id);</span>
+<span class="nc" id="L43">                result.setFirstname(rs.getString(&quot;firstname&quot;));</span>
+<span class="nc" id="L44">                result.setLastname(rs.getString(&quot;lastname&quot;));</span>
+<span class="nc" id="L45">                result.setSexe(rs.getString(&quot;sexe&quot;));</span>
+<span class="nc" id="L46">                result.setBirthday(rs.getDate(&quot;birthday&quot;).toLocalDate());</span>
+<span class="nc" id="L47">                result.setAddress(rs.getString(&quot;address&quot;));</span>
+<span class="nc" id="L48">                result.setEmail(rs.getString(&quot;email&quot;));</span>
+<span class="nc" id="L49">                result.setPhone(rs.getString(&quot;phone&quot;));</span>
+<span class="nc" id="L50">                result.setCountry(rs.getString(&quot;country&quot;));</span>
+            }
+<span class="nc" id="L52">        } catch (ClassNotFoundException e){</span>
+<span class="nc" id="L53">            super.logger.error(&quot;PatientDao.getPatientById() -&gt; Error fetching patient : {0}&quot;, e);</span>
+<span class="nc" id="L54">            throw new InternalServerErrorException(&quot;ClassNotFoundException : &quot; + e);</span>
+<span class="nc" id="L55">        } catch (SQLException e){</span>
+<span class="nc" id="L56">            super.logger.error(&quot;PatientDao.getPatientById() -&gt; Error fetching patient : {0}&quot;, e);</span>
+<span class="nc" id="L57">            throw new InternalServerErrorException(&quot;SQLException : &quot; + e);</span>
+        } finally {
+<span class="nc" id="L59">            databaseConfiguration.closeSQLTransaction(con, ps, rs);</span>
+        }
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (result != null) {</span>
+<span class="nc" id="L63">            super.logger.error(&quot;PatientDao.getPatientById() -&gt; Profile get for patient : &quot; + id);</span>
+        } else {
+<span class="nc" id="L65">            super.logger.info(&quot;PatientDao.getPatientById() -&gt; No patient profile for id : &quot; + id);</span>
+        }
+
+<span class="nc" id="L68">        return result;</span>
+    }
+
+    /**
+     * @see PatientDaoInterface {@link #getAllPatient()}
+     */
+    @Override
+    public List&lt;Patient&gt; getAllPatient(){
+<span class="nc" id="L76">        List&lt;Patient&gt; result = null;</span>
+<span class="nc" id="L77">        ResultSet rs = null;</span>
+<span class="nc" id="L78">        Connection con = null;</span>
+<span class="nc" id="L79">        PreparedStatement ps = null;</span>
+
+<span class="nc" id="L81">        StringBuilder sql = new StringBuilder();</span>
+<span class="nc" id="L82">        sql.append(&quot;SELECT id, firstname, lastname, sexe, birthday, address, email, phone, country&quot;);</span>
+<span class="nc" id="L83">        sql.append(&quot; FROM patient&quot;);</span>
+<span class="nc" id="L84">        sql.append(&quot; ORDER BY firstname&quot;);</span>
+
+        try {
+<span class="nc" id="L87">            con = databaseConfiguration.getConnection();</span>
+<span class="nc" id="L88">            ps = con.prepareStatement(sql.toString());</span>
+<span class="nc" id="L89">            rs = ps.executeQuery();</span>
+<span class="nc" id="L90">            result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L92">                Patient patient = new Patient();</span>
+<span class="nc" id="L93">                patient.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L94">                patient.setFirstname(rs.getString(&quot;firstname&quot;));</span>
+<span class="nc" id="L95">                patient.setLastname(rs.getString(&quot;lastname&quot;));</span>
+<span class="nc" id="L96">                patient.setSexe(rs.getString(&quot;sexe&quot;));</span>
+<span class="nc" id="L97">                patient.setBirthday(rs.getDate(&quot;birthday&quot;).toLocalDate());</span>
+<span class="nc" id="L98">                patient.setAddress(rs.getString(&quot;address&quot;));</span>
+<span class="nc" id="L99">                patient.setEmail(rs.getString(&quot;email&quot;));</span>
+<span class="nc" id="L100">                patient.setPhone(rs.getString(&quot;phone&quot;));</span>
+<span class="nc" id="L101">                patient.setCountry(rs.getString(&quot;country&quot;));</span>
+<span class="nc" id="L102">                result.add(patient);</span>
+<span class="nc" id="L103">            }</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if(result.size() &lt;= 0) {</span>
+<span class="nc" id="L105">                result = null;</span>
+            }
+<span class="nc" id="L107">        } catch (ClassNotFoundException e){</span>
+<span class="nc" id="L108">            super.logger.error(&quot;PatientDao.getAllPatient() -&gt; Error fetching patients : {0}&quot;, e);</span>
+<span class="nc" id="L109">            throw new InternalServerErrorException(&quot;ClassNotFoundException : &quot; + e);</span>
+<span class="nc" id="L110">        } catch (SQLException e){</span>
+<span class="nc" id="L111">            super.logger.error(&quot;PatientDao.getAllPatient() -&gt; Error fetching patients : {0}&quot;, e);</span>
+<span class="nc" id="L112">            throw new InternalServerErrorException(&quot;SQLException : &quot; + e);</span>
+        } finally {
+<span class="nc" id="L114">            databaseConfiguration.closeSQLTransaction(con, ps, rs);</span>
+        }
+<span class="nc" id="L116">        return result;</span>
+    }
+
+    /**
+     * @see PatientDaoInterface {@link #updatePatient(Patient)}
+     */
+    @Override
+    public Patient updatePatient(Patient patient) {
+<span class="nc" id="L124">        Connection con = null;</span>
+<span class="nc" id="L125">        PreparedStatement ps = null;</span>
+
+<span class="nc" id="L127">        StringBuilder sql = new StringBuilder();</span>
+<span class="nc" id="L128">        sql.append(&quot;UPDATE patient SET firstname = ?, lastname = ?, sexe = ?, birthday = ?, address = ?, email = ?, phone = ?, country = ?&quot;);</span>
+<span class="nc" id="L129">        sql.append(&quot; WHERE id = ?&quot;);</span>
+
+        try {
+<span class="nc" id="L132">            con = databaseConfiguration.getConnection();</span>
+<span class="nc" id="L133">            ps = con.prepareStatement(sql.toString());</span>
+<span class="nc" id="L134">            ps.setString(1, patient.getFirstname());</span>
+<span class="nc" id="L135">            ps.setString(2, patient.getLastname());</span>
+<span class="nc" id="L136">            ps.setString(3, patient.getSexe());</span>
+<span class="nc" id="L137">            ps.setDate(4, Date.valueOf(patient.getBirthday()));</span>
+<span class="nc" id="L138">            ps.setString(5, patient.getAddress());</span>
+<span class="nc" id="L139">            ps.setString(6, patient.getEmail());</span>
+<span class="nc" id="L140">            ps.setString(7, patient.getPhone());</span>
+<span class="nc" id="L141">            ps.setString(8, patient.getCountry());</span>
+<span class="nc" id="L142">            ps.setInt(9, patient.getId());</span>
+<span class="nc" id="L143">            ps.execute();</span>
+<span class="nc" id="L144">            super.logger.info(&quot;PatientDao.updatePatient() -&gt; Profile updated for patient : &quot; + patient.getId());</span>
+<span class="nc" id="L145">            return this.getPatientById(patient.getId());</span>
+<span class="nc" id="L146">        } catch (ClassNotFoundException e){</span>
+<span class="nc" id="L147">            super.logger.error(&quot;PatientDao.updatePatient() -&gt; Error update patient : {0}&quot;, e);</span>
+<span class="nc" id="L148">            throw new InternalServerErrorException(&quot;ClassNotFoundException : &quot; + e);</span>
+<span class="nc" id="L149">        } catch (SQLException e){</span>
+<span class="nc" id="L150">            super.logger.error(&quot;PatientDao.updatePatient() -&gt; Error update patient : {0}&quot;, e);</span>
+<span class="nc" id="L151">            throw new InternalServerErrorException(&quot;SQLException : &quot; + e);</span>
+        } finally {
+<span class="nc" id="L153">            databaseConfiguration.closeSQLTransaction(con, ps, null);</span>
+        }
+    }
+
+    /**
+     * @see PatientDaoInterface {@link #createPatient(Patient)}
+     */
+    @Override
+    public Patient createPatient(Patient patient) {
+<span class="nc" id="L162">        Connection con = null;</span>
+<span class="nc" id="L163">        PreparedStatement ps = null;</span>
+
+<span class="nc" id="L165">        StringBuilder sql = new StringBuilder();</span>
+<span class="nc" id="L166">        sql.append(&quot;INSERT INTO patient (firstname, lastname, sexe, birthday, address, email, phone, country)&quot;);</span>
+<span class="nc" id="L167">        sql.append(&quot; VALUES (?, ?, ?, ?, ?, ?, ?, ?)&quot;);</span>
+
+        try {
+<span class="nc" id="L170">            con = databaseConfiguration.getConnection();</span>
+<span class="nc" id="L171">            ps = con.prepareStatement(sql.toString());</span>
+<span class="nc" id="L172">            ps.setString(1, patient.getFirstname());</span>
+<span class="nc" id="L173">            ps.setString(2, patient.getLastname());</span>
+<span class="nc" id="L174">            ps.setString(3, patient.getSexe());</span>
+<span class="nc" id="L175">            ps.setDate(4, Date.valueOf(patient.getBirthday()));</span>
+<span class="nc" id="L176">            ps.setString(5, patient.getAddress());</span>
+<span class="nc" id="L177">            ps.setString(6, patient.getEmail());</span>
+<span class="nc" id="L178">            ps.setString(7, patient.getPhone());</span>
+<span class="nc" id="L179">            ps.setString(8, patient.getCountry());</span>
+<span class="nc" id="L180">            ps.execute();</span>
+<span class="nc" id="L181">            super.logger.info(&quot;PatientDao.createPatient() -&gt; Profile created&quot;);</span>
+<span class="nc" id="L182">            return this.getPatientById(super.getMaxId(&quot;patient&quot;));</span>
+<span class="nc" id="L183">        } catch (ClassNotFoundException e){</span>
+<span class="nc" id="L184">            super.logger.error(&quot;PatientDao.createPatient() -&gt; Error create new user : {O}&quot;, e);</span>
+<span class="nc" id="L185">            throw new InternalServerErrorException(&quot;ClassNotFoundException : &quot; + e);</span>
+<span class="nc" id="L186">        } catch (SQLException e){</span>
+<span class="nc" id="L187">            super.logger.error(&quot;PatientDao.createPatient() -&gt; Error create new user : {O}&quot;, e);</span>
+<span class="nc" id="L188">            throw new InternalServerErrorException(&quot;SQLException : &quot; + e);</span>
+        } finally {
+<span class="nc" id="L190">            databaseConfiguration.closeSQLTransaction(con, ps, null);</span>
+        }
+    }
+
+    /**
+     * @see PatientDaoInterface {@link #searchPatients(String)}
+     */
+    @Override
+    public List&lt;Patient&gt; searchPatients(String search) {
+<span class="nc" id="L199">        List&lt;Patient&gt; result = null;</span>
+<span class="nc" id="L200">        ResultSet rs = null;</span>
+<span class="nc" id="L201">        Connection con = null;</span>
+<span class="nc" id="L202">        PreparedStatement ps = null;</span>
+
+<span class="nc" id="L204">        search += &quot;%&quot;;</span>
+
+<span class="nc" id="L206">        StringBuilder sql = new StringBuilder();</span>
+<span class="nc" id="L207">        sql.append(&quot;SELECT id, firstname, lastname, sexe, birthday, address, email, phone, country&quot;);</span>
+<span class="nc" id="L208">        sql.append(&quot; FROM patient&quot;);</span>
+<span class="nc" id="L209">        sql.append(&quot; WHERE firstname LIKE(?)&quot;);</span>
+<span class="nc" id="L210">        sql.append(&quot; OR lastname LIKE (?)&quot;);</span>
+
+        try {
+<span class="nc" id="L213">            con = databaseConfiguration.getConnection();</span>
+<span class="nc" id="L214">            ps = con.prepareStatement(sql.toString());</span>
+<span class="nc" id="L215">            ps.setString(1, search);</span>
+<span class="nc" id="L216">            ps.setString(2, search);</span>
+<span class="nc" id="L217">            rs = ps.executeQuery();</span>
+<span class="nc" id="L218">            result = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L220">                Patient patient = new Patient();</span>
+<span class="nc" id="L221">                patient.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L222">                patient.setFirstname(rs.getString(&quot;firstname&quot;));</span>
+<span class="nc" id="L223">                patient.setLastname(rs.getString(&quot;lastname&quot;));</span>
+<span class="nc" id="L224">                patient.setSexe(rs.getString(&quot;sexe&quot;));</span>
+<span class="nc" id="L225">                patient.setBirthday(rs.getDate(&quot;birthday&quot;).toLocalDate());</span>
+<span class="nc" id="L226">                patient.setAddress(rs.getString(&quot;address&quot;));</span>
+<span class="nc" id="L227">                patient.setEmail(rs.getString(&quot;email&quot;));</span>
+<span class="nc" id="L228">                patient.setPhone(rs.getString(&quot;phone&quot;));</span>
+<span class="nc" id="L229">                patient.setCountry(rs.getString(&quot;country&quot;));</span>
+<span class="nc" id="L230">                result.add(patient);</span>
+<span class="nc" id="L231">            }</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            if(result.size() &lt;= 0) {</span>
+<span class="nc" id="L233">                result = null;</span>
+            }
+<span class="nc" id="L235">        } catch (ClassNotFoundException e){</span>
+<span class="nc" id="L236">            super.logger.error(&quot;PatientDao.searchPatients() -&gt; Error fetching patients : {O}&quot;, e);</span>
+<span class="nc" id="L237">            throw new InternalServerErrorException(&quot;ClassNotFoundException : &quot; + e);</span>
+<span class="nc" id="L238">        } catch (SQLException e){</span>
+<span class="nc" id="L239">            super.logger.error(&quot;PatientDao.searchPatients() -&gt; Error fetching patients : {O}&quot;, e);</span>
+<span class="nc" id="L240">            throw new InternalServerErrorException(&quot;SQLException : &quot; + e);</span>
+        } finally {
+<span class="nc" id="L242">            databaseConfiguration.closeSQLTransaction(con, ps, rs);</span>
+        }
+<span class="nc" id="L244">        return result;</span>
+    }
+
+    /**
+     * @see PatientDaoInterface {@link #deletePatientById(Integer)}
+     */
+    @Override
+    public void deletePatientById(Integer id) {
+<span class="nc" id="L252">        super.deleteById(&quot;patient&quot;, id);</span>
+<span class="nc" id="L253">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

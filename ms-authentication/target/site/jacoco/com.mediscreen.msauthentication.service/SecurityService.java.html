@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-authentication</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msauthentication.service</a> &gt; <span class="el_source">SecurityService.java</span></div><h1>SecurityService.java</h1><pre class="source lang-java linenums">package com.mediscreen.msauthentication.service;
+
+import com.mediscreen.msauthentication.configuration.AppProperties;
+import com.mediscreen.msauthentication.exception.NotAllowedException;
+import com.mediscreen.msauthentication.exception.NotFoundException;
+import com.mediscreen.msauthentication.interfaces.SecurityServiceInterface;
+import com.mediscreen.msauthentication.interfaces.JwtServiceInterface;
+import com.mediscreen.msauthentication.model.Jwt;
+import com.mediscreen.msauthentication.model.Login;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public class SecurityService implements SecurityServiceInterface {
+    /**
+     * Token Service
+     */
+    private JwtServiceInterface jwtServiceInterface;
+
+    /**
+     * Password manager
+     */
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    /**
+     * App properties
+     */
+    private AppProperties appProperties;
+
+    /**
+     * Constructor
+     * @param jwtServiceInterface
+     */
+<span class="fc" id="L36">    public SecurityService(JwtServiceInterface jwtServiceInterface, BCryptPasswordEncoder passwordEncoder, AppProperties appProperties) {</span>
+<span class="fc" id="L37">        this.jwtServiceInterface = jwtServiceInterface;</span>
+<span class="fc" id="L38">        this.passwordEncoder = passwordEncoder;</span>
+<span class="fc" id="L39">        this.appProperties = appProperties;</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * @see SecurityServiceInterface {@link #logUser(Login)}
+     */
+    public Jwt logUser(Login login) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (appProperties.getUsername() != null &amp;&amp;</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            appProperties.getPassword() != null &amp;&amp;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            login.getUsername() != null &amp;&amp;</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">            login.getPassword() != null</span>
+        ){
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (appProperties.getUsername().equals(login.getUsername()) &amp;&amp;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">                passwordEncoder.matches(login.getPassword(), appProperties.getPassword())) {</span>
+<span class="fc" id="L53">                UUID uuid = UUID.randomUUID();</span>
+<span class="fc" id="L54">                Map&lt;String, Object&gt; claims = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L55">                claims.put(&quot;userID&quot;, uuid.toString());</span>
+<span class="fc" id="L56">                claims.put(&quot;username&quot;, login.getUsername());</span>
+<span class="fc" id="L57">                Long time = (long) 60 * 60 * 24;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                if (login.isRememberUser()) time *= 90;</span>
+<span class="fc" id="L59">                return jwtServiceInterface.createJWT(uuid, &quot;Login&quot;, &quot;Mediscreen&quot;, claims, time);</span>
+            } else {
+<span class="fc" id="L61">                throw new NotAllowedException(&quot;Username and/or password are incorrect&quot;);</span>
+            }
+        } else {
+<span class="fc" id="L64">            throw new NotFoundException(&quot;User login informations are incomplete&quot;);</span>
+        }
+    }
+
+    /**
+     * @see SecurityServiceInterface {@link #isLog(String)}
+     */
+    public boolean isLog(String token) {
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">        return ((token != null) &amp;&amp; (jwtServiceInterface.parseJWT(token) != null));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

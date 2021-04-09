@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-authentication</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msauthentication.service</a> &gt; <span class="el_source">JwtService.java</span></div><h1>JwtService.java</h1><pre class="source lang-java linenums">package com.mediscreen.msauthentication.service;
+
+import com.mediscreen.msauthentication.configuration.AppProperties;
+import com.mediscreen.msauthentication.exception.NotAllowedException;
+import com.mediscreen.msauthentication.interfaces.JwtServiceInterface;
+import com.mediscreen.msauthentication.model.Jwt;
+import io.jsonwebtoken.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import java.security.Key;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Map;
+import java.util.UUID;
+
+public class JwtService implements JwtServiceInterface {
+    /**
+     * Logger log4j2
+     */
+<span class="fc" id="L25">    private final Logger logger = LogManager.getLogger(this.getClass());</span>
+
+    /**
+     * Application properties
+     */
+    private AppProperties appProperties;
+
+    /**
+     * Constructor
+     * @param appProperties
+     */
+<span class="fc" id="L36">    public JwtService(AppProperties appProperties) {</span>
+<span class="fc" id="L37">        this.appProperties = appProperties;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * @see JwtServiceInterface {@link #createJWT(UUID, String, String, Map, long)}
+     */
+    @Override
+    public Jwt createJWT(UUID id, String subject, String issuer, Map&lt;String, Object&gt; claims, long ttlMillis) {
+<span class="fc" id="L45">        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;</span>
+<span class="fc" id="L46">        Date now = new Date(System.currentTimeMillis());</span>
+        Date expirationDate;
+
+<span class="fc" id="L49">        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(appProperties.getJwtSecret());</span>
+<span class="fc" id="L50">        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());</span>
+
+<span class="fc" id="L52">        JwtBuilder builder = Jwts.builder()</span>
+<span class="fc" id="L53">                .setId(id.toString())</span>
+<span class="fc" id="L54">                .setIssuedAt(now)</span>
+<span class="fc" id="L55">                .setSubject(subject)</span>
+<span class="fc" id="L56">                .setIssuer(issuer)</span>
+<span class="fc" id="L57">                .setClaims(claims)</span>
+<span class="fc" id="L58">                .signWith(signatureAlgorithm, signingKey);</span>
+
+<span class="fc" id="L60">        expirationDate = new Date(System.currentTimeMillis() + ttlMillis * 1000);</span>
+<span class="fc" id="L61">        builder.setExpiration(expirationDate);</span>
+
+<span class="fc" id="L63">        return new Jwt(</span>
+<span class="fc" id="L64">                builder.compact(),</span>
+<span class="fc" id="L65">                LocalDateTime.now(),</span>
+<span class="fc" id="L66">                Instant.ofEpochMilli(expirationDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime()</span>
+        );
+    }
+
+    /**
+     * @see JwtServiceInterface {@link #parseJWT(String)}
+     */
+    @Override
+    public Claims parseJWT(String token) {
+<span class="fc" id="L75">        Claims claims = null;</span>
+
+        try {
+<span class="fc" id="L78">            claims = Jwts.parser()</span>
+<span class="fc" id="L79">                    .setSigningKey(DatatypeConverter.parseBase64Binary(appProperties.getJwtSecret()))</span>
+<span class="fc" id="L80">                    .parseClaimsJws(token).getBody();</span>
+<span class="nc" id="L81">        } catch (SignatureException e) {</span>
+<span class="nc" id="L82">            logger.error(&quot;Invalid JWT signature.&quot;);</span>
+<span class="nc" id="L83">            throw new NotAllowedException(&quot;Invalid JWT signature.&quot;);</span>
+<span class="fc" id="L84">        } catch (MalformedJwtException e) {</span>
+<span class="fc" id="L85">            logger.error(&quot;Invalid JWT token.&quot;);</span>
+<span class="fc" id="L86">            throw new NotAllowedException(&quot;Invalid JWT token.&quot;);</span>
+<span class="nc" id="L87">        } catch (ExpiredJwtException e) {</span>
+<span class="nc" id="L88">            logger.error(&quot;Expired JWT token.&quot;);</span>
+<span class="nc" id="L89">            throw new NotAllowedException(&quot;Expired JWT token.&quot;);</span>
+<span class="nc" id="L90">        } catch (UnsupportedJwtException e) {</span>
+<span class="nc" id="L91">            logger.error(&quot;Unsupported JWT token.&quot;);</span>
+<span class="nc" id="L92">            throw new NotAllowedException(&quot;Unsupported JWT token.&quot;);</span>
+<span class="nc" id="L93">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L94">            logger.error(&quot;JWT token compact of handler are invalid.&quot;);</span>
+<span class="nc" id="L95">            throw new NotAllowedException(&quot;JWT token compact of handler are invalid.&quot;);</span>
+<span class="fc" id="L96">        }</span>
+
+<span class="fc" id="L98">        return claims;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

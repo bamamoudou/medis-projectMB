@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Patient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-medicalRecord</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msmedicalrecord.model</a> &gt; <span class="el_source">Patient.java</span></div><h1>Patient.java</h1><pre class="source lang-java linenums">package com.mediscreen.msmedicalrecord.model;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+
+public class Patient {
+    private Integer id;
+
+    @Length(max=60, message = &quot;Max length : 60&quot;)
+    private String firstname;
+
+    @Length(max=60, message = &quot;Max length : 60&quot;)
+    private String lastname;
+
+    @Length(max = 1, message = &quot;Max length : 1&quot;)
+    private String sexe;
+
+    @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)
+    private LocalDate birthday;
+
+    @Length(max=255, message = &quot;Max length : 255&quot;)
+    private String address;
+
+    @Length(max=100, message = &quot;Max length : 100&quot;)
+    private String email;
+
+    @Length(max=50, message = &quot;Max length : 50&quot;)
+    private String phone;
+
+    private String country;
+
+<span class="fc" id="L34">    public Patient(Integer id, String firstname, String lastname, String sexe, LocalDate birthday, String address, String email, String phone, String country) {</span>
+<span class="fc" id="L35">        this.id = id;</span>
+<span class="fc" id="L36">        this.firstname = firstname;</span>
+<span class="fc" id="L37">        this.lastname = lastname;</span>
+<span class="fc" id="L38">        this.sexe = sexe;</span>
+<span class="fc" id="L39">        this.birthday = birthday;</span>
+<span class="fc" id="L40">        this.address = address;</span>
+<span class="fc" id="L41">        this.email = email;</span>
+<span class="fc" id="L42">        this.phone = phone;</span>
+<span class="fc" id="L43">        this.country = country;</span>
+<span class="fc" id="L44">    }</span>
+
+<span class="fc" id="L46">    public Patient() {</span>
+<span class="fc" id="L47">    }</span>
+
+    public Integer getId() {
+<span class="fc" id="L50">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="fc" id="L54">        this.id = id;</span>
+<span class="fc" id="L55">    }</span>
+
+    public String getFirstname() {
+<span class="fc" id="L58">        return firstname;</span>
+    }
+
+    public void setFirstname(String firstname) {
+<span class="fc" id="L62">        this.firstname = firstname;</span>
+<span class="fc" id="L63">    }</span>
+
+    public String getLastname() {
+<span class="fc" id="L66">        return lastname;</span>
+    }
+
+    public void setLastname(String lastname) {
+<span class="fc" id="L70">        this.lastname = lastname;</span>
+<span class="fc" id="L71">    }</span>
+
+    public String getSexe() {
+<span class="fc" id="L74">        return sexe;</span>
+    }
+
+    public void setSexe(String sexe) {
+<span class="fc" id="L78">        this.sexe = sexe;</span>
+<span class="fc" id="L79">    }</span>
+
+    public LocalDate getBirthday() {
+<span class="fc" id="L82">        return birthday;</span>
+    }
+
+    public void setBirthday(LocalDate birthday) {
+<span class="fc" id="L86">        this.birthday = birthday;</span>
+<span class="fc" id="L87">    }</span>
+
+    public String getAddress() {
+<span class="fc" id="L90">        return address;</span>
+    }
+
+    public void setAddress(String address) {
+<span class="fc" id="L94">        this.address = address;</span>
+<span class="fc" id="L95">    }</span>
+
+    public String getEmail() {
+<span class="fc" id="L98">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L102">        this.email = email;</span>
+<span class="fc" id="L103">    }</span>
+
+    public String getPhone() {
+<span class="fc" id="L106">        return phone;</span>
+    }
+
+    public void setPhone(String phone) {
+<span class="fc" id="L110">        this.phone = phone;</span>
+<span class="fc" id="L111">    }</span>
+
+    public String getCountry() {
+<span class="fc" id="L114">        return country;</span>
+    }
+
+    public void setCountry(String country) {
+<span class="fc" id="L118">        this.country = country;</span>
+<span class="fc" id="L119">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

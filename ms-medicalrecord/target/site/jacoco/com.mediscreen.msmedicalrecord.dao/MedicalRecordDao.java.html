@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MedicalRecordDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-medicalRecord</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msmedicalrecord.dao</a> &gt; <span class="el_source">MedicalRecordDao.java</span></div><h1>MedicalRecordDao.java</h1><pre class="source lang-java linenums">package com.mediscreen.msmedicalrecord.dao;
+
+import com.mediscreen.msmedicalrecord.exception.NotFoundException;
+import com.mediscreen.msmedicalrecord.interfaces.DatabaseConfigurationInterface;
+import com.mediscreen.msmedicalrecord.interfaces.MedicalRecordDaoInterface;
+import com.mediscreen.msmedicalrecord.model.MedicalRecord;
+import com.mongodb.*;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.json.JSONObject;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.combine;
+import static com.mongodb.client.model.Updates.set;
+
+public class MedicalRecordDao implements MedicalRecordDaoInterface {
+    /**
+     * Date formatter
+     */
+<span class="fc" id="L31">    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(&quot;dd-MM-yyyy HH:mm:ss&quot;);</span>
+
+    /**
+     * MongoDB Connexion
+     */
+    private MongoClient connexion;
+
+    /**
+     * Logger log4j2
+     */
+<span class="fc" id="L41">    private final Logger logger = LogManager.getLogger(this.getClass());</span>
+
+    /**
+     * Database configuration
+     */
+    private DatabaseConfigurationInterface dbConfiguration;
+
+    /**
+     * Constructor
+     * @param databaseConfiguration
+     */
+<span class="fc" id="L52">    public MedicalRecordDao(DatabaseConfigurationInterface databaseConfiguration) {</span>
+<span class="fc" id="L53">        this.dbConfiguration = databaseConfiguration;</span>
+<span class="fc" id="L54">        this.connexion = dbConfiguration.getConnexion();</span>
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * return patients-medicalRecords collection
+     * @return
+     */
+    private MongoCollection&lt;Document&gt; getMedicalRecordsCollection(){
+<span class="nc" id="L62">        MongoDatabase db = dbConfiguration.getDatabase(this.connexion);</span>
+<span class="nc" id="L63">        return dbConfiguration.getCollection(db,&quot;patientsMedicalRecords&quot;);</span>
+    }
+
+    /**
+     * Construct MedicalRecord from JSON
+     * @param jsonObject
+     * @return
+     */
+    private MedicalRecord parseJsonToMedicalRecord(JSONObject jsonObject){
+<span class="nc" id="L72">        return new MedicalRecord(</span>
+<span class="nc" id="L73">                jsonObject.getJSONObject(&quot;_id&quot;).getString(&quot;$oid&quot;),</span>
+<span class="nc" id="L74">                jsonObject.getInt(&quot;patientId&quot;),</span>
+<span class="nc" id="L75">                (String) jsonObject.get(&quot;doctorName&quot;),</span>
+<span class="nc" id="L76">                LocalDateTime.parse(jsonObject.getString(&quot;createDate&quot;), this.dateFormatter),</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                (!StringUtils.isBlank(jsonObject.getString(&quot;lastChangeDate&quot;))) ? LocalDateTime.parse(jsonObject.getString(&quot;lastChangeDate&quot;), this.dateFormatter) : null,</span>
+<span class="nc" id="L78">                (String) jsonObject.get(&quot;content&quot;),</span>
+<span class="nc" id="L79">                jsonObject.getBoolean(&quot;isActive&quot;)</span>
+        );
+    }
+
+    /**
+     * @see MedicalRecordDaoInterface {@link #getAllPatientMedicalRecords(Integer)}
+     */
+    @Override
+    public List&lt;MedicalRecord&gt; getAllPatientMedicalRecords(Integer patientId){
+<span class="nc" id="L88">        List&lt;MedicalRecord&gt; result = null;</span>
+
+<span class="nc" id="L90">        MongoCollection&lt;Document&gt; collection = this.getMedicalRecordsCollection();</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (Document document : collection.find(eq(&quot;patientId&quot;, patientId)).sort(Sorts.descending(&quot;createDate&quot;))) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (result == null) { result = new ArrayList&lt;&gt;(); }</span>
+<span class="nc" id="L94">            result.add(parseJsonToMedicalRecord(new JSONObject(document.toJson())));</span>
+<span class="nc" id="L95">        }</span>
+<span class="nc" id="L96">        return result;</span>
+    }
+
+    /**
+     * @see MedicalRecordDaoInterface {@link #createMedicalRecord(MedicalRecord)}
+     */
+    @Override
+    public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord){
+<span class="nc" id="L104">        MongoCollection&lt;Document&gt; collection = this.getMedicalRecordsCollection();</span>
+
+<span class="nc" id="L106">        Document newDocument = new Document(&quot;patientId&quot;, medicalRecord.getPatientId())</span>
+<span class="nc" id="L107">                .append(&quot;doctorName&quot;, medicalRecord.getDoctorName())</span>
+<span class="nc" id="L108">                .append(&quot;createDate&quot;, LocalDateTime.now().format(this.dateFormatter))</span>
+<span class="nc" id="L109">                .append(&quot;lastChangeDate&quot;, &quot;&quot;)</span>
+<span class="nc" id="L110">                .append(&quot;content&quot;, medicalRecord.getContent())</span>
+<span class="nc" id="L111">                .append(&quot;isActive&quot;, medicalRecord.isActive());</span>
+
+<span class="nc" id="L113">        collection.insertOne(newDocument);</span>
+
+<span class="nc" id="L115">        MedicalRecord result = null;</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (Document document : collection.find(eq(&quot;patientId&quot;, medicalRecord.getPatientId()))) {</span>
+<span class="nc" id="L118">            MedicalRecord currentRecord = parseJsonToMedicalRecord(new JSONObject(document.toJson()));</span>
+<span class="nc bnc" id="L119" title="All 4 branches missed.">            result = (result == null || result.getCreateDate().isBefore(currentRecord.getCreateDate())) ? currentRecord : result;</span>
+<span class="nc" id="L120">        }</span>
+
+<span class="nc" id="L122">        return result;</span>
+    }
+
+    /**
+     * @see MedicalRecordDaoInterface {@link #updateMedicalRecord(MedicalRecord)}
+     */
+    @Override
+    public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord){
+<span class="nc" id="L130">        MongoCollection&lt;Document&gt; collection = this.getMedicalRecordsCollection();</span>
+
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if(!collection.find(eq(&quot;_id&quot;, new ObjectId(medicalRecord.getId()))).cursor().hasNext()) {</span>
+<span class="nc" id="L133">            throw new NotFoundException(&quot;Unknown medical record with id : &quot; + medicalRecord.getId());</span>
+        }
+
+<span class="nc" id="L136">        collection.updateOne(</span>
+<span class="nc" id="L137">                eq(&quot;_id&quot;, new ObjectId(medicalRecord.getId())),</span>
+<span class="nc" id="L138">                combine(set(&quot;isActive&quot;, medicalRecord.isActive()), set(&quot;lastChangeDate&quot;, LocalDateTime.now().format(this.dateFormatter)))</span>
+        );
+
+<span class="nc" id="L141">        MedicalRecord result = null;</span>
+
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        for (Document document : collection.find(eq(&quot;_id&quot;, new ObjectId(medicalRecord.getId())))) {</span>
+<span class="nc" id="L144">            MedicalRecord currentRecord = parseJsonToMedicalRecord(new JSONObject(document.toJson()));</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">            result = (result == null || result.getCreateDate().isBefore(currentRecord.getCreateDate())) ? currentRecord : result;</span>
+<span class="nc" id="L146">        }</span>
+
+<span class="nc" id="L148">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

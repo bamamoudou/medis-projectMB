@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-medicalRecord</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msmedicalrecord.configuration</a> &gt; <span class="el_source">DatabaseConfiguration.java</span></div><h1>DatabaseConfiguration.java</h1><pre class="source lang-java linenums">package com.mediscreen.msmedicalrecord.configuration;
+
+import com.mediscreen.msmedicalrecord.interfaces.DatabaseConfigurationInterface;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.bson.Document;
+
+import javax.inject.Singleton;
+
+/**
+ * Database configuration
+ * @author MorganCpn
+ */
+@Singleton
+public class DatabaseConfiguration implements DatabaseConfigurationInterface {
+    /**
+     * Logger log4j2
+     */
+<span class="fc" id="L24">    private final Logger logger = LogManager.getLogger(this.getClass());</span>
+
+    /**
+     * Database host
+     */
+    private String host;
+
+    /**
+     * Database port
+     */
+    private Integer port;
+
+    /**
+     * Database database name
+     */
+    private String database;
+
+    /**
+     * Database username
+     */
+    private String user;
+
+    /**
+     * Database password
+     */
+    private String password;
+
+    /**
+     * Application properties
+     */
+    private AppProperties appProperties;
+
+    /**
+     * Constructor
+     * @param appProperties
+     */
+<span class="fc" id="L60">    public DatabaseConfiguration(AppProperties appProperties) {</span>
+<span class="fc" id="L61">        this.appProperties = appProperties;</span>
+<span class="fc" id="L62">        this.host = appProperties.getHost();</span>
+<span class="fc" id="L63">        this.port = appProperties.getPort();</span>
+<span class="fc" id="L64">        this.database = appProperties.getDatabase();</span>
+<span class="fc" id="L65">        this.user = appProperties.getUser();</span>
+<span class="fc" id="L66">        this.password = appProperties.getPassword();</span>
+<span class="fc" id="L67">    }</span>
+
+    /**
+     * @see DatabaseConfigurationInterface {@link #getConnexion()}
+     */
+    @Override
+    public MongoClient getConnexion(){
+<span class="pc bpc" id="L74" title="5 of 10 branches missed.">        if ((this.host == null) || (this.port == null) || (this.database == null) || (this.user == null) || (this.password == null)) {</span>
+<span class="nc" id="L75">            logger.error(&quot;DatabaseConfiguration.getMongoClient() : Error fetching database properties&quot;);</span>
+<span class="nc" id="L76">            throw new NullPointerException(&quot;DatabaseConfiguration.getMongoClient() : Error fetching database properties&quot;);</span>
+        }
+<span class="fc" id="L78">        return new MongoClient(this.host, this.port);</span>
+    }
+
+    /**
+     * @see DatabaseConfigurationInterface {@link #closeConnexion(MongoClient)}
+     */
+    @Override
+    public void closeConnexion(MongoClient connexion){
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (connexion != null) {</span>
+            try {
+<span class="nc" id="L88">                connexion.close();</span>
+<span class="nc" id="L89">            } catch (Exception e) {</span>
+<span class="nc" id="L90">                logger.error(&quot;DatabaseConfiguration.closeConnexion() : Error while closing connexion (&quot; + e + &quot;)&quot;);</span>
+<span class="nc" id="L91">            }</span>
+        }
+<span class="nc" id="L93">    }</span>
+
+    /**
+     * @see DatabaseConfigurationInterface {@link #getDatabase(MongoClient)}
+     */
+    @Override
+    public MongoDatabase getDatabase(MongoClient connexion){
+<span class="nc" id="L100">        MongoDatabase database = null;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if(StringUtils.isBlank(this.database)) throw new NullPointerException(&quot;DatabaseConfiguration.getDatabase() : database is mandatory&quot;);</span>
+        try {
+<span class="nc" id="L103">            database = connexion.getDatabase(this.database);</span>
+<span class="nc" id="L104">        } catch (Exception e) {</span>
+<span class="nc" id="L105">            logger.error(&quot;DatabaseConfiguration.getDatabase() : Error while getting database (&quot; + e + &quot;)&quot;);</span>
+<span class="nc" id="L106">        }</span>
+<span class="nc" id="L107">        return database;</span>
+    }
+
+    /**
+     * @see DatabaseConfigurationInterface {@link #getCollection(MongoDatabase, String)}
+     */
+    @Override
+    public MongoCollection&lt;Document&gt; getCollection(MongoDatabase database, String collectionName){
+<span class="nc" id="L115">        MongoCollection&lt;Document&gt; collection = null;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if(StringUtils.isBlank(collectionName)) throw new NullPointerException(&quot;DatabaseConfiguration.getCollection() : collection is mandatory&quot;);</span>
+        try {
+<span class="nc" id="L118">            collection = database.getCollection(collectionName);</span>
+<span class="nc" id="L119">        } catch (Exception e) {</span>
+<span class="nc" id="L120">            logger.error(&quot;DatabaseConfiguration.getCollection() : Error while getting collection (&quot; + e + &quot;)&quot;);</span>
+<span class="nc" id="L121">        }</span>
+<span class="nc" id="L122">        return collection;</span>
+    }
+
+    /**
+     * @see DatabaseConfigurationInterface {@link #createCollection(MongoDatabase, String)}
+     */
+    @Override
+    public void createCollection(MongoDatabase database, String collectionName){
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if(StringUtils.isBlank(collectionName)) throw new NullPointerException(&quot;DatabaseConfiguration.createCollection() : collection is mandatory&quot;);</span>
+        try {
+<span class="nc" id="L132">            database.createCollection(collectionName);</span>
+<span class="nc" id="L133">        } catch (Exception e) {</span>
+<span class="nc" id="L134">            logger.error(&quot;DatabaseConfiguration.createCollection() : Error while creating collection (&quot; + e + &quot;)&quot;);</span>
+<span class="nc" id="L135">        }</span>
+<span class="nc" id="L136">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

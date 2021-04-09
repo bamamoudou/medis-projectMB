@@ -1,0 +1,15 @@
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\model\Jwt.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\interfaces\SecurityServiceInterface.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\service\SecurityService.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\exception\NotAllowedException.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\model\Login.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\configuration\AppProperties.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\controller\AuthenticationController.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\configuration\AppConfiguration.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\configuration\HttpTraceActuatorConfiguration.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\exception\NotFoundException.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\configuration\SwaggerConfiguration.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\MsAuthenticationApplication.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\service\JwtService.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\configuration\MVCConfiguration.java
+C:\Users\Mamoudouba\eclipse-workspace\medismicroservices\ms-authentication\src\main\java\com\mediscreen\msauthentication\interfaces\JwtServiceInterface.java

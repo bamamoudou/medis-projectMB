@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-patientAdmin</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mspatientadmin.configuration</a> &gt; <span class="el_source">DatabaseConfiguration.java</span></div><h1>DatabaseConfiguration.java</h1><pre class="source lang-java linenums">package com.mediscreen.mspatientadmin.configuration;
+
+import com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.inject.Singleton;
+import java.sql.*;
+
+/**
+ * Database configuration
+ * @author MorganCpn
+ */
+@Singleton
+public class DatabaseConfiguration implements DatabaseConfigurationInterface {
+    /**
+     * Logger log4j2
+     */
+<span class="fc" id="L19">    private final Logger logger = LogManager.getLogger(this.getClass());</span>
+
+    /**
+     * Database host
+     */
+    private String host;
+
+    /**
+     * Database port
+     */
+    private String port;
+
+    /**
+     * Database database name
+     */
+    private String database;
+
+    /**
+     * Database username
+     */
+    private String user;
+
+    /**
+     * Database password
+     */
+    private String password;
+
+    /**
+     * Application properties
+     */
+    private AppProperties appProperties;
+
+    /**
+     * Constructor
+     * @param appProperties
+     */
+<span class="fc" id="L55">    public DatabaseConfiguration(AppProperties appProperties) {</span>
+<span class="fc" id="L56">        this.appProperties = appProperties;</span>
+<span class="fc" id="L57">        this.host = appProperties.getHost();</span>
+<span class="fc" id="L58">        this.port = String.valueOf(appProperties.getPort());</span>
+<span class="fc" id="L59">        this.database = appProperties.getDatabase();</span>
+<span class="fc" id="L60">        this.user = appProperties.getUser();</span>
+<span class="fc" id="L61">        this.password = appProperties.getPassword();</span>
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface {@link #getConnection()}
+     */
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+<span class="nc" id="L68">        Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+<span class="nc bnc" id="L69" title="All 10 branches missed.">        if ((this.host == null) || (this.port == null) || (this.database == null) || (this.user == null) || (this.password == null)) {</span>
+<span class="nc" id="L70">            logger.error(&quot;Error fetching database properties&quot;);</span>
+<span class="nc" id="L71">            throw new NullPointerException(&quot;Error fetching database properties&quot;);</span>
+        }
+
+<span class="nc" id="L74">        return DriverManager.getConnection(</span>
+                &quot;jdbc:mysql://&quot; + this.host + &quot;:&quot; + this.port + &quot;/&quot; + this.database,
+                this.user,
+                this.password
+        );
+    }
+
+    /**
+     * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface {@link #closeConnection(Connection)}
+     */
+    @Override
+    public void closeConnection(Connection con) {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (con != null) {</span>
+            try {
+<span class="nc" id="L88">                con.close();</span>
+<span class="nc" id="L89">            } catch (SQLException e) {</span>
+<span class="nc" id="L90">                logger.error(&quot;Error while closing connection&quot;, e);</span>
+<span class="nc" id="L91">            }</span>
+        }
+<span class="nc" id="L93">    }</span>
+
+    /**
+     * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface {@link #closePreparedStatement(Statement)}
+     */
+    @Override
+    public void closePreparedStatement(Statement ps) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (ps != null) {</span>
+            try {
+<span class="nc" id="L102">                ps.close();</span>
+<span class="nc" id="L103">            } catch (SQLException e) {</span>
+<span class="nc" id="L104">                logger.error(&quot;Error while closing prepared statement&quot;, e);</span>
+<span class="nc" id="L105">            }</span>
+        }
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface {@link #closeResultSet(ResultSet)}
+     */
+    @Override
+    public void closeResultSet(ResultSet rs) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (rs != null) {</span>
+            try {
+<span class="nc" id="L116">                rs.close();</span>
+<span class="nc" id="L117">            } catch (SQLException e) {</span>
+<span class="nc" id="L118">                logger.error(&quot;Error while closing result set&quot;, e);</span>
+<span class="nc" id="L119">            }</span>
+        }
+<span class="nc" id="L121">    }</span>
+
+    /**
+     * @see com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface {@link #closeSQLTransaction(Connection, Statement, ResultSet)}
+     */
+    @Override
+    public void closeSQLTransaction(Connection con, Statement ps, ResultSet rs){
+<span class="nc" id="L128">        closeConnection(con);</span>
+<span class="nc" id="L129">        closePreparedStatement(ps);</span>
+<span class="nc" id="L130">        closeResultSet(rs);</span>
+<span class="nc" id="L131">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

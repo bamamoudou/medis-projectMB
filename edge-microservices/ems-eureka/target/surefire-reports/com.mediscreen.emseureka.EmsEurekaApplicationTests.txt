@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.mediscreen.emseureka.EmsEurekaApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.381 s - in com.mediscreen.emseureka.EmsEurekaApplicationTests

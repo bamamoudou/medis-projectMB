@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArrayUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-patientAdmin</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mspatientadmin.utils</a> &gt; <span class="el_source">ArrayUtil.java</span></div><h1>ArrayUtil.java</h1><pre class="source lang-java linenums">package com.mediscreen.mspatientadmin.utils;
+
+import java.util.*;
+
+/**
+ * @author MorganCpn
+ */
+public class ArrayUtil {
+
+    private ArrayUtil() { }
+
+    /**
+     * Sort map by key
+     * @param map
+     * @param &lt;K&gt;
+     * @param &lt;V&gt;
+     * @return
+     */
+    public static &lt;K, V extends Comparable&lt;? super V&gt;&gt; Map&lt;K, V&gt; sortMapByKey(Map&lt;K, V&gt; map) {
+<span class="nc" id="L20">        Map&lt;K, V&gt; sortedMapByKey = new TreeMap&lt;&gt;(map);</span>
+<span class="nc" id="L21">        return sortedMapByKey;</span>
+    }
+
+    /**
+     * Sort map by value
+     * @param map
+     * @param &lt;K&gt;
+     * @param &lt;V&gt;
+     * @return
+     */
+    public static &lt;K, V extends Comparable&lt;? super V&gt;&gt; Map&lt;K, V&gt; sortMapByValue(Map&lt;K, V&gt; map) {
+<span class="nc" id="L32">        List&lt;Map.Entry&lt;K, V&gt;&gt; list = new ArrayList&lt;&gt;(map.entrySet());</span>
+<span class="nc" id="L33">        list.sort(Map.Entry.comparingByValue());</span>
+
+<span class="nc" id="L35">        Map&lt;K, V&gt; result = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (Map.Entry&lt;K, V&gt; entry : list) {</span>
+<span class="nc" id="L37">            result.put(entry.getKey(), entry.getValue());</span>
+<span class="nc" id="L38">        }</span>
+
+<span class="nc" id="L40">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

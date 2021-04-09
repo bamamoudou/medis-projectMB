@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-clientUI</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.msclientui.service</a> &gt; <span class="el_source">SecurityService.java</span></div><h1>SecurityService.java</h1><pre class="source lang-java linenums">package com.mediscreen.msclientui.service;
+
+import com.mediscreen.msclientui.exception.EmptyDataException;
+import com.mediscreen.msclientui.exception.NotAllowedException;
+import com.mediscreen.msclientui.interfaces.SecurityServiceInterface;
+import com.mediscreen.msclientui.model.Jwt;
+import com.mediscreen.msclientui.model.Login;
+import com.mediscreen.msclientui.proxy.MSZuulProxy;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import javax.servlet.http.HttpSession;
+
+public class SecurityService implements SecurityServiceInterface {
+    /**
+     * Zuul proxy
+     */
+    @Autowired
+    private MSZuulProxy msZuulProxy;
+
+<span class="fc" id="L23">    public SecurityService() {</span>
+<span class="fc" id="L24">    }</span>
+
+    /**
+     * @see SecurityServiceInterface {@link #authenticationCheck(String)}
+     */
+    @Override
+    public boolean authenticationCheck(String token) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (StringUtils.isBlank(token)) throw new EmptyDataException(&quot;The authentication token is required&quot;);</span>
+<span class="nc" id="L32">        ResponseEntity&lt;Void&gt; validation = msZuulProxy.msAuthentication_validateToken(token);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (!validation.getStatusCode().equals(HttpStatus.OK)) throw new NotAllowedException(&quot;Permission denied&quot;);</span>
+<span class="nc" id="L34">        return true;</span>
+    }
+
+    /**
+     * @see SecurityServiceInterface {@link #isLog(HttpSession)}
+     */
+    @Override
+    public boolean isLog(HttpSession session){
+<span class="nc" id="L42">        String token = (String) session.getAttribute(&quot;token&quot;);</span>
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        if(token != null &amp;&amp; !StringUtils.isBlank(token)) return authenticationCheck(token);</span>
+<span class="nc" id="L44">        return false;</span>
+    }
+
+    /**
+     * @see SecurityServiceInterface {@link #logUser(Login, HttpSession)}
+     */
+    @Override
+    public String logUser(Login login, HttpSession session){
+<span class="nc bnc" id="L52" title="All 4 branches missed.">        if (!StringUtils.isBlank(login.getUsername()) &amp;&amp; !StringUtils.isBlank(login.getPassword())) {</span>
+            try {
+<span class="nc" id="L54">                ResponseEntity&lt;Jwt&gt; jwt = msZuulProxy.msAuthentication_generateToken(login);</span>
+<span class="nc bnc" id="L55" title="All 6 branches missed.">                if (jwt.getStatusCode().equals(HttpStatus.OK) &amp;&amp; jwt.getBody() != null &amp;&amp; jwt.getBody().getToken() != null) {</span>
+<span class="nc" id="L56">                    return jwt.getBody().getToken();</span>
+                } else {
+<span class="nc" id="L58">                    throw new NullPointerException(&quot;JWT no generated&quot;);</span>
+                }
+<span class="nc" id="L60">            } catch (NotAllowedException e) {</span>
+<span class="nc" id="L61">                throw new NotAllowedException(&quot;Permission denied, username or password are incorrect&quot;);</span>
+            }
+        } else {
+<span class="nc" id="L64">            throw new EmptyDataException(&quot;Username and password are required&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
