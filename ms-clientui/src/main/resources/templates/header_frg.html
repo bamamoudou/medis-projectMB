@@ -1,0 +1,18 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="main_header" class="main_header wdth_100 flex flex_row flex_align_center flex_justify_sp-between">
+        <a th:href="@{/}" class="logo flex flex_row flex_align_center flex_justify_start wdth_50">
+            <img th:src="@{/assets/logo.png}" alt="logo">
+            <div class="title_ctn hght_100 flex flex_row flex_align_end">
+                <p class="title txt_upp txt_ltr-sp_2 txt_bold">Mediscreen</p>
+                <p class="sub_title txt_upp txt_ltr-sp_2 color_grey96">Aberthy Clinic</p>
+            </div>
+        </a>
+        <a th:if="${isLogin}" th:href="@{/logout}" class="wdth_50 flex flex_align_center flex_row flex_justify_end">
+            <svg class="feather strk_black">
+                <use th:href="@{/assets/icons/feather-sprite.svg#log-out}"/>
+            </svg>
+        </a>
+    </header>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="patient-sheet-report" id="patient-sheet-report" class="main_section_subSection hght_100 none">
+        <div class="report mrg_0_auto brd_grey96">
+            <div class="report_line flex flex_row flex_align_center">
+                <div class="report_line_label color_grey96 txt_upp txt_ltr-sp_2">Lastname :</div>
+                <div class="report_line_data txt_upp txt_ltr-sp_2" th:text="${patient.getLastname()}"></div>
+            </div>
+            <div class="report_line flex flex_row flex_align_center">
+                <div class="report_line_label color_grey96 txt_upp txt_ltr-sp_2">Firstname :</div>
+                <div class="report_line_data txt_captz txt_ltr-sp_2" th:text="${patient.getFirstname()}"></div>
+            </div>
+            <div class="report_line flex flex_row flex_align_center">
+                <div class="report_line_label color_grey96 txt_upp txt_ltr-sp_2">Age :</div>
+                <div class="report_line_data txt_ltr-sp_2" th:text="${#temporals.format(patient.getBirthday(), 'dd/MM/yyyy') + ' (' + patient.getAge() + 'y)'}"></div>
+            </div>
+            <div class="report_line flex flex_row flex_align_center">
+                <div class="report_line_label color_grey96 txt_upp txt_ltr-sp_2">Sex :</div>
+                <div class="report_line_data txt_ltr-sp_2" th:text="${patient.getSexe()}"></div>
+            </div>
+            <div class="report_line flex flex_row flex_align_center">
+                <div class="report_line_label color_grey96 txt_upp txt_ltr-sp_2">Address :</div>
+                <div class="report_line_data txt_ltr-sp_2" th:text="${patient.getAddress()}"></div>
+            </div>
+            <div class="report_line flex flex_row flex_align_center">
+                <div class="report_line_label color_grey96 txt_upp txt_ltr-sp_2">Report Date :</div>
+                <div class="report_line_data txt_ltr-sp_2" th:text="${#temporals.format(patient.medicalReport.date, 'dd/MM/yyyy HH:mm:ss')}"></div>
+            </div>
+            <div th:switch="${patient.medicalReport.result.name}" class="report_result flex flex_row flex_center wdth_100">
+                <span th:case="${'NONE'}" class="report_result_value txt_upp brd_green color_green" th:text="${patient.medicalReport.result.lib}"></span>
+                <span th:case="${'BORDERLINE'}" class="report_result_value txt_upp brd_yellow color_yellow" th:text="${patient.medicalReport.result.lib}"></span>
+                <span th:case="${'IN_DANGER'}" class="report_result_value txt_upp brd_orange color_orange" th:text="${patient.medicalReport.result.lib}"></span>
+                <span th:case="${'EARLY_ONSET'}" class="report_result_value txt_upp brd_red color_red" th:text="${patient.medicalReport.result.lib}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
