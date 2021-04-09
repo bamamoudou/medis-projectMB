@@ -1,91 +1,150 @@
 version: '3.3'
 services:
+    # MySQL
     mysql_db:
         image: mysql:latest
         volumes:
-            - "./mediscreen-patient/src/main/resources/static/database/patient_data.sql:/docker-entrypoint-initdb.d/0_init.sql"
+            - "./docker/mysql/database.sql:/docker-entrypoint-initdb.d/0_init.sql"
         restart: always
         ports:
             - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: password
-            MYSQL_DATABASE: test
             MYSQL_USER: user
             MYSQL_PASSWORD: password
         container_name: mysql_db
         networks:
             - mediscreen-network
 
-    #eureka
-    eureka-server:
-        build: ./edge-microservices/eureka-server/
-        restart: always
-        ports: 
-            - "9001:9001"
-        container_name: eureka-server
+    # MongoDB
+    mongo_db:
+        image: mongo:latest
+        hostname: mongo_db
+        volumes:
+            - ./docker/mongodb/mongod.conf:/etc/mongod.conf
+            - ./docker/mongodb/data/db/:/data/db/
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+            - "27017:27017"
+        container_name: mongo_db
+        command: ["-f", "/etc/mongod.conf"]
         networks:
             - mediscreen-network
 
-    # zuul
-    zuul-server:
-        build: ./edge-microservices/zuul-server/
+    # MongoDB - Data
+    mongo_db_data:
+        image: mongo:latest
+        container_name: mongo_db_data
+        volumes:
+            - ./docker/mongodb/init/:/src/data/
+        command: ./src/data/import.sh 
+        depends_on:
+            - mongo_db
+        networks:
+            - mediscreen-network    
+
+    # ems-eureka
+    ems-eureka:
+        build: ./EdgeMS/ems-eureka/
         restart: always
-        ports: 
+        ports:
+            - "9001:9001"
+        container_name: ems-eureka
+        networks:
+            - mediscreen-network
+
+    # ems-zuul
+    ems-zuul:
+        build: ./EdgeMS/ems-zuul/
+        restart: always
+        ports:
             - "9002:9002"
         container_name: ems-zuul
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
     
-    #ems-admin
-    admin-service:
-        build: ./edge-microservices/admin-service/
+    # ems-admin
+    ems-admin:
+        build: ./EdgeMS/ems-admin/
         restart: always
-        ports: 
+        ports:
             - "9004:9004"
         container_name: ems-admin
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
 
-    #authentication
-    mediscreen-authentication:
-        build: ./mediscreen-authentication/
+    # ms-authentication
+    ms-authentication:
+        build: ./ms-authentication/
         restart: always
-        ports: 
-            - "8081:8081"
+        ports:
+            - "8083:8083"
         container_name: ms-authentication
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
 
-    #patient 
-    mediscreen-patient:
-        build: ./mediscreen-patient/
+    # ms-patientadmin
+    ms-patientadmin:
+        build: ./ms-patientAdmin/
         restart: always
-        ports: 
-            - "8082:8082"
-        container_name: ms-patient
+        ports:
+            - "8081:8081"
+        container_name: ms-patientadmin
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
-            - mediscreen-mediscreen-patient-db.host=mysql_db
+            - mediscreen-ms-patient-admin-db.host=mysql_db
         depends_on:
-            - eureka-server
+            - ems-eureka
             - mysql_db
         networks:
             - mediscreen-network
 
-  #clientui
-    mediscreen-clientui:
+    # ms-medicalrecord
+    ms-medicalrecord:
+        build: ./ms-medicalrecord/
+        restart: always
+        ports:
+            - "8082:8082"
+        container_name: ms-medicalrecord
+        environment:
+            - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
+            - mediscreen-ms-medical-record-db.host=mongo_db
+        depends_on:
+            - ems-eureka
+            - mongo_db
+        networks:
+            - mediscreen-network
+
+    # ms-medicalreport
+    ms-medicalreport:
+        build: ./ms-medicalreport/
+        restart: always
+        ports:
+            - "8080:8080"
+        container_name: ms-medicalreport
+        environment:
+            - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
+        depends_on:
+            - ems-eureka
+        networks:
+            - mediscreen-network
+
+    # ms-clientui
+    ms-clientui:
         build: ./ms-clientui/
         restart: always
         ports:
@@ -94,7 +153,7 @@ services:
         environment:
             - eureka.client.serviceUrl.defaultZone=http://ems-eureka:9001/eureka/
         depends_on:
-            - eureka-server
+            - ems-eureka
         networks:
             - mediscreen-network
 networks:
