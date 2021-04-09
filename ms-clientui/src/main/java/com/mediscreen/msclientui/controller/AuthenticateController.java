@@ -39,7 +39,7 @@ public class AuthenticateController {
     @PostMapping("/login")
     public ModelAndView postLogin(HttpSession session, @ModelAttribute Login login){
         try {
-            session.setAttribute("token", securityService.logUser(login, session));
+            session.setAttribute("token", securityService.logUser(login));
             return controllerUtils.rootRedirect();
         } catch (EmptyDataException | NotAllowedException e){
             ModelMap model = new ModelMap();

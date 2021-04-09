@@ -6,11 +6,11 @@
                 <p id="form_error_msg" class="form_error_msg" th:text="${error} ?: ''"></p>
                 <div class="form_ipt_ctn_txt">
                     <label class="from_ipt_label" for="doctorName">Doctor</label>
-                    <input type="text" placeholder="Dr. SMITH John" id="doctorName" class="form_ipt_txt txt_captz txt_ltr-sp_2">
+                    <input type="text" placeholder="Dr. SMITH John" id="doctorName" class="form_ipt_txt txt_captz txt_ltr-sp_2" required>
                 </div>
                 <div class="form_ipt_ctn_txt">
                     <label class="from_ipt_label" for="content">Content</label>
-                    <textarea placeholder="Visit content .." id="content" class="form_ipt_textarea txt_captz txt_ltr-sp_2"></textarea>
+                    <textarea placeholder="Visit content .." id="content" class="form_ipt_textarea txt_ltr-sp_2" required></textarea>
                 </div>
                 <div class="form_ipt_ctn_btns">
                     <input type="reset" name="reset" class="from_ipt_btn btn color_grey69 bck_white txt_upp txt_ltr-sp_4" value="cancel">
@@ -29,7 +29,7 @@
                         <p class="color_greyCA txt_ltr-sp_2" th:text="${#temporals.format(medRecord.lastChangeDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
                     </div>
                 </div>
-                <p class="visit_content hght_100 wdth_65 txt_ltr-sp_2" th:text="${medRecord.content}"></p>
+                <p class="visit_content hght_100 wdth_65 txt_ltr-sp_2" th:utext="${medRecord.content}"></p>
                 <span th:data-id="${medRecord.getId()}" th:data-patient="${medRecord.getPatientId()}" th:data-active="${!medRecord.isActive()}" class="btn btn_active pos_absolute flex_center">
                     <svg th:if="${medRecord.isActive()}" class="feather strk_red">
                         <use th:href="@{/assets/icons/feather-sprite.svg#x}"/>

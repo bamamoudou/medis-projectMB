@@ -52,7 +52,10 @@ public class MedicalReportService implements MedicalReportServiceInterface {
         Patient patient = null;
         if (id != null && id > 0) {
             patient = msZuulProxy.msPatientAdmin_getPatient(token, id);
-            if (patient == null) throw new NotFoundException("Unknown patient with id : " + id);
+            if (patient == null) {
+                logger.error("Unknown patient with id : " + id);
+                throw new NotFoundException("Unknown patient with id : " + id);
+            }
         }
         return patient;
     }
@@ -72,7 +75,10 @@ public class MedicalReportService implements MedicalReportServiceInterface {
                     if (p.getLastname().equalsIgnoreCase(name)) patient = p;
                 }
             }
-            if (patient == null) throw new NotFoundException("Unknown patient with name : " + name);
+            if (patient == null) {
+                logger.error("Unknown patient with name : " + name);
+                throw new NotFoundException("Unknown patient with name : " + name);
+            }
         }
         return patient;
     }
@@ -99,7 +105,6 @@ public class MedicalReportService implements MedicalReportServiceInterface {
     public Integer countTrigger(List<MedicalRecord> medicalRecordList){
         Integer triggerCount = 0;
         List<String> triggerList = new ArrayList<>();
-        triggerList.add("h[eé]moglobine A1C");
         triggerList.add("microalbumine");
         triggerList.add("taille");
         triggerList.add("poids");
@@ -113,8 +118,14 @@ public class MedicalReportService implements MedicalReportServiceInterface {
 
         if (medicalRecordList != null && medicalRecordList.size() > 0) {
             for (MedicalRecord medicalRecord : medicalRecordList) {
-                for (String str : triggerList) {
-                    if (medicalRecord.isActive() && medicalRecord.getContent().matches("(?i:.*" + str + ".*)")) triggerCount++;
+                if(medicalRecord.isActive() && !StringUtils.isBlank(medicalRecord.getContent())){
+                    if (medicalRecord.getContent().matches("(?i:.*h[eé]moglobine A1C.*)")) triggerCount++;
+                    String contentSplit[] = medicalRecord.getContent().split(" ");
+                    for (String str : contentSplit) {
+                        for (String trigger : triggerList) {
+                            if (str.matches("(?i:.*" + trigger + ".*)")) triggerCount++;
+                        }
+                    }
                 }
             }
         }
@@ -131,6 +142,7 @@ public class MedicalReportService implements MedicalReportServiceInterface {
                 (name == null && (id == null || id < 1)) ||
                 (id == null && StringUtils.isBlank(name))
         ){
+            logger.error("MedicalReportService : id or name and token are mandatory");
             throw new EmptyDataException("MedicalReportService : id or name and token are mandatory");
         }
 

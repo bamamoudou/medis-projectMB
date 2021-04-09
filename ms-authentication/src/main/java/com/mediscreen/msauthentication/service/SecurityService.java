@@ -7,6 +7,8 @@ import com.mediscreen.msauthentication.interfaces.SecurityServiceInterface;
 import com.mediscreen.msauthentication.interfaces.JwtServiceInterface;
 import com.mediscreen.msauthentication.model.Jwt;
 import com.mediscreen.msauthentication.model.Login;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
@@ -14,6 +16,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SecurityService implements SecurityServiceInterface {
+    /**
+     * Logger log4j2
+     */
+    private final Logger logger = LogManager.getLogger(this.getClass());
+
     /**
      * Token Service
      */
@@ -58,9 +65,11 @@ public class SecurityService implements SecurityServiceInterface {
                 if (login.isRememberUser()) time *= 90;
                 return jwtServiceInterface.createJWT(uuid, "Login", "Mediscreen", claims, time);
             } else {
+                logger.error("Username and/or password are incorrect");
                 throw new NotAllowedException("Username and/or password are incorrect");
             }
         } else {
+            logger.error("User login informations are incomplete");
             throw new NotFoundException("User login informations are incomplete");
         }
     }

@@ -54,7 +54,10 @@ public class MedicalRecordService implements MedicalRecordServiceInterface {
     @Override
     public List<MedicalRecord> getPatientMedicalRecords(String token, Integer id) {
         if (id != null && id > 0) {
-            if (msZuulProxy.msPatientAdmin_getPatient(token, id) == null) throw new NotFoundException("Unknown patient with id : " + id);
+            if (msZuulProxy.msPatientAdmin_getPatient(token, id) == null){
+                logger.error("Unknown patient with id : " + id);
+                throw new NotFoundException("Unknown patient with id : " + id);
+            }
             return medicalRecordDao.getAllPatientMedicalRecords(id);
         }
         return null;
@@ -69,7 +72,10 @@ public class MedicalRecordService implements MedicalRecordServiceInterface {
             medicalRecord.getPatientId() != null &&
             medicalRecord.getPatientId() > 0
         ) {
-            if (msZuulProxy.msPatientAdmin_getPatient(token, medicalRecord.getPatientId()) == null) throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
+            if (msZuulProxy.msPatientAdmin_getPatient(token, medicalRecord.getPatientId()) == null){
+                logger.error("Unknown patient with id : " + medicalRecord.getId());
+                throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
+            }
             return medicalRecordDao.createMedicalRecord(medicalRecord);
         }
         return null;
@@ -85,7 +91,10 @@ public class MedicalRecordService implements MedicalRecordServiceInterface {
             medicalRecord.getPatientId() != null &&
             medicalRecord.getPatientId() > 0
         ) {
-            if (msZuulProxy.msPatientAdmin_getPatient(token, medicalRecord.getPatientId()) == null) throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
+            if (msZuulProxy.msPatientAdmin_getPatient(token, medicalRecord.getPatientId()) == null) {
+                logger.error("Unknown patient with id : " + medicalRecord.getId());
+                throw new NotFoundException("Unknown patient with id : " + medicalRecord.getId());
+            }
             return medicalRecordDao.updateMedicalRecord(medicalRecord);
         }
         return null;

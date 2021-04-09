@@ -1,4 +1,4 @@
 #!/bin/sh
 
 mvn -N io.takari:maven:wrapper
-./mvnw clean package
+./mvnw clean site package

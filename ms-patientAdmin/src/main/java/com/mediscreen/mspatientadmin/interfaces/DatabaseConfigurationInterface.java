@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
+ * Database configuration
  * @author MorganCpn
  */
 public interface DatabaseConfigurationInterface {

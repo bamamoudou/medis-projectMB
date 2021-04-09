@@ -21,7 +21,7 @@ public interface PatientServiceInterface {
      * @param id
      * @return
      */
-    Patient getPatient(HttpSession session, int id);
+    Patient getPatient(HttpSession session, Integer id);
 
     /**
      * Create patient to ms-patientAdmin
@@ -45,7 +45,7 @@ public interface PatientServiceInterface {
      * @param id
      * @return
      */
-    HttpStatus deletePatient(HttpSession session, int id);
+    HttpStatus deletePatient(HttpSession session, Integer id);
 
     /**
      * Search patient

@@ -65,7 +65,7 @@ $(() => {
                 }
 
                 visit += '</div>';
-                visit += '<p class="visit_content hght_100 wdth_65 txt_ltr-sp_2">' + data.content + '</p>';
+                visit += '<p class="visit_content hght_100 wdth_65 txt_ltr-sp_2">' + data.content.replace(/\n/g, "</br>") + '</p>';
                 visit += '<span data-id="' + data.id + '" data-active="' + !data.active + '" class="btn btn_active pos_absolute flex_center">';
                 visit += '<svg class="feather strk_red">';
                 visit += '<use href="/assets/icons/feather-sprite.svg#x"/>';

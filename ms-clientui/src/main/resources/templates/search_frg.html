@@ -13,8 +13,7 @@
                 <div class="dataset_el_ctn wdth_100 flex flex_column">
                     <a th:href="@{/patient/{id} (id=${patient.id})}" th:each="patient : ${patients}" class="dataset_el flex flex_row flex_align_center pos_relative">
                         <div class="dataset_el_icon flex_center oflow_hidden">
-                            <img th:if="${patient.getProfilePictureExt() != null}" th:src="@{'assets/profilePicture/' + ${patient.getId()} + '_' + ${patient.getFirstname()} + '_' + ${patient.getLastname()} + ${patient.getProfilePictureExt()}}" alt="profile_pct">
-                            <img th:unless="${patient.getProfilePictureExt() != null}" th:src="@{assets/icons/user.svg}">
+                            <img th:src="@{assets/icons/user.svg}">
                         </div>
                         <p th:text="${patient.getLastname()}" class="dataset_el_lastname txt_upp txt_ltr-sp_2"></p>
                         <p th:text="${patient.getFirstname()}" class="dataset_el_firstname txt_captz txt_ltr-sp_2"></p>

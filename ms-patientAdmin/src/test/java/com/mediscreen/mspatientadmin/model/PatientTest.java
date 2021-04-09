@@ -76,5 +76,4 @@ class PatientTest {
         assertThat(patient.getPhone()).isEqualTo("newPhone");
         assertThat(patient.getCountry()).isEqualTo("newCountry");
     }
-
 }

@@ -73,7 +73,7 @@ public class MedicalRecordDao implements MedicalRecordDaoInterface {
                 jsonObject.getJSONObject("_id").getString("$oid"),
                 jsonObject.getInt("patientId"),
                 (!jsonObject.isNull("doctorName") && !StringUtils.isBlank(jsonObject.getString("doctorName"))) ? (String) jsonObject.get("doctorName") : null,
-                LocalDateTime.parse(jsonObject.getString("createDate"), this.dateFormatter),
+                (!jsonObject.isNull("createDate") && !StringUtils.isBlank(jsonObject.getString("createDate"))) ? LocalDateTime.parse(jsonObject.getString("createDate"), this.dateFormatter) : null,
                 (!jsonObject.isNull("lastChangeDate") && !StringUtils.isBlank(jsonObject.getString("lastChangeDate"))) ? LocalDateTime.parse(jsonObject.getString("lastChangeDate"), this.dateFormatter) : null,
                 (!jsonObject.isNull("content") && !StringUtils.isBlank(jsonObject.getString("content"))) ? (String) jsonObject.get("content") : null,
                 jsonObject.getBoolean("isActive")
@@ -85,6 +85,7 @@ public class MedicalRecordDao implements MedicalRecordDaoInterface {
      */
     @Override
     public List<MedicalRecord> getAllPatientMedicalRecords(Integer patientId){
+        boolean added = false;
         List<MedicalRecord> result = null;
 
         try {
@@ -92,8 +93,21 @@ public class MedicalRecordDao implements MedicalRecordDaoInterface {
 
             for (Document document : collection.find(eq("patientId", patientId)).sort(Sorts.descending("createDate"))) {
                 if (result == null) { result = new ArrayList<>(); }
-                result.add(parseJsonToMedicalRecord(new JSONObject(document.toJson())));
+                MedicalRecord medicalRecord = parseJsonToMedicalRecord(new JSONObject(document.toJson()));
+                for (int i = 0; i < result.size(); i++) {
+                    if(medicalRecord.getCreateDate().isAfter(result.get(0).getCreateDate())){
+                        result.add(0, medicalRecord);
+                        added = true;
+                        break;
+                    }
+                }
+                if (!added) {
+                    result.add(medicalRecord);
+                }
+                added = false;
             }
+        } catch (Exception e){
+            logger.error("Error DAO : " + e);
         } finally {
             if (connexion != null) connexion.close();
         }
@@ -122,6 +136,8 @@ public class MedicalRecordDao implements MedicalRecordDaoInterface {
                 MedicalRecord currentRecord = parseJsonToMedicalRecord(new JSONObject(document.toJson()));
                 result = (result == null || result.getCreateDate().isBefore(currentRecord.getCreateDate())) ? currentRecord : result;
             }
+        } catch (Exception e){
+            logger.error("Error DAO : " + e);
         } finally {
             if (connexion != null) connexion.close();
         }
@@ -133,12 +149,13 @@ public class MedicalRecordDao implements MedicalRecordDaoInterface {
      * @see MedicalRecordDaoInterface {@link #updateMedicalRecord(MedicalRecord)}
      */
     @Override
-    public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord){
+    public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
         MedicalRecord result = null;
         try {
             MongoCollection<Document> collection = this.getMedicalRecordsCollection();
 
-            if(!collection.find(eq("_id", new ObjectId(medicalRecord.getId()))).cursor().hasNext()) {
+            if (!collection.find(eq("_id", new ObjectId(medicalRecord.getId()))).cursor().hasNext()) {
+                logger.error("Unknown medical record with id : " + medicalRecord.getId());
                 throw new NotFoundException("Unknown medical record with id : " + medicalRecord.getId());
             }
 
@@ -151,6 +168,8 @@ public class MedicalRecordDao implements MedicalRecordDaoInterface {
                 MedicalRecord currentRecord = parseJsonToMedicalRecord(new JSONObject(document.toJson()));
                 result = (result == null || result.getCreateDate().isBefore(currentRecord.getCreateDate())) ? currentRecord : result;
             }
+        } catch (Exception e){
+            logger.error("Error DAO : " + e);
         } finally {
             if (connexion != null) connexion.close();
         }

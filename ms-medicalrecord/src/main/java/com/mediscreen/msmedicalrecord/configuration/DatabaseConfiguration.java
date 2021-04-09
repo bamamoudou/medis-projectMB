@@ -1,6 +1,7 @@
 package com.mediscreen.msmedicalrecord.configuration;
 
 import com.mediscreen.msmedicalrecord.interfaces.DatabaseConfigurationInterface;
+import com.mediscreen.msmedicalrecord.model.DBConnection;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -25,46 +26,30 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     /**
-     * Database host
+     * Database connection informations
      */
-    private String host;
-
-    /**
-     * Database port
-     */
-    private Integer port;
-
-    /**
-     * Database database name
-     */
-    private String database;
-
-    /**
-     * Database username
-     */
-    private String user;
-
-    /**
-     * Database password
-     */
-    private String password;
-
-    /**
-     * Application properties
-     */
-    private AppProperties appProperties;
+    private DBConnection dbConnection;
 
     /**
      * Constructor
      * @param appProperties
      */
     public DatabaseConfiguration(AppProperties appProperties) {
-        this.appProperties = appProperties;
-        this.host = appProperties.getHost();
-        this.port = appProperties.getPort();
-        this.database = appProperties.getDatabase();
-        this.user = appProperties.getUser();
-        this.password = appProperties.getPassword();
+        this.dbConnection = new DBConnection(
+                appProperties.getHost(),
+                appProperties.getPort(),
+                appProperties.getDatabase(),
+                appProperties.getUser(),
+                appProperties.getPassword()
+        );
+    }
+
+    /**
+     * Constructor
+     * @param dbConnection
+     */
+    public DatabaseConfiguration(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 
     /**
@@ -72,11 +57,11 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
      */
     @Override
     public MongoClient getConnexion(){
-        if ((this.host == null) || (this.port == null) || (this.database == null) || (this.user == null) || (this.password == null)) {
+        if ((this.dbConnection.getHost() == null) || (this.dbConnection.getPort() == null) || (this.dbConnection.getDatabase() == null) || (this.dbConnection.getUser() == null) || (this.dbConnection.getPassword() == null)) {
             logger.error("DatabaseConfiguration.getMongoClient() : Error fetching database properties");
             throw new NullPointerException("DatabaseConfiguration.getMongoClient() : Error fetching database properties");
         }
-        return new MongoClient(new MongoClientURI("mongodb://" + this.user + ":" + this.password + "@" + this.host + ":" + this.port + "/" + this.database + "?authSource=admin"));
+        return new MongoClient(new MongoClientURI("mongodb://" + this.dbConnection.getUser() + ":" + this.dbConnection.getPassword() + "@" + this.dbConnection.getHost() + ":" + this.dbConnection.getPort() + "/" + this.dbConnection.getDatabase() + "?authSource=admin"));
     }
 
     /**
@@ -99,9 +84,9 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
     @Override
     public MongoDatabase getDatabase(MongoClient connexion){
         MongoDatabase database = null;
-        if(StringUtils.isBlank(this.database)) throw new NullPointerException("DatabaseConfiguration.getDatabase() : database is mandatory");
+        if(StringUtils.isBlank(this.dbConnection.getDatabase())) throw new NullPointerException("DatabaseConfiguration.getDatabase() : database is mandatory");
         try {
-            database = connexion.getDatabase(this.database);
+            database = connexion.getDatabase(this.dbConnection.getDatabase());
         } catch (Exception e) {
             logger.error("DatabaseConfiguration.getDatabase() : Error while getting database (" + e + ")");
         }

@@ -12,11 +12,11 @@
                         <div class="form_col wdth_45">
                             <div class="form_ipt_ctn_txt">
                                 <label class="from_ipt_label" for="firstname">Firstname</label>
-                                <input type="text" th:field="*{firstname}" placeholder="john" name="firstname" id="firstname" th:value="${patient.getFirstname()}" class="form_ipt_txt txt_captz txt_ltr-sp_2">
+                                <input type="text" th:field="*{firstname}" placeholder="john" name="firstname" id="firstname" th:value="${patient.getFirstname()}" class="form_ipt_txt txt_captz txt_ltr-sp_2" required>
                             </div>
                             <div class="form_ipt_ctn_txt">
                                 <label class="from_ipt_label" for="lastname">Lastname</label>
-                                <input type="text" th:field="*{lastname}" placeholder="smith" name="lastname" id="lastname" th:value="${patient.getLastname()}" class="form_ipt_txt txt_captz txt_ltr-sp_2">
+                                <input type="text" th:field="*{lastname}" placeholder="smith" name="lastname" id="lastname" th:value="${patient.getLastname()}" class="form_ipt_txt txt_captz txt_ltr-sp_2" required>
                             </div>
                             <div class="form_ipt_ctn_txt">
                                 <label class="from_ipt_label" for="birthday">Birthday</label>
@@ -24,7 +24,7 @@
                             </div>
                             <div class="form_ipt_ctn_txt">
                                 <label class="from_ipt_label" for="sexe">Sexe</label>
-                                <input type="text" th:field="*{sexe}" placeholder="M / F" name="sexe" id="sexe" th:value="${patient.getSexe()}" maxlength="1" class="form_ipt_txt txt_ltr-sp_2">
+                                <input type="text" th:field="*{sexe}" placeholder="M / F" name="sexe" id="sexe" th:value="${patient.getSexe()}" maxlength="1" class="form_ipt_txt txt_ltr-sp_2" required>
                             </div>
                         </div>
                         <div class="form_col wdth_45">

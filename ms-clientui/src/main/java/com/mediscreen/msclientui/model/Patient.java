@@ -1,6 +1,5 @@
 package com.mediscreen.msclientui.model;
 
-import com.mediscreen.msclientui.utils.FileUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -166,12 +165,5 @@ public class Patient {
         } else {
             return 0;
         }
-    }
-
-    public String getProfilePictureExt(){
-        return new FileUtils().getFileExtention(
-                "ms-clientui/src/main/resources/static/assets/profilePicture/" + this.getId() + "_" + this.getFirstname() + "_" + this.getLastname(),
-                "img"
-        );
     }
 }

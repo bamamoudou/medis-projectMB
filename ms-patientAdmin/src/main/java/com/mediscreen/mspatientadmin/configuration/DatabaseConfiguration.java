@@ -1,6 +1,7 @@
 package com.mediscreen.mspatientadmin.configuration;
 
 import com.mediscreen.mspatientadmin.interfaces.DatabaseConfigurationInterface;
+import com.mediscreen.mspatientadmin.model.DBConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,46 +20,30 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     /**
-     * Database host
+     * DB connection info to production DB
      */
-    private String host;
-
-    /**
-     * Database port
-     */
-    private String port;
-
-    /**
-     * Database database name
-     */
-    private String database;
-
-    /**
-     * Database username
-     */
-    private String user;
-
-    /**
-     * Database password
-     */
-    private String password;
-
-    /**
-     * Application properties
-     */
-    private AppProperties appProperties;
+    private DBConnection dbConnection;
 
     /**
      * Constructor
      * @param appProperties
      */
     public DatabaseConfiguration(AppProperties appProperties) {
-        this.appProperties = appProperties;
-        this.host = appProperties.getHost();
-        this.port = String.valueOf(appProperties.getPort());
-        this.database = appProperties.getDatabase();
-        this.user = appProperties.getUser();
-        this.password = appProperties.getPassword();
+        this.dbConnection = new DBConnection(
+                appProperties.getHost(),
+                appProperties.getPort(),
+                appProperties.getDatabase(),
+                appProperties.getUser(),
+                appProperties.getPassword()
+        );
+    }
+
+    /**
+     * Constructor
+     * @param dbConnectionTest
+     */
+    public DatabaseConfiguration(DBConnection dbConnection){
+        this.dbConnection = dbConnection;
     }
 
     /**
@@ -66,15 +51,15 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
      */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        if ((this.host == null) || (this.port == null) || (this.database == null) || (this.user == null) || (this.password == null)) {
+        if ((this.dbConnection.getHost() == null) || (this.dbConnection.getPort() == null) || (this.dbConnection.getDatabase() == null) || (this.dbConnection.getUser() == null) || (this.dbConnection.getPassword() == null)) {
             logger.error("Error fetching database properties");
             throw new NullPointerException("Error fetching database properties");
         }
 
         return DriverManager.getConnection(
-                "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database,
-                this.user,
-                this.password
+                "jdbc:mysql://" + this.dbConnection.getHost() + ":" + this.dbConnection.getPort() + "/" + this.dbConnection.getDatabase(),
+                this.dbConnection.getUser(),
+                this.dbConnection.getPassword()
         );
     }
 

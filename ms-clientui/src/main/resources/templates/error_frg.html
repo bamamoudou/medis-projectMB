@@ -1,0 +1,14 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="search">
+    <header th:replace="header_frg :: main_header"></header>
+    <main class="main_content wdth_100 flex flex_justify_center flex_align_center">
+        <section class="main_section flex flex_column shdw_lv2">
+            <h1 class="wdth_100 txt_ctr txt_ltr-sp_2">Something went wrong ...</h1>
+            <h3 th:text="${error_code}" class="color_red wdth_100 txt_ctr txt_ltr-sp_2"></h3>
+            <h5 th:text="${error_msg}" class="color_red wdth_100 txt_ctr txt_ltr-sp_2"></h5>
+            <h5 th:text="${error_exp}" class="color_red wdth_100 txt_ctr txt_ltr-sp_2"></h5>
+        </section>
+    </main>
+    <footer th:replace="footer_frg :: main_footer"></footer>
+</body>
+</html>

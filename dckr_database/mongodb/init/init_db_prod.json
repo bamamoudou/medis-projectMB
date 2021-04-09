@@ -1,0 +1,239 @@
+[
+ 	{
+ 		"patientId" : 1,
+		"doctorName" : "Jefferey Spencer",
+		"createDate" : "08-01-2020 14:34:28",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il « se sent très bien »\nPoids égal ou inférieur au poids recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 1,
+		"doctorName" : "Jefferey Spencer",
+		"createDate" : "06-08-2020 09:33:17",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il se sent fatigué pendant la journée\nIl se plaint également de douleurs musculaires\nTests de laboratoire indiquant une microalbumine élevée",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 1,
+		"doctorName" : "Jefferey Spencer",
+		"createDate" : "10-11-2020 22:37:03",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il ne se sent pas si fatigué que ça\nFumeur, il a arrêté dans les 12 mois précédents\nTests de laboratoire indiquant que les anticorps sont élevés",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 2,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "25-06-2020 03:22:57",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il ressent beaucoup de stress au travail\nIl se plaint également que son audition est anormale dernièrement",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 2,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "14-03-2020 18:00:25",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare avoir fait une réaction aux médicaments au cours des 3 derniers mois\nIl remarque également que son audition continue d'être anormale",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 2,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "30-09-2020 12:08:32",
+		"lastChangeDate" : null,
+		"content" : "Tests de laboratoire indiquant une microalbumine élevée",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 2,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "28-06-2020 22:48:01",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare que tout semble aller bien\nLe laboratoire rapporte que l'hémoglobine A1C dépasse le niveau recommandé\nLe patient déclare qu’il fume depuis longtemps",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 3,
+		"doctorName" : "Arch Cruickshank",
+		"createDate" : "12-09-2020 11:09:33",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il fume depuis peu",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 3,
+		"doctorName" : "Arch Cruickshank",
+		"createDate" : "01-12-2020 00:39:15",
+		"lastChangeDate" : null,
+		"content" : "Tests de laboratoire indiquant une microalbumine élevée",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 3,
+		"doctorName" : "Arch Cruickshank",
+		"createDate" : "02-01-2021 06:46:36",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière\nIl se plaint également de crises d’apnée respiratoire anormales\nTests de laboratoire indiquant un taux de cholestérol LDL élevé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 3,
+		"doctorName" : "Arch Cruickshank",
+		"createDate" : "15-05-2020 13:11:54",
+		"lastChangeDate" : null,
+		"content" : "Tests de laboratoire indiquant un taux de cholestérol LDL élevé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 4,
+		"doctorName" : "Timothy Bartell",
+		"createDate" : "09-12-2020 23:47:44",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il lui est devenu difficile de monter les escaliers\nIl se plaint également d’être essoufflé\nTests de laboratoire indiquant que les anticorps sont élevés\nRéaction aux médicaments",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 4,
+		"doctorName" : "Timothy Bartell",
+		"createDate" : "23-08-2020 17:36:16",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il a mal au dos lorsqu'il reste assis pendant longtemps",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 4,
+		"doctorName" : "Timothy Bartell",
+		"createDate" : "05-05-2020 07:36:06",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare avoir commencé à fumer depuis peu\nHémoglobine A1C supérieure au niveau recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 5,
+		"doctorName" : "Rosamond Shields",
+		"createDate" : "31-08-2020 12:09:00",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare avoir des douleurs au cou occasionnellement\nLe patient remarque également que certains aliments ont un goût différent\nRéaction apparente aux médicaments\nPoids corporel supérieur au poids recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 5,
+		"doctorName" : "Rosamond Shields",
+		"createDate" : "22-08-2020 01:45:10",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTaille incluse dans la fourchette concernée",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 5,
+		"doctorName" : "Rosamond Shields",
+		"createDate" : "29-01-2020 20:54:29",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il souffre encore de douleurs cervicales occasionnelles\nTests de laboratoire indiquant une microalbumine élevée\nFumeur, il a arrêté dans les 12 mois précédents",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 5,
+		"doctorName" : "Rosamond Shields",
+		"createDate" : "14-10-2020 12:11:16",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare avoir eu plusieurs épisodes de vertige depuis la dernière visite.\nTests de laboratoire indiquant que les anticorps sont élevés",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 6,
+		"doctorName" : "Belle Blanda",
+		"createDate" : "06-03-2020 10:44:08",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il se sent bien\nPoids corporel supérieur au poids recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 6,
+		"doctorName" : "Belle Blanda",
+		"createDate" : "03-03-2020 09:56:41",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il se sent bien",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 7,
+		"doctorName" : "Nia Murazik",
+		"createDate" : "09-06-2020 22:39:35",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il se réveille souvent avec une raideur articulaire\nIl se plaint également de difficultés pour s’endormir\nPoids corporel supérieur au poids recommandé\nTests de laboratoire indiquant un taux de cholestérol LDL élevé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 8,
+		"doctorName" : "Rosamond Shields",
+		"createDate" : "06-08-2020 18:04:09",
+		"lastChangeDate" : null,
+		"content" : "Les tests de laboratoire indiquent que les anticorps sont élevés\nHémoglobine A1C supérieure au niveau recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 9,
+		"doctorName" : "Nia Murazik",
+		"createDate" : "24-09-2020 12:57:30",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare avoir de la difficulté à se concentrer sur ses devoirs scolaires\nHémoglobine A1C supérieure au niveau recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 9,
+		"doctorName" : "Nia Murazik",
+		"createDate" : "26-04-2020 23:04:56",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il s’impatiente facilement en cas d’attente prolongée\nIl signale également que les produits du distributeur automatique ne sont pas bons\nTests de laboratoire signalant des taux anormaux de cellules sanguines",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 9,
+		"doctorName" : "Nia Murazik",
+		"createDate" : "28-03-2020 18:28:24",
+		"lastChangeDate" : null,
+		"content" : "Le patient signale qu'il est facilement irrité par des broutilles\nIl déclare également que l'aspirateur des voisins fait trop de bruit\nTests de laboratoire indiquant que les anticorps sont élevés",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 10,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "01-09-2020 04:13:36",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il n'a aucun problème",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 10,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "14-01-2021 02:41:10",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il n'a aucun problème\nTaille incluse dans la fourchette concernée\nHémoglobine A1C supérieure au niveau recommandé",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 10,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "02-12-2020 12:10:51",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il n'a aucun problème\nPoids corporel supérieur au poids recommandé\nLe patient a signalé plusieurs épisodes de vertige depuis sa dernière visite",
+		"isActive" : true
+	},
+	{
+ 		"patientId" : 10,
+		"doctorName" : "Treva Lueilwitz",
+		"createDate" : "17-11-2020 03:38:50",
+		"lastChangeDate" : null,
+		"content" : "Le patient déclare qu'il n'a aucun problème\nTests de laboratoire indiquant une microalbumine élevée",
+		"isActive" : true
+	}
+]
+
+
+
+
+
