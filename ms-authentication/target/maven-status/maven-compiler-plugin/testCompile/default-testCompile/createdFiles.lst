@@ -1,8 +1,0 @@
-com\mediscreen\msauthentication\JWTTest$1.class
-com\mediscreen\msauthentication\service\JwtServiceTest.class
-com\mediscreen\msauthentication\JWTTest.class
-com\mediscreen\msauthentication\model\JwtTest.class
-com\mediscreen\msauthentication\controller\AuthenticationControllerTest.class
-com\mediscreen\msauthentication\model\LoginTest.class
-com\mediscreen\msauthentication\service\SecurityServiceTest.class
-com\mediscreen\msauthentication\MsAuthenticationApplicationTests.class

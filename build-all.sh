@@ -1,11 +1,11 @@
 #!/bin/sh
-cd ./EdgeMS/ems-eureka
+cd ../../edge-microservices/ems-eureka
 ./build.sh
 
-cd ../../EdgeMS/ems-zuul
+cd ../../edge-microservices/ems-zuul
 ./build.sh
 
-cd ../../EdgeMS/ems-admin
+cd ../../edge-microservices/ems-admin
 ./build.sh
 
 cd ../../ms-authentication

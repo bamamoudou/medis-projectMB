@@ -1,6 +1,0 @@
-com\mediscreen\msmedicalrecord\JWTTest.class
-com\mediscreen\msmedicalrecord\service\MedicalRecordServiceTest.class
-com\mediscreen\msmedicalrecord\model\MedicalRecordTest.class
-com\mediscreen\msmedicalrecord\MsMedicalRecordApplicationTests.class
-com\mediscreen\msmedicalrecord\model\PatientTest.class
-com\mediscreen\msmedicalrecord\service\SecurityServiceTest.class
