@@ -172,6 +172,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
 			collection.updateOne(eq("_id", new ObjectId(medicalRecord.getId())),
 					combine(set("isActive", medicalRecord.isActive()),
+							set("content", medicalRecord.getContent()),
 							set("lastChangeDate", LocalDateTime.now().format(this.dateFormatter))));
 
 			for (Document document : collection.find(eq("_id", new ObjectId(medicalRecord.getId())))) {

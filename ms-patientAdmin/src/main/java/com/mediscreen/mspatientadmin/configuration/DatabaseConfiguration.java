@@ -57,7 +57,7 @@ public class DatabaseConfiguration implements DatabaseConfigurationInterface {
 
 		return DriverManager.getConnection(
 				"jdbc:mysql://" + this.dbConnection.getHost() + ":" + this.dbConnection.getPort() + "/"
-						+ this.dbConnection.getDatabase(),
+						+ this.dbConnection.getDatabase() + "?useTimezone=true&serverTimezone=UTC",
 				this.dbConnection.getUser(), this.dbConnection.getPassword());
 	}
 
